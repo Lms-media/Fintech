@@ -1,0 +1,6 @@
+18.12.2024 13:06:37 - QuikPy.Connect - INFO - Терминал QUIK подключен к серверу: False
+18.12.2024 13:06:37 - QuikPy.Connect - INFO - Отклик QUIK на команду Ping: Pong
+18.12.2024 13:06:37 - QuikPy.Connect - INFO - Отправка сообщения в QUIK: Hello from Python!
+18.12.2024 13:11:15 - QuikPy.Connect - INFO - Терминал QUIK подключен к серверу: False
+18.12.2024 13:11:15 - QuikPy.Connect - INFO - Отклик QUIK на команду Ping: Pong
+18.12.2024 13:11:15 - QuikPy.Connect - INFO - Отправка сообщения в QUIK: Hello from Python!

@@ -1,0 +1,416 @@
+18.12.2024 13:08:39 - QuikPy - ERROR - Информация о TQBR.SBER не найдена
+18.12.2024 13:08:39 - QuikPy.Ticker - DEBUG - Ответ от сервера: None
+18.12.2024 13:11:49 - QuikPy - ERROR - Информация о TQBR.SBER не найдена
+18.12.2024 13:11:49 - QuikPy.Ticker - DEBUG - Ответ от сервера: None
+18.12.2024 13:21:24 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:21:24 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 13:21:24 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:21:24 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:21:24 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 13:21:24 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 13:21:24 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:21:24 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:24:17 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:24:17 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 13:24:17 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:24:17 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:24:17 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 13:24:17 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 13:24:17 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:24:17 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:27:14 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:27:14 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:27:14 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:33:10 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:33:10 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:33:10 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:33:10 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:33:26 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:33:26 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:33:26 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:33:26 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:34:39 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:34:39 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:34:39 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:34:39 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:36:53 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:36:53 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:36:53 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:36:53 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:37:09 - QuikPy - ERROR - Информация о TQBR.SBER не найдена
+18.12.2024 13:37:09 - QuikPy.Ticker - DEBUG - Ответ от сервера: None
+18.12.2024 13:37:32 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ап', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBERP', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBERP', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк-п', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBERP (Сбербанк-п):
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:37:32 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:37:32 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:37:32 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:38:24 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ап', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBERP', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBERP', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк-п', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBERP (Сбербанк-п):
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:38:24 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:38:24 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:38:24 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 10, 'couponvalue': 0.0, 'class_code': 'SPBFUT', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'BR-8.18', 'sedol_code': '', 'base_active_seccode': 'BR', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': 'USD', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'BRQ8', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 20180801, 'bsid': '', 'sec_code': 'BRQ8', 'trade_currency': 'SUR', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ Срочный рынок: Фьючерсы', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'BRQ8', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - Информация о тикере SPBFUT.BRQ8 (BRQ8):
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Лот: 10
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Торговый счет: SPBFUT
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Стоимость шага цены: 6.20923 руб.
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Цена за лот: 73.81 / 0.01 * 6.20923 = 45830.326629999996 руб.
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Цена за штуку: 45830.326629999996 / 10 = 4583.032663 руб.
+18.12.2024 13:38:24 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81 из цены за штуку в рублях
+18.12.2024 13:45:28 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ап', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBERP', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBERP', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк-п', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBERP (Сбербанк-п):
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:45:28 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:45:28 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:45:28 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 10, 'couponvalue': 0.0, 'class_code': 'SPBFUT', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'BR-8.18', 'sedol_code': '', 'base_active_seccode': 'BR', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': 'USD', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'BRQ8', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 20180801, 'bsid': '', 'sec_code': 'BRQ8', 'trade_currency': 'SUR', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ Срочный рынок: Фьючерсы', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'BRQ8', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - Информация о тикере SPBFUT.BRQ8 (BRQ8):
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Лот: 10
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Торговый счет: SPBFUT
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Стоимость шага цены: 6.20923 руб.
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Цена за лот: 73.81 / 0.01 * 6.20923 = 45830.326629999996 руб.
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Цена за штуку: 45830.326629999996 / 10 = 4583.032663 руб.
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81 из цены за штуку в рублях
+18.12.2024 13:45:28 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'НК ЛУКОЙЛ (ПАО) - ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'LKOH', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 0, 'bsid': '', 'sec_code': 'LKOH', 'trade_currency': '', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'ЛУКОЙЛ', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.LKOH (ЛУКОЙЛ):
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:45:28 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:48:40 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ап', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBERP', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBERP', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк-п', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBERP (Сбербанк-п):
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:48:40 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:48:40 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:48:40 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 10, 'couponvalue': 0.0, 'class_code': 'SPBFUT', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'BR-8.18', 'sedol_code': '', 'base_active_seccode': 'BR', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': 'USD', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'BRQ8', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 20180801, 'bsid': '', 'sec_code': 'BRQ8', 'trade_currency': 'SUR', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ Срочный рынок: Фьючерсы', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'BRQ8', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - Информация о тикере SPBFUT.BRQ8 (BRQ8):
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Лот: 10
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Торговый счет: SPBFUT
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Стоимость шага цены: 6.20923 руб.
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Цена за лот: 73.81 / 0.01 * 6.20923 = 45830.326629999996 руб.
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Цена за штуку: 45830.326629999996 / 10 = 4583.032663 руб.
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81 из цены за штуку в рублях
+18.12.2024 13:48:40 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'НК ЛУКОЙЛ (ПАО) - ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'LKOH', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 0, 'bsid': '', 'sec_code': 'LKOH', 'trade_currency': '', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'ЛУКОЙЛ', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.LKOH (ЛУКОЙЛ):
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:48:40 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:48:40 - QuikPy - ERROR - Информация о .SiU4 не найдена
+18.12.2024 13:48:40 - QuikPy.Ticker - DEBUG - Ответ от сервера: None
+18.12.2024 13:48:58 - QuikPy - ERROR - Информация о SBERP.SiU4 не найдена
+18.12.2024 13:48:58 - QuikPy.Ticker - DEBUG - Ответ от сервера: None
+18.12.2024 13:49:56 - QuikPy - ERROR - Информация о .SBERU4 не найдена
+18.12.2024 13:49:56 - QuikPy.Ticker - DEBUG - Ответ от сервера: None
+18.12.2024 13:50:07 - QuikPy - ERROR - Информация о SBER.U4 не найдена
+18.12.2024 13:50:07 - QuikPy.Ticker - DEBUG - Ответ от сервера: None
+18.12.2024 13:51:25 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:51:25 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:51:25 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:51:25 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 10, 'couponvalue': 0.0, 'class_code': 'SPBFUT', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'BR-8.18', 'sedol_code': '', 'base_active_seccode': 'BR', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': 'USD', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'BRQ8', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 20180801, 'bsid': '', 'sec_code': 'BRQ8', 'trade_currency': 'SUR', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ Срочный рынок: Фьючерсы', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'BRQ8', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - Информация о тикере SPBFUT.BRQ8 (BRQ8):
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Лот: 10
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Торговый счет: SPBFUT
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Стоимость шага цены: 6.20923 руб.
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Цена за лот: 73.81 / 0.01 * 6.20923 = 45830.326629999996 руб.
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Цена за штуку: 45830.326629999996 / 10 = 4583.032663 руб.
+18.12.2024 13:51:25 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81 из цены за штуку в рублях
+18.12.2024 13:51:25 - QuikPy - ERROR - Информация о .BRM4 не найдена
+18.12.2024 13:51:25 - QuikPy.Ticker - DEBUG - Ответ от сервера: None
+18.12.2024 13:51:38 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:51:38 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 13:51:38 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 13:51:38 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 10, 'couponvalue': 0.0, 'class_code': 'SPBFUT', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'BR-8.18', 'sedol_code': '', 'base_active_seccode': 'BR', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': 'USD', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'BRQ8', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 20180801, 'bsid': '', 'sec_code': 'BRQ8', 'trade_currency': 'SUR', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ Срочный рынок: Фьючерсы', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'BRQ8', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - Информация о тикере SPBFUT.BRQ8 (BRQ8):
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Лот: 10
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Торговый счет: SPBFUT
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Стоимость шага цены: 6.20923 руб.
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Цена за лот: 73.81 / 0.01 * 6.20923 = 45830.326629999996 руб.
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Цена за штуку: 45830.326629999996 / 10 = 4583.032663 руб.
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81 из цены за штуку в рублях
+18.12.2024 13:51:38 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'НК ЛУКОЙЛ (ПАО) - ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'LKOH', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 0, 'bsid': '', 'sec_code': 'LKOH', 'trade_currency': '', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'ЛУКОЙЛ', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.LKOH (ЛУКОЙЛ):
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 13:51:38 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 16:03:01 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Сбербанк России ПАО ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'SBER', 'accruedint': 0.0, 'min_price_step': 0.001, 'mat_date': 0, 'bsid': '', 'sec_code': 'SBER', 'trade_currency': '', 'ric_code': '', 'scale': 3, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Сбербанк', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 16:03:01 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'AFLT', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 0, 'bsid': '', 'sec_code': 'AFLT', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'Аэрофлот', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+18.12.2024 16:03:01 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 100000, 'couponvalue': 0.0, 'class_code': 'CETS', 'face_value': 1.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'USD_TODTOM - СВОП USD/РУБ', 'sedol_code': '', 'base_active_seccode': '', 'legs': {'leg_1': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180713, 'seccode': 'USD000000TOD', 'CFI': ''}, 'leg_0': {'classcode': 'CETS', 'ratio_qty': 0, 'leg_side': 'buy', 'settle_date': 20180716, 'seccode': 'USD000UTSTOM', 'CFI': ''}}, 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'USD000TODTOM', 'accruedint': 0.0, 'min_price_step': 0.0001, 'mat_date': 20000101, 'bsid': '', 'sec_code': 'USD000TODTOM', 'trade_currency': '', 'ric_code': '', 'scale': 4, 'list_level': 0, 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'USD_TODTOM', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000TODTOM (USD_TODTOM):
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Лот: 100000
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Торговый счет: CETS
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0236
+18.12.2024 16:03:01 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 10, 'couponvalue': 0.0, 'class_code': 'SPBFUT', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'BR-8.18', 'sedol_code': '', 'base_active_seccode': 'BR', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': 'USD', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'BRQ8', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 20180801, 'bsid': '', 'sec_code': 'BRQ8', 'trade_currency': 'SUR', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ Срочный рынок: Фьючерсы', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'BRQ8', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - Информация о тикере SPBFUT.BRQ8 (BRQ8):
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Лот: 10
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Торговый счет: SPBFUT
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Стоимость шага цены: 6.20923 руб.
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Цена за лот: 73.81 / 0.01 * 6.20923 = 45830.326629999996 руб.
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Цена за штуку: 45830.326629999996 / 10 = 4583.032663 руб.
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Последняя цена сделки: 73.81 из цены за штуку в рублях
+18.12.2024 16:03:01 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'stock_name': '', 'lot_size': 1, 'couponvalue': 0.0, 'class_code': 'EQRP_INFO', 'face_value': 0.0, 'isin_code': '', 'first_curr_qty_scale': 0, 'qty_scale': 0, 'second_currcode': '', 'buybackdate': 0, 'name': 'НК ЛУКОЙЛ (ПАО) - ао', 'sedol_code': '', 'base_active_seccode': '', 'regnumber': '', 'buybackprice': 0.0, 'couponperiod': 0, 'cusip_code': '', 'nextcoupon': 0, 'exp_date': 0, 'step_price_currency': '', 'settle_date': 0, 'stock_code': '', 'second_curr_qty_scale': 0, 'option_strike': 0.0, 'yieldatprevwaprice': 0.0, 'code': 'LKOH', 'accruedint': 0.0, 'min_price_step': 0.01, 'mat_date': 0, 'bsid': '', 'sec_code': 'LKOH', 'trade_currency': '', 'ric_code': '', 'scale': 2, 'list_level': 0, 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'face_unit': 'SUR', 'base_active_classcode': '', 'settlecode': '', 'short_name': 'ЛУКОЙЛ', 'first_currcode': '', 'qty_multiplier': 1}
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.LKOH (ЛУКОЙЛ):
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Валюта: SUR
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Лот: 1
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Шаг цены: 0.01
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
