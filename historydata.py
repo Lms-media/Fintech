@@ -3,100 +3,112 @@ import requests
 from datetime import datetime, timedelta
 import pytz
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-def fetch_moex_chunk(ticker, start_dt, end_dt, interval, timeout=10):
-    #Выполняет один запрос к MOEX API с пагинацией
+def fetch_moex_chunk(args):
+    """Выполняет один запрос к MOEX API с возможностью повторных попыток"""
+    ticker, start_dt, end_dt, interval, timeout, max_retries = args
     tz = pytz.timezone('Europe/Moscow')
     url = f'https://iss.moex.com/iss/engines/stock/markets/shares/securities/{ticker}/candles.json'
-    params = {
-        'from': start_dt.strftime('%Y-%m-%d %H:%M:%S'),
-        'till': end_dt.strftime('%Y-%m-%d %H:%M:%S'),
-        'interval': interval,
-        'iss.meta': 'off',
-        'iss.only': 'candles',
-        'limit': 10000
-    }
     
-    try:
-        response = requests.get(url, params=params, timeout=timeout)
-        response.raise_for_status()
-        data = response.json()
-        df = pd.DataFrame(data['candles']['data'], columns=data['candles']['columns'])
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(
+                url,
+                params={
+                    'from': start_dt.strftime('%Y-%m-%d %H:%M:%S'),
+                    'till': end_dt.strftime('%Y-%m-%d %H:%M:%S'),
+                    'interval': interval,
+                    'iss.meta': 'off',
+                    'iss.only': 'candles',
+                    'limit': 10000
+                },
+                timeout=timeout
+            )
+            response.raise_for_status()
+            data = response.json()
+            
+            df = pd.DataFrame(data['candles']['data'], columns=data['candles']['columns'])
+            if not df.empty:
+                df['begin'] = pd.to_datetime(df['begin']).dt.tz_localize(tz)
+                df.set_index('begin', inplace=True)
+                return df[['open', 'high', 'low', 'close', 'volume']]
+            return pd.DataFrame()
         
-        if not df.empty:
-            df['begin'] = pd.to_datetime(df['begin']).dt.tz_localize(tz)
-            df.set_index('begin', inplace=True)
-            return df[['open', 'high', 'low', 'close', 'volume']]
-        return pd.DataFrame()
-    
-    except Exception as e:
-        print(f'Ошибка: {str(e)}')
-        return pd.DataFrame()
+        except Exception as e:
+            if attempt < max_retries - 1:
+                time.sleep(2 ** attempt)
+            else:
+                print(f'Ошибка загрузки {start_dt}-{end_dt}: {str(e)}')
+                return pd.DataFrame()
 
-def get_moex_history(ticker, start_date, end_date, interval=1):
-    """Получает полную историю данных с пагинацией"""
+def get_moex_history_fast(ticker, start_date, end_date, interval=1, max_workers=4):
+    """Параллельная загрузка исторических данных с ускорением"""
     tz = pytz.timezone('Europe/Moscow')
-    current_start = tz.localize(datetime.strptime(start_date, '%Y-%m-%d'))
+    start_dt = tz.localize(datetime.strptime(start_date, '%Y-%m-%d'))
     end_dt = tz.localize(datetime.strptime(end_date, '%Y-%m-%d') + timedelta(days=1))
     
-    all_data = []
-    max_retries = 3
-    retry_delay = 5
+    chunk_size = calculate_chunk_size(interval)
+    date_ranges = []
+    current_start = start_dt
     
     while current_start < end_dt:
-        # Рассчитываем конечную дату для чанка
-        chunk_end = min(
-            current_start + calculate_chunk_duration(interval),
-            end_dt
-        )
-        
-        for attempt in range(max_retries):
-            chunk = fetch_moex_chunk(
-                ticker=ticker,
-                start_dt=current_start,
-                end_dt=chunk_end,
-                interval=interval
-            )
-            if not chunk.empty:
-                break
-            time.sleep(retry_delay)
-        else:
-            print(f"Не удалось получить данные после {max_retries} попыток")
-            break
-        
-        if not chunk.empty:
-            all_data.append(chunk)
-            # Сдвигаем начало на следующий период
-            current_start = chunk.index[-1] + timedelta(minutes=interval)
-        else:
-            # Если данные закончились, выходим из цикла
-            break
-        
-        # Задержка для соблюдения лимитов API
-        time.sleep(0.5)
+        current_end = min(current_start + chunk_size, end_dt)
+        date_ranges.append((current_start, current_end))
+        current_start = current_end
     
-    return pd.concat(all_data) if all_data else pd.DataFrame()
+    args_list = [(ticker, start, end, interval, 10, 3) for start, end in date_ranges]
+    
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = [executor.submit(fetch_moex_chunk, args) for args in args_list]
+        
+        results = []
+        for future in as_completed(futures):
+            result = future.result()
+            if not result.empty:
+                results.append(result)
+            time.sleep(0.1)  # Задержка между обработкой результатов
+    
+    final_df = pd.concat(results).sort_index() if results else pd.DataFrame()
+    return final_df.loc[start_dt:end_dt]
 
-def calculate_chunk_duration(interval):
-    """Определяет оптимальный период для одного запроса"""
-    if interval == 1:    # 1 минута: ~20 дней
-        return timedelta(days=20)
-    elif interval == 10: # 10 минут: ~200 дней
-        return timedelta(days=200)
-    elif interval == 60: # 1 час: ~400 дней
-        return timedelta(days=400)
-    else:                # Дневные данные: 10 лет
-        return timedelta(days=365*10)
+def calculate_chunk_size(interval):
+    """Определение оптимального размера чанка для параллельной загрузки"""
+    if interval == 1:
+        return timedelta(days=7)
+    elif interval == 10:
+        return timedelta(days=30)
+    elif interval == 60:
+        return timedelta(days=90)
+    else:
+        return timedelta(days=365)
+
+def append_new_data(existing_df, ticker, new_end_date, interval=1):
+    """Добавляет новые данные к существующему DataFrame"""
+    if existing_df.empty:
+        return get_moex_history_fast(ticker, new_end_date, new_end_date, interval)
+    
+    tz = pytz.timezone('Europe/Moscow')
+    last_date = existing_df.index[-1].to_pydatetime()
+    start_date = (last_date + timedelta(minutes=interval)).strftime('%Y-%m-%d')
+    
+    new_data = get_moex_history_fast(
+        ticker=ticker,
+        start_date=start_date,
+        end_date=new_end_date,
+        interval=interval
+    )
+    
+    if not new_data.empty:
+        combined_df = pd.concat([existing_df, new_data])
+        combined_df = combined_df[~combined_df.index.duplicated(keep='last')]
+        return combined_df.sort_index()
+    
+    return existing_df
 
 # Пример использования
 if __name__ == "__main__":
-    df = get_moex_history(
-        ticker='SBER',
-        start_date='2023-01-01',
-        end_date='2024-03-01',
-        interval=1
-    )
-    
-    print(f"Получено данных: {len(df)} записей")
-    print(f"Период данных: {df.index[0]} - {df.index[-1]}")
-    print(df.head())
+    # Параллельная загрузка за большой период
+    big_df = get_moex_history_fast('GAZP', '2023-01-01', '2024-01-01',interval=1, max_workers=6)
+    print(f"Загружено данных за год: {len(big_df)} записей")
+    print(big_df.tail())
