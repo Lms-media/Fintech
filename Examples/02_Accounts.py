@@ -1,4 +1,4 @@
-from QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QuikSharp
+from QUIK.QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QuikSharp
 
 
 def get_all_accounts():

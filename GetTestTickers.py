@@ -1,4 +1,4 @@
-from QuikPy import QuikPy
+from QUIK.QuikPy import QuikPy
 
 qp_provider = QuikPy()
 assets = ('OZON', 'HEAD', 'DELI', 'ROSN')

@@ -2,7 +2,7 @@ import logging  # Выводим лог на консоль и в файл
 from datetime import datetime  # Дата и время
 from threading import Thread  # Каждый скрипт будем запускать в отдельном потоке
 
-from QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
+from QUIK.QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
 
 
 def script1(provider: QuikPy):  # 1-ый скрипт

@@ -2,7 +2,7 @@ import logging  # Выводим лог на консоль и в файл
 import sys  # Выход из точки входа
 from datetime import datetime  # Дата и время
 
-from QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
+from QUIK.QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
 
 
 if __name__ == '__main__':  # Точка входа при запуске этого скрипта

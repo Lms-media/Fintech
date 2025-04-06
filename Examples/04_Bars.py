@@ -2,7 +2,7 @@ from time import time
 import os.path
 
 import pandas as pd
-from QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QuikSharp
+from QUIK.QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QuikSharp
 
 
 def save_candles_to_file(class_code='TQBR', sec_codes=('SBER',), time_frame='D', compression=1,
