@@ -1,6 +1,6 @@
 from datetime import datetime
 import time  # Подписка на события по времени
-from QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QuikSharp
+from QUIK.QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QuikSharp
 
 
 def print_callback(data):
