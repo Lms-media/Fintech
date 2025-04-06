@@ -1,3 +1,4 @@
+import time
 from QUIK.QuikPy import QuikPy
 from typing import Callable
 
@@ -24,17 +25,40 @@ class Robot:
             count=count
         )
         
-    def subscribe(self, callback: Callable[[dict], None], interval: int = 1):
+    def subscribe(self, callback: Callable[[dict], int], interval: int = 1):
         self._provider.subscribe_to_candles(
             class_code=self._classCode,
             sec_code=self._tickerCode,
             interval=interval
         )
         self._subscriptions[interval] = callback
+        
+    def createOrder(self, quantity: int):
+        if quantity == 0:
+            return
+        operation = "B"
+        if quantity < 0:
+            operation = "S"
+            quantity = -quantity
+        transaction = {
+            'TRANS_ID': str(int(time.time())),
+            'CLIENT_CODE': self._clientCode,
+            'ACCOUNT': self._account,
+            'ACTION': 'NEW_ORDER',
+            'CLASSCODE': self._classCode,
+            'SECCODE': self._tickerCode,
+            'OPERATION': operation,
+            'PRICE': "0",
+            'QUANTITY': str(quantity),
+            'TYPE': 'M'
+        }
+        self._provider.send_transaction(transaction)
+        
     
     def _newCandleHandler(self, data: dict):
         interval = data["data"]["interval"]
         if interval == 0:
             return
-        self._subscriptions[interval](data)
+        quantity = self._subscriptions[interval](data)
+        self.createOrder(quantity)
         

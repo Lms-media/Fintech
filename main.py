@@ -1,7 +1,19 @@
 from src.Robot import Robot
 
-def test(data: dict):
-    print(data["data"]["open"])
+state = "BUY"
+
+def strategy(data: dict):
+    global state
+    print(f"Candle came, operation is {state}")
+    if state == "BUY":
+        state = "NONE"
+        return 1
+    if state == "NONE":
+        state = "SELL"
+        return 0
+    if state == "SELL":
+        state = "BUY"
+        return -1
 
 if __name__ == "__main__":
     robot = Robot(
@@ -10,4 +22,4 @@ if __name__ == "__main__":
         classCode="QJSIM",
         tickerCode="SBER"
     )
-    robot.subscribe(test, 1)
+    robot.subscribe(strategy, 1)
