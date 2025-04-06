@@ -7,5 +7,4 @@ if __name__ == "__main__":
         classCode="QJSIM",
         tickerCode="SBER"
     )
-    print(robot.get_candles(count=3))
-    robot.close_connection()
+    robot.subscribe()
