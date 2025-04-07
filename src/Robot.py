@@ -66,6 +66,7 @@ class Robot:
         quantity = self._subscriptions[interval](data)
         self.createOrder(quantity)
     
+    @staticmethod
     def _fetchMoexChunk(args):
         ticker, start_dt, end_dt, interval, timeout, max_retries = args
         tz = pytz.timezone('Europe/Moscow')
@@ -102,7 +103,7 @@ class Robot:
                     print(f'Ошибка загрузки {start_dt}-{end_dt}: {str(e)}')
                     return pd.DataFrame()
 
-    def _getHistoryData(self, ticker, start_date, end_date, interval=1, max_workers=4):
+    def getHistoryData(self, ticker, start_date, end_date, interval=1, max_workers=4):
         tz = pytz.timezone('Europe/Moscow')
         start_dt = tz.localize(datetime.strptime(start_date, '%Y-%m-%d'))
         end_dt = tz.localize(datetime.strptime(end_date, '%Y-%m-%d') + timedelta(days=1))
@@ -129,8 +130,10 @@ class Robot:
                 time.sleep(0.1)  # Задержка между обработкой результатов
         
             final_df = pd.concat(results).sort_index() if results else pd.DataFrame()
-        return final_df.loc[start_dt:end_dt].to_dict()
-    
+        return final_df.loc[start_dt:end_dt]
+        # return final_df.loc[start_dt:end_dt].to_dict()
+
+    @staticmethod
     def _calculateChunkSize(interval):
         if interval == 1:
             return timedelta(days=7)
@@ -140,5 +143,18 @@ class Robot:
             return timedelta(days=90)
         else:
             return timedelta(days=365)
-    
+
+    def getRealTimeData(self, ticker):
+        class_code, sec_code = self._provider.dataname_to_class_sec_codes(ticker)
+        print("Режим торгов и название актива: ", class_code, sec_code)
+        lastPrice = self._provider.get_param_ex(class_code, sec_code, 'LAST')
+        openPrice = self._provider.get_param_ex(class_code, sec_code, 'OPEN')
+        lowPrice = self._provider.get_param_ex(class_code, sec_code, 'LOW')
+        highPrice = self._provider.get_param_ex(class_code, sec_code, 'HIGH')
+
+        print(lastPrice)
+        print(openPrice)
+        print(lowPrice)
+        print(highPrice)
+
     

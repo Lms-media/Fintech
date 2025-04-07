@@ -22,4 +22,8 @@ if __name__ == "__main__":
         classCode="QJSIM",
         tickerCode="SBER"
     )
+    big_df = robot.getHistoryData('SBER', '2023-01-01', '2024-01-01', interval=1, max_workers=6)
+    print(f"Загружено данных за год: {len(big_df)} записей")
+    print(big_df.tail())
+    robot.getRealTimeData('SBER')
     robot.subscribe(strategy, 1)
