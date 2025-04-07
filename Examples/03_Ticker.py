@@ -1,4 +1,4 @@
-from QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QuikSharp
+from QUIK.QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QuikSharp
 
 
 if __name__ == '__main__':  # Точка входа при запуске этого скрипта

@@ -5,7 +5,7 @@ import os.path
 
 import pandas as pd
 
-from QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
+from QUIK.QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
 
 
 logger = logging.getLogger('QuikPy.Bars')  # Будем вести лог. Определяем здесь, т.к. возможен внешний вызов ф-ии

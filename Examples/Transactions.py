@@ -4,7 +4,7 @@ from datetime import datetime  # Дата и время
 from time import sleep  # Задержка в секундах перед выполнением операций
 import itertools  # Итератор для уникальных номеров транзакций
 
-from QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
+from QUIK.QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
 
 
 if __name__ == '__main__':  # Точка входа при запуске этого скрипта

@@ -2,7 +2,7 @@ import logging  # Выводим лог на консоль и в файл
 from datetime import datetime  # Дата и время
 from locale import currency
 
-from QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
+from QUIK.QuikPy import QuikPy  # Работа с QUIK из Python через LUA скрипты QUIK#
 
 
 futures_firm_id = 'SPBFUT'  # Код фирмы для фьючерсов. Измените, если требуется, на фирму, которую для фьючерсов поставил ваш брокер
