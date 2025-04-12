@@ -1,10 +1,6 @@
 import time
 from QUIK.QuikPy import QuikPy
 from typing import Callable
-import pandas as pd
-import pytz
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime
 from src.utils.chunkSize import getChunkSize
 from src.utils.fetchMoex import fetchMoex
 
@@ -43,7 +39,7 @@ class Robot:
         chunkSize = getChunkSize(interval)
         
         while start < end:
-            chunk = fetchMoex(self._tickerCode, start, start + chunkSize, interval)
+            chunk = fetchMoex(self._tickerCode, start, min(start + chunkSize, end), interval)
             for candle in chunk:
                 callback(candle)
             start += chunkSize
