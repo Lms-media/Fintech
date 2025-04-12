@@ -22,4 +22,5 @@ if __name__ == "__main__":
         classCode="QJSIM",
         tickerCode="SBER"
     )
-    robot.subscribe(strategy, 1)
+    robot._getHistoryData(1744480000, 1744496365)
+    # robot.subscribe(strategy, 1)

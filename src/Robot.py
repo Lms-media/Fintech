@@ -5,7 +5,8 @@ import pandas as pd
 import requests
 import pytz
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime, timedelta
+from datetime import datetime
+from utils.chunkSize import getChunkSize
 
 class Robot:
     def __init__(self, clientCode: str, accountId: str, classCode: str, tickerCode: str):
@@ -102,21 +103,21 @@ class Robot:
                     print(f'Ошибка загрузки {start_dt}-{end_dt}: {str(e)}')
                     return pd.DataFrame()
 
-    def _getHistoryData(self, ticker, start_date, end_date, interval=1, max_workers=4):
+    def getHistoryData(self, start: int, end: int, interval:int = 1, max_workers: int = 4):
         tz = pytz.timezone('Europe/Moscow')
-        start_dt = tz.localize(datetime.strptime(start_date, '%Y-%m-%d'))
-        end_dt = tz.localize(datetime.strptime(end_date, '%Y-%m-%d') + timedelta(days=1))
+        startDt = tz.localize(datetime.fromtimestamp(start))
+        endDt = tz.localize(datetime.fromtimestamp(end))
         
-        chunk_size = self._calculateChunkSize(interval)
+        chunkSize = getChunkSize(interval)
         date_ranges = []
-        current_start = start_dt
+        current_start = startDt
         
-        while current_start < end_dt:
-            current_end = min(current_start + chunk_size, end_dt)
+        while current_start < endDt:
+            current_end = min(current_start + chunkSize, endDt)
             date_ranges.append((current_start, current_end))
             current_start = current_end
         
-        args_list = [(ticker, start, end, interval, 10, 3) for start, end in date_ranges]
+        args_list = [(self._tickerCode, start, end, interval, 10, 3) for start, end in date_ranges]
         
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             futures = [executor.submit(self._fetchMoexChunk, args) for args in args_list]
@@ -129,16 +130,6 @@ class Robot:
                 time.sleep(0.1)  # Задержка между обработкой результатов
         
             final_df = pd.concat(results).sort_index() if results else pd.DataFrame()
-        return final_df.loc[start_dt:end_dt].to_dict()
-    
-    def _calculateChunkSize(interval):
-        if interval == 1:
-            return timedelta(days=7)
-        elif interval == 10:
-            return timedelta(days=30)
-        elif interval == 60:
-            return timedelta(days=90)
-        else:
-            return timedelta(days=365)
+        return final_df.loc[startDt:endDt].to_dict()
     
     
