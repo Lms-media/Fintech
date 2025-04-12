@@ -2,12 +2,11 @@ import time
 from QUIK.QuikPy import QuikPy
 from typing import Callable
 import pandas as pd
-import requests
 import pytz
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
-from utils.chunkSize import getChunkSize
-from utils.fetchMoex import fetchMoex
+from src.utils.chunkSize import getChunkSize
+from src.utils.fetchMoex import fetchMoex
 
 class Robot:
     def __init__(self, clientCode: str, accountId: str, classCode: str, tickerCode: str):
@@ -40,8 +39,14 @@ class Robot:
         )
         self._subscriptions[interval] = callback
     
-    def subscribeHistorical(self, callback: Callable[[dict], None], start: int, end: int):
-        pass
+    def subscribeHistorical(self, callback: Callable[[dict], None], start: int, end: int, interval: int = 1):
+        chunkSize = getChunkSize(interval)
+        
+        while start < end:
+            chunk = fetchMoex(self._tickerCode, start, start + chunkSize, interval)
+            for candle in chunk:
+                callback(candle)
+            start += chunkSize
         
     def createOrder(self, quantity: int):
         if quantity == 0:
@@ -70,34 +75,5 @@ class Robot:
             return
         quantity = self._subscriptions[interval](data)
         self.createOrder(quantity)
-
-    def getHistoryData(self, start: int, end: int, interval:int = 1, max_workers: int = 4):
-        tz = pytz.timezone('Europe/Moscow')
-        startDt = tz.localize(datetime.fromtimestamp(start))
-        endDt = tz.localize(datetime.fromtimestamp(end))
-        
-        chunkSize = getChunkSize(interval)
-        date_ranges = []
-        current_start = startDt
-        
-        while current_start < endDt:
-            current_end = min(current_start + chunkSize, endDt)
-            date_ranges.append((current_start, current_end))
-            current_start = current_end
-        
-        args_list = [(self._tickerCode, start, end, interval, 10, 3) for start, end in date_ranges]
-        
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futures = [executor.submit(fetchMoex, args) for args in args_list]
-            
-            results = []
-            for future in as_completed(futures):
-                result = future.result()
-                if not result.empty:
-                    results.append(result)
-                time.sleep(0.1)  # Задержка между обработкой результатов
-        
-            final_df = pd.concat(results).sort_index() if results else pd.DataFrame()
-        return final_df.loc[startDt:endDt].to_dict()
     
     

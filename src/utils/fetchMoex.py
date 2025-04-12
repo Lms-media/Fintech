@@ -26,14 +26,23 @@ def fetchMoex(ticker: str, start: int, end: int, interval: int):
                     timeout=5000
                 )
                 response.raise_for_status()
-                data = response.json()
+                json = response.json()
                 
-                df = pd.DataFrame(data['candles']['data'], columns=data['candles']['columns'])
-                if not df.empty:
-                    df['begin'] = pd.to_datetime(df['begin']).dt.tz_localize(tz)
-                    df.set_index('begin', inplace=True)
-                    return df[['open', 'high', 'low', 'close', 'volume']]
-                return pd.DataFrame()
+                candles = []
+                columns = json["candles"]["columns"]
+                data = json["candles"]["data"]
+                for candle in data:
+                    begin = candle[columns.index("begin")]
+                    dict = {
+                        "open": candle[columns.index("open")],
+                        "close": candle[columns.index("close")],
+                        "high": candle[columns.index("high")],
+                        "low": candle[columns.index("low")],
+                        "volume": candle[columns.index("volume")],
+                        "time": datetime.strptime(begin, "%Y-%m-%d %H:%M:%S").timestamp(),
+                    }
+                    candles.append(dict)
+                return candles
             
             except Exception as e:
                 if attempt < retries - 1:

@@ -1,6 +1,10 @@
 from src.Robot import Robot
+from src.utils.fetchMoex import fetchMoex
 
 state = "BUY"
+
+def strategyHistorical(data: dict):
+    print(data)
 
 def strategy(data: dict):
     global state
@@ -22,5 +26,4 @@ if __name__ == "__main__":
         classCode="QJSIM",
         tickerCode="SBER"
     )
-    robot._getHistoryData(1744480000, 1744496365)
-    # robot.subscribe(strategy, 1)
+    robot.subscribeHistorical(strategyHistorical, 1744460000, 1744470000, 1)
