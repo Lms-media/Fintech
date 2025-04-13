@@ -1,3 +1,4 @@
+import datetime
 import time
 from QUIK.QuikPy import QuikPy
 from typing import Callable
@@ -69,7 +70,16 @@ class Robot:
         interval = data["data"]["interval"]
         if interval == 0:
             return
-        quantity = self._subscriptions[interval](data)
+        dt = data["data"]["datetime"]
+        args = {
+            "open": data["data"]["open"],
+            "close": data["data"]["close"],
+            "high": data["data"]["high"],
+            "low": data["data"]["low"],
+            "volume": data["data"]["volume"],
+            "time": datetime.datetime(dt["year"], dt["month"], dt["day"], dt["hour"], dt["min"], dt["sec"]).timestamp()
+        }
+        quantity = self._subscriptions[interval](args)
         self.createOrder(quantity)
     
     
