@@ -1,7 +1,7 @@
 from QUIK.QuikPy import QuikPy
 
 qp_provider = QuikPy()
-assets = ('OZON', 'HEAD', 'DELI', 'ROSN')
+assets = ('OZON', 'HEAD', 'DELI', 'ROSN', 'USD000TODTOM')
 # для ROSN нули будут
 print(qp_provider.get_trade_accounts())
 

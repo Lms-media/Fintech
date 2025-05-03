@@ -1,4 +1,3 @@
-import datetime
 import time
 from QUIK.QuikPy import QuikPy
 from typing import Callable
@@ -6,12 +5,14 @@ from src.utils.chunkSize import getChunkSize
 from src.utils.fetchMoex import fetchMoex
 
 class Robot:
-    def __init__(self, clientCode: str, accountId: str, classCode: str, tickerCode: str):
+    def __init__(self, clientCode: str, accountId: str, classCode: str, tickerCode: str, moexTickerCode: str, contentType: str):
         self._provider = QuikPy()
         self._clientCode = clientCode
         self._account = accountId
         self._classCode = classCode
         self._tickerCode = tickerCode
+        self._moexTickerCode = moexTickerCode
+        self._contentType = contentType
         
         self._subscriptions = dict()
         
@@ -40,7 +41,7 @@ class Robot:
         chunkSize = getChunkSize(interval)
         
         while start < end:
-            chunk = fetchMoex(self._tickerCode, start, min(start + chunkSize, end), interval)
+            chunk = fetchMoex(self._moexTickerCode, start, min(start + chunkSize, end), interval, self._contentType)
             for candle in chunk:
                 callback(candle)
             start += chunkSize
@@ -77,7 +78,8 @@ class Robot:
             "high": data["data"]["high"],
             "low": data["data"]["low"],
             "volume": data["data"]["volume"],
-            "time": datetime.datetime(dt["year"], dt["month"], dt["day"], dt["hour"], dt["min"], dt["sec"]).timestamp()
+            # "time": datetime.datetime(dt["year"], dt["month"], dt["day"], dt["hour"], dt["min"], dt["sec"]).timestamp()
+            "time": f'{dt["year"]}-{dt["month"]}-{dt["day"]} {dt["hour"]}:{dt["min"]}:{dt["sec"]}'
         }
         quantity = self._subscriptions[interval](args)
         self.createOrder(quantity)

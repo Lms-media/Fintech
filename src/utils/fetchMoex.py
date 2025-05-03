@@ -4,11 +4,19 @@ import pandas as pd
 import pytz
 import requests
 
-def fetchMoex(ticker: str, start: int, end: int, interval: int):
+stockUrl = f'https://iss.moex.com/iss/engines/stock/markets/shares/securities/'
+currencyUrl = f'https://iss.moex.com/iss/engines/currency/markets/selt/securities/'
+
+
+def fetchMoex(ticker: str, start: int, end: int, interval: int, contentType: str):
     tz = pytz.timezone('Europe/Moscow')
     startDt = tz.localize(datetime.fromtimestamp(start))
     endDt = tz.localize(datetime.fromtimestamp(end))
-    url = f'https://iss.moex.com/iss/engines/stock/markets/shares/securities/{ticker}/candles.json'
+    url = ''
+    if contentType == "stock":
+        url = stockUrl + ticker + '/candles.json'
+    elif contentType == 'currency':
+        url = currencyUrl + ticker + '/candles.json'
     retries = 5
     
     for attempt in range(retries):
@@ -27,7 +35,7 @@ def fetchMoex(ticker: str, start: int, end: int, interval: int):
                 )
                 response.raise_for_status()
                 json = response.json()
-                
+
                 candles = []
                 columns = json["candles"]["columns"]
                 data = json["candles"]["data"]
@@ -39,7 +47,7 @@ def fetchMoex(ticker: str, start: int, end: int, interval: int):
                         "high": candle[columns.index("high")],
                         "low": candle[columns.index("low")],
                         "volume": candle[columns.index("volume")],
-                        "time": datetime.strptime(begin, "%Y-%m-%d %H:%M:%S").timestamp(),
+                        "time": begin,
                     }
                     candles.append(dict)
                 return candles

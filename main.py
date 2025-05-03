@@ -1,5 +1,5 @@
+import time
 from src.Robot import Robot
-from src.utils.fetchMoex import fetchMoex
 
 state = "BUY"
 
@@ -21,11 +21,17 @@ def strategy(data: dict):
         return -1
 
 if __name__ == "__main__":
+    # NL0011100043
+    # 10088
     robot = Robot(
-        clientCode="10134",
+        clientCode="10088",
         accountId="NL0011100043",
+        # classCode="CETS",
+        # tickerCode="USD000TODTOM",
         classCode="QJSIM",
-        tickerCode="SBER"
+        tickerCode="SBER",
+        moexTickerCode="USD000TODTOM",
+        contentType="currency"
     )
     robot.subscribe(strategy, 1)
-    robot.subscribeHistorical(strategyHistorical, 1744460000, 1744470000, 1)
+    robot.subscribeHistorical(strategyHistorical, 1704067200, int(time.time()), 1)
