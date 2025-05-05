@@ -1,4 +1,3 @@
-import time
 from src.Robot import Robot
 
 state = "BUY"
@@ -21,16 +20,25 @@ def strategy(data: dict):
         return -1
 
 if __name__ == "__main__":
-    # NL0011100043
-    # 10088
+    '''
+    NL0011100043
+    10088
+    
+    accountId="NL0011100043",
+    classCode="QJSIM",
+    tickerCode="SBER",
+    contentType="stock"
+    
+    accountId="MB1000100002",
+    classCode="CETS",
+    tickerCode="USD000000TOD",
+    contentType="currency"
+    '''
     robot = Robot(
         clientCode="10088",
-        accountId="NL0011100043",
-        # classCode="CETS",
-        # tickerCode="USD000TODTOM",
-        classCode="QJSIM",
-        tickerCode="SBER",
-        moexTickerCode="USD000TODTOM",
+        accountId="MB1000100002",
+        classCode="CETS",
+        tickerCode="USD000000TOD",
         contentType="currency"
     )
     robot.subscribe(strategy, 1)

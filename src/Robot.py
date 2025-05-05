@@ -1,26 +1,29 @@
 import time
+from datetime import datetime
+
 from QUIK.QuikPy import QuikPy
 from typing import Callable
 from src.utils.chunkSize import getChunkSize
 from src.utils.fetchMoex import fetchMoex
 
 class Robot:
-    def __init__(self, clientCode: str, accountId: str, classCode: str, tickerCode: str, moexTickerCode: str, contentType: str):
+    def __init__(self, clientCode: str, accountId: str, classCode: str, tickerCode: str, contentType: str):
         self._provider = QuikPy()
         self._clientCode = clientCode
         self._account = accountId
         self._classCode = classCode
         self._tickerCode = tickerCode
-        self._moexTickerCode = moexTickerCode
         self._contentType = contentType
-        
         self._subscriptions = dict()
         
         self._provider.on_new_candle = self._newCandleHandler
         
     def closeConnection(self):
         self._provider.close_connection_and_thread()
-        
+
+    def getLastPrice(self) -> str:
+        return self._provider.get_param_ex(self._classCode, self._tickerCode, "PREVPRICE")['data']["param_value"]
+
     def getCandles(self, interval: int = 1, count: int = 5):
         return self._provider.get_candles_from_data_source(
             class_code=self._classCode,
@@ -41,7 +44,7 @@ class Robot:
         chunkSize = getChunkSize(interval)
         
         while start < end:
-            chunk = fetchMoex(self._moexTickerCode, start, min(start + chunkSize, end), interval, self._contentType)
+            chunk = fetchMoex(self._tickerCode, start, min(start + chunkSize, end), interval, self._contentType)
             for candle in chunk:
                 callback(candle)
             start += chunkSize
@@ -53,6 +56,7 @@ class Robot:
         if quantity < 0:
             operation = "S"
             quantity = -quantity
+        price = self.getLastPrice()
         transaction = {
             'TRANS_ID': str(int(time.time())),
             'CLIENT_CODE': self._clientCode,
@@ -61,9 +65,9 @@ class Robot:
             'CLASSCODE': self._classCode,
             'SECCODE': self._tickerCode,
             'OPERATION': operation,
-            'PRICE': "0",
+            'PRICE': price[0:price.index('.')] if self._contentType == "currency" else '0',
             'QUANTITY': str(quantity),
-            'TYPE': 'M'
+            'TYPE': 'L' if self._contentType == "currency" else 'M'
         }
         self._provider.send_transaction(transaction)
     
@@ -78,8 +82,7 @@ class Robot:
             "high": data["data"]["high"],
             "low": data["data"]["low"],
             "volume": data["data"]["volume"],
-            # "time": datetime.datetime(dt["year"], dt["month"], dt["day"], dt["hour"], dt["min"], dt["sec"]).timestamp()
-            "time": f'{dt["year"]}-{dt["month"]}-{dt["day"]} {dt["hour"]}:{dt["min"]}:{dt["sec"]}'
+            "time": datetime(dt["year"], dt["month"], dt["day"], dt["hour"], dt["min"], dt["sec"]).strftime("%Y-%m-%d %H:%M:%S")
         }
         quantity = self._subscriptions[interval](args)
         self.createOrder(quantity)

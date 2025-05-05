@@ -15,7 +15,7 @@ if __name__ == '__main__':  # Точка входа при запуске это
     logging.Formatter.converter = lambda *args: datetime.now(tz=qp_provider.tz_msk).timetuple()  # В логе время указываем по МСК
 
     # Формат короткого имени для фьючерсов: <Код тикера><Месяц экспирации: 3-H, 6-M, 9-U, 12-Z><Последняя цифра года>. Пример: SiU4, RIU4
-    datanames = ('SBER', 'AFLT', 'USD000TODTOM', 'BRQ8', 'LKOH')  # Тикер без режима торгов
+    datanames = ('SBER', 'AFLT', 'USD000000TOD', 'BRQ8', 'LKOH')  # Тикер без режима торгов
     # datanames = ('TQBR.SBER', 'TQBR.HYDR', 'SPBFUT.SiU4', 'SPBFUT.RIU4', 'SPBFUT.BRU4', 'SPBFUT.CNYRUBF')  # Кортеж тикеров
 
     for dataname in datanames:  # Пробегаемся по всем тикерам
