@@ -8,23 +8,35 @@ from src.utils.fetchMoex import fetchMoex
 
 class Robot:
     def __init__(self, clientCode: str, accountId: str, classCode: str, tickerCode: str, contentType: str):
-        self._provider = QuikPy()
+        self._provider = None
         self._clientCode = clientCode
         self._account = accountId
         self._classCode = classCode
         self._tickerCode = tickerCode
         self._contentType = contentType
         self._subscriptions = dict()
-        
+
+    def connectToQuik(self):
+        self._provider = QuikPy()
         self._provider.on_new_candle = self._newCandleHandler
-        
+
     def closeConnection(self):
-        self._provider.close_connection_and_thread()
+        if self._provider is not  None:
+            self._provider.close_connection_and_thread()
+        else: print("Not connected to QUIK")
 
     def getLastPrice(self) -> str:
+        if self._provider is None:
+            print("Not connected to QUIK")
+            return '0'
+
         return self._provider.get_param_ex(self._classCode, self._tickerCode, "PREVPRICE")['data']["param_value"]
 
     def getCandles(self, interval: int = 1, count: int = 5):
+        if self._provider is None:
+            print("Not connected to QUIK")
+            return
+
         return self._provider.get_candles_from_data_source(
             class_code=self._classCode,
             sec_code=self._tickerCode,
@@ -33,6 +45,10 @@ class Robot:
         )
         
     def subscribe(self, callback: Callable[[dict], int], interval: int = 1):
+        if self._provider is None:
+            print("Not connected to QUIK")
+            return
+
         self._provider.subscribe_to_candles(
             class_code=self._classCode,
             sec_code=self._tickerCode,
@@ -50,6 +66,10 @@ class Robot:
             start += chunkSize
         
     def createOrder(self, quantity: int):
+        if self._provider is None:
+            print("Not connected to QUIK")
+            return '0'
+
         if quantity == 0:
             return
         operation = "B"

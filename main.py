@@ -1,4 +1,7 @@
 from src.Robot import Robot
+from src.config import clientCode
+from src.config import accountId
+import time
 
 state = "BUY"
 
@@ -20,26 +23,14 @@ def strategy(data: dict):
         return -1
 
 if __name__ == "__main__":
-    '''
-    NL0011100043
-    10088
-    
-    accountId="NL0011100043",
-    classCode="QJSIM",
-    tickerCode="SBER",
-    contentType="stock"
-    
-    accountId="MB1000100002",
-    classCode="CETS",
-    tickerCode="USD000000TOD",
-    contentType="currency"
-    '''
     robot = Robot(
-        clientCode="10088",
-        accountId="MB1000100002",
+        clientCode=clientCode,
+        accountId=accountId,
         classCode="CETS",
-        tickerCode="USD000000TOD",
+        tickerCode="KZTRUB_TOM",
         contentType="currency"
     )
-    robot.subscribe(strategy, 1)
+    #robot.connectToQuik()
+    #robot.subscribe(strategy, 1)
     robot.subscribeHistorical(strategyHistorical, 1704067200, int(time.time()), 1)
+    #robot.createOrder(1)
