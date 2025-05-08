@@ -414,3 +414,29 @@
 18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 2
 18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
 18.12.2024 16:03:01 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+05.05.2025 14:24:54 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'scale': 3, 'option_strike': 0.0, 'face_unit': 'SUR', 'first_currcode': '', 'stock_code': '', 'settle_date': 0, 'trade_currency': 'SUR', 'cusip_code': '', 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'qty_scale': 0, 'base_active_classcode': '', 'exp_date': 0, 'regnumber': '', 'min_price_step': 0.001, 'isin_code': '', 'short_name': 'Сбербанк', 'qty_multiplier': 1, 'face_value': 0.0, 'step_price_currency': '', 'accruedint': 0.0, 'name': 'Сбербанк России ПАО ао', 'buybackdate': 0, 'yieldatprevwaprice': 0.0, 'ric_code': '', 'base_active_seccode': '', 'code': 'SBER', 'stock_name': '', 'first_curr_qty_scale': 0, 'class_code': 'EQRP_INFO', 'buybackprice': 0.0, 'bsid': '', 'settlecode': '', 'sedol_code': '', 'nextcoupon': 0, 'couponperiod': 0, 'couponvalue': 0.0, 'mat_date': 0, 'list_level': 0, 'sec_code': 'SBER', 'second_currcode': '', 'lot_size': 1, 'second_curr_qty_scale': 0}
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.SBER (Сбербанк):
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Валюта: SUR
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Лот: 1
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Шаг цены: 0.001
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 3
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+05.05.2025 14:24:54 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'scale': 4, 'option_strike': 0.0, 'face_unit': 'SUR', 'first_currcode': '', 'stock_code': '', 'settle_date': 0, 'trade_currency': 'SUR', 'cusip_code': '', 'class_name': 'МБ ФР: РЕПО с ЦК информационный', 'cfi_code': '', 'qty_scale': 0, 'base_active_classcode': '', 'exp_date': 0, 'regnumber': '', 'min_price_step': 0.0001, 'isin_code': '', 'short_name': 'Аэрофлот', 'qty_multiplier': 1, 'face_value': 0.0, 'step_price_currency': '', 'accruedint': 0.0, 'name': 'Аэрофлот-росс.авиалин(ПАО)ао', 'buybackdate': 0, 'yieldatprevwaprice': 0.0, 'ric_code': '', 'base_active_seccode': '', 'code': 'AFLT', 'stock_name': '', 'first_curr_qty_scale': 0, 'class_code': 'EQRP_INFO', 'buybackprice': 0.0, 'bsid': '', 'settlecode': '', 'sedol_code': '', 'nextcoupon': 0, 'couponperiod': 0, 'couponvalue': 0.0, 'mat_date': 0, 'list_level': 0, 'sec_code': 'AFLT', 'second_currcode': '', 'lot_size': 1, 'second_curr_qty_scale': 0}
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - Информация о тикере EQRP_INFO.AFLT (Аэрофлот):
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Валюта: SUR
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Лот: 1
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Шаг цены: 0.0001
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Торговый счет: EQRP_INFO
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+05.05.2025 14:24:54 - QuikPy.Ticker - DEBUG - Ответ от сервера: {'scale': 4, 'option_strike': 0.0, 'face_unit': 'SUR', 'first_currcode': 'USD', 'stock_code': '', 'settle_date': 20250505, 'trade_currency': 'RUB', 'cusip_code': '', 'class_name': 'МБ Валюта: ЕТС', 'cfi_code': '', 'qty_scale': 0, 'base_active_classcode': '', 'exp_date': 0, 'regnumber': '', 'min_price_step': 0.0025, 'isin_code': '', 'short_name': 'USDRUB_TOD', 'qty_multiplier': 1, 'face_value': 1.0, 'step_price_currency': '', 'accruedint': 0.0, 'name': 'USDRUB_TOD - USD/РУБ', 'buybackdate': 0, 'yieldatprevwaprice': 0.0, 'ric_code': '', 'base_active_seccode': '', 'code': 'USD000000TOD', 'stock_name': '', 'first_curr_qty_scale': 0, 'class_code': 'CETS', 'buybackprice': 0.0, 'bsid': '', 'settlecode': 'T0', 'sedol_code': '', 'nextcoupon': 0, 'couponperiod': 0, 'couponvalue': 0.0, 'mat_date': 0, 'list_level': 0, 'sec_code': 'USD000000TOD', 'second_currcode': 'RUB', 'lot_size': 1000, 'second_curr_qty_scale': 0}
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - Информация о тикере CETS.USD000000TOD (USDRUB_TOD):
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Валюта: SUR
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Лот: 1000
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Шаг цены: 0.0025
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Кол-во десятичных знаков: 4
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Торговый счет: MB1000100002
+05.05.2025 14:24:54 - QuikPy.Ticker - INFO - - Последняя цена сделки: 0.0
+05.05.2025 14:24:54 - QuikPy - ERROR - Информация о .BRQ8 не найдена
+05.05.2025 14:24:54 - QuikPy.Ticker - DEBUG - Ответ от сервера: None
