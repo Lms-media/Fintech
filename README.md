@@ -4,11 +4,11 @@
 на Windows:
 ```cmd
 cd src
-copy config.py config-local.py
+copy config.py configLocal.py
 ```
 на Linux:
 ```cmd
 cd src
-cp config.py config-local.py
+cp config.py configLocal.py
 ```
 для предотвращения изменения config.py свои данные записываем в configLocal.py
