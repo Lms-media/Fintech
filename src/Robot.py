@@ -68,7 +68,7 @@ class Robot:
     def createOrder(self, quantity: int):
         if self._provider is None:
             print("Not connected to QUIK")
-            return '0'
+            return
 
         if quantity == 0:
             return

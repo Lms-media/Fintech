@@ -1,6 +1,6 @@
 from src.Robot import Robot
-from src.config import clientCode
-from src.config import accountId
+from src.configLocal import clientCode
+from src.configLocal import accountId
 import time
 
 state = "BUY"
@@ -27,10 +27,10 @@ if __name__ == "__main__":
         clientCode=clientCode,
         accountId=accountId,
         classCode="CETS",
-        tickerCode="KZTRUB_TOM",
+        tickerCode="USD000000TOD",
         contentType="currency"
     )
-    #robot.connectToQuik()
+    robot.connectToQuik()
     #robot.subscribe(strategy, 1)
-    robot.subscribeHistorical(strategyHistorical, 1704067200, int(time.time()), 1)
-    #robot.createOrder(1)
+    #robot.subscribeHistorical(strategyHistorical, 1704067200, int(time.time()), 1)
+    robot.createOrder(1)
