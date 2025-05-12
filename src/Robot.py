@@ -106,5 +106,138 @@ class Robot:
         }
         quantity = self._subscriptions[interval](args)
         self.createOrder(quantity)
-    
-    
+
+class TestRobot:
+    def __init__(self):
+        # Тестовый режим
+        self._testMode = False
+        self._testWallet = 0.0  # Виртуальный баланс
+        self._testPosition = 0  # Количество активов
+        self._testHistory = []  # История операций
+        self._testCurrentIndex = 0  # Текущий индекс в тестовых данных
+        self._testData = []  # Массив исторических свечей для теста
+
+    def enableTestMode(self, initialBalance: float = 100000.0):
+        """Активировать тестовый режим с начальным балансом"""
+        self._testMode = True
+        self._testWallet = initialBalance
+        self._testPosition = 0
+        self._testHistory = []
+
+    def disableTestMode(self):
+        """Деактивировать тестовый режим"""
+        self._testMode = False
+
+    def loadTestData(self, data: list[dict]):
+        """Загрузить исторические данные для тестирования"""
+        self._testData = sorted(data, key=lambda x: x['time'])
+        self._testCurrentIndex = 0
+
+    def setTestDate(self, dateStr: str):
+        """Установить текущую дату в тестовом режиме"""
+        if not self._testMode:
+            print("Test mode is not activated")
+            return
+
+        for i, candle in enumerate(self._testData):
+            if candle['time'] >= dateStr:
+                self._testCurrentIndex = i
+                print(f"Date set: {candle['time']}")
+                return
+
+        print("The specified date was not found in the test data.")
+
+    def getTestBalance(self) -> dict:
+        """Получить текущий баланс в тестовом режиме"""
+        return {
+            'wallet': self._testWallet,
+            'position': self._testPosition,
+            'current_price': self._testData[self._testCurrentIndex]['close'] if self._testData else 0,
+            'total_value': self._testWallet + self._testPosition * (
+                self._testData[self._testCurrentIndex]['close'] if self._testData else 0
+            )
+        }
+
+    def processTestStep(self, quantity: int):
+        """Обработать один шаг тестирования (купить/продать по текущей цене)"""
+        if not self._testMode or not self._testData:
+            print("Test mode is not activated or data is not loaded")
+            return
+
+        if self._testCurrentIndex >= len(self._testData):
+            print("End of test data reached")
+            return
+
+        currentCandle = self._testData[self._testCurrentIndex]
+        price = currentCandle['close']
+
+        if quantity == 0:
+            return
+
+        operation = "BUY" if quantity > 0 else "SELL"
+        absQuantity = abs(quantity)
+        cost = absQuantity * price
+
+        if operation == "BUY":
+            if cost > self._testWallet:
+                print("Insufficient funds to purchase")
+                return
+            self._testWallet -= cost
+            self._testPosition += absQuantity
+        else:
+            if absQuantity > self._testPosition:
+                print("Not enough assets to sell")
+                return
+            self._testWallet += cost
+            self._testPosition -= absQuantity
+
+        # Записываем операцию в историю
+        self._testHistory.append({
+            'time': currentCandle['time'],
+            'operation': operation,
+            'quantity': absQuantity,
+            'price': price,
+            'wallet_after': self._testWallet,
+            'position_after': self._testPosition
+        })
+
+        self._testCurrentIndex += 1
+
+    def runTestToDate(self, endDate: str, decisionFunc: Callable[[dict], int]):
+        """Запустить тестирование до указанной даты, используя функцию принятия решений"""
+        if not self._testMode or not self._testData:
+            print("Test mode is not activated or data is not loaded")
+            return
+
+        while self._testCurrentIndex < len(self._testData):
+            currentCandle = self._testData[self._testCurrentIndex]
+
+            if currentCandle['time'] > endDate:
+                break
+
+            quantity = decisionFunc(currentCandle)
+            self.processTestStep(quantity)
+
+    def getTestResults(self) -> dict:
+        """Получить результаты тестирования"""
+        if not self._testData:
+            return {}
+
+        finalPrice = self._testData[-1]['close']
+
+        initialValue = self._testWallet  # Начальный баланс
+        finalValue = self._testWallet + self._testPosition * finalPrice
+
+        profit = finalValue - initialValue
+        profitPercent = (profit / initialValue) * 100 if initialValue != 0 else 0
+
+        return {
+            'initial_balance': initialValue,
+            'final_balance': finalValue,
+            'profit': profit,
+            'profit_percent': profitPercent,
+            'final_position': self._testPosition,
+            'final_price': finalPrice,
+            'operations_count': len(self._testHistory),
+            'operations': self._testHistory
+        }

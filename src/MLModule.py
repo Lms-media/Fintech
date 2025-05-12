@@ -1,6 +1,6 @@
 class MLModule:
     @staticmethod
-    def getNextCandle(candles: list):
+    def getNextCandle(candles: list, candlesCount: int = 1):
         reversedCandles = candles[::-1]
         stableCount = 1
         diff = reversedCandles[0]['close'] - reversedCandles[1]['close']
@@ -12,7 +12,6 @@ class MLModule:
             previous = current
             current = reversedCandles[i]
             i += 1
-        print(stableCount)
         open = 0
         close = 0
         high = 0
@@ -22,9 +21,21 @@ class MLModule:
             close += reversedCandles[j]['close'] - reversedCandles[j + 1]['close']
             high += reversedCandles[j]['high'] - reversedCandles[j + 1]['high']
             low += reversedCandles[j]['low'] - reversedCandles[j + 1]['low']
-        open = round(reversedCandles[0]['open'] + open / stableCount, 4)
-        close = round(reversedCandles[0]['close'] + close / stableCount, 4)
-        high = round(reversedCandles[0]['high'] + high / stableCount, 4)
-        low = round(reversedCandles[0]['low'] + low / stableCount, 4)
 
-        return {'open' : open, 'close' : close, 'high' : high, 'low' : low}
+        del1 = open / stableCount
+        del2  = close / stableCount
+        del3 = high / stableCount
+        del4 = low / stableCount
+        open = reversedCandles[0]['open']
+        close = reversedCandles[0]['close']
+        high = reversedCandles[0]['high']
+        low = reversedCandles[0]['low']
+        outCandles = []
+        for j in range(candlesCount):
+            open += del1
+            close += del2
+            high += del3
+            low += del4
+            outCandles.append({'open' : round(open, 4), 'close' : round(close, 4), 'high' : round(high, 4), 'low' : round(low, 4)})
+
+        return outCandles
