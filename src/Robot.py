@@ -111,6 +111,7 @@ class TestRobot:
     def __init__(self):
         # Тестовый режим
         self._testMode = False
+        self._startWallet = 0.0
         self._testWallet = 0.0  # Виртуальный баланс
         self._testPosition = 0  # Количество активов
         self._testHistory = []  # История операций
@@ -120,6 +121,7 @@ class TestRobot:
     def enableTestMode(self, initialBalance: float = 100000.0):
         """Активировать тестовый режим с начальным балансом"""
         self._testMode = True
+        self._startWallet = initialBalance
         self._testWallet = initialBalance
         self._testPosition = 0
         self._testHistory = []
@@ -225,15 +227,15 @@ class TestRobot:
 
         finalPrice = self._testData[-1]['close']
 
-        initialValue = self._testWallet  # Начальный баланс
-        finalValue = self._testWallet + self._testPosition * finalPrice
+        balance = self._testWallet  # Начальный баланс
+        totalBalance = self._testWallet + self._testPosition * finalPrice
 
-        profit = finalValue - initialValue
-        profitPercent = (profit / initialValue) * 100 if initialValue != 0 else 0
+        profit = totalBalance - self._startWallet
+        profitPercent = (profit / self._startWallet) * 100 if self._startWallet != 0 else 0
 
         return {
-            'initial_balance': initialValue,
-            'final_balance': finalValue,
+            'balance': balance,
+            'final_balance': totalBalance,
             'profit': profit,
             'profit_percent': profitPercent,
             'final_position': self._testPosition,

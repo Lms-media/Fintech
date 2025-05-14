@@ -34,7 +34,7 @@ def testStrategy(data: dict):
     global testState
     print(f"Candle came, operation is {testState}")
     print(data)
-    print(testRobot.getTestBalance())
+    print(futureCandles[0])
     if data['close'] < futureCandles[0]['close']:
         testState = "BUY"
         futureCandles.pop(0)
@@ -70,4 +70,4 @@ if __name__ == "__main__":
     testRobot.setTestDate('2024-01-09 00:00:00')
     testRobot.runTestToDate('2024-06-10 00:00:00', testStrategy)
     results = testRobot.getTestResults()
-    print(f"Profit: {results['final_balance'] - 100000}")
+    print(f"Profit: {results['profit']}")
