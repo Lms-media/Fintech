@@ -174,6 +174,7 @@ class TestRobot:
         price = currentCandle['close']
 
         if quantity == 0:
+            self._testCurrentIndex += 1
             return
 
         operation = "BUY" if quantity > 0 else "SELL"
@@ -183,12 +184,14 @@ class TestRobot:
         if operation == "BUY":
             if cost > self._testWallet:
                 print("Insufficient funds to purchase")
+                self._testCurrentIndex += 1
                 return
             self._testWallet -= cost
             self._testPosition += absQuantity
         else:
             if absQuantity > self._testPosition:
                 print("Not enough assets to sell")
+                self._testCurrentIndex += 1
                 return
             self._testWallet += cost
             self._testPosition -= absQuantity

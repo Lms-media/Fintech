@@ -32,10 +32,11 @@ class MLModule:
         low = reversedCandles[0]['low']
         outCandles = []
         for j in range(candlesCount):
-            open += del1
-            close += del2
-            high += del3
-            low += del4
+            sign = 1 if (j // stableCount) % 2 == 0 else -1
+            open += del1 * sign
+            close += del2 * sign
+            high += del3 * sign
+            low += del4 * sign
             outCandles.append({'open' : round(open, 4), 'close' : round(close, 4), 'high' : round(high, 4), 'low' : round(low, 4)})
 
         return outCandles

@@ -35,17 +35,17 @@ def testStrategy(data: dict):
     print(f"Candle came, operation is {testState}")
     print(data)
     print(futureCandles[0])
+    testState = "NONE"
+    answer = 0
     if data['close'] < futureCandles[0]['close']:
         testState = "BUY"
-        futureCandles.pop(0)
-        return 1  # Покупаем 1 акцию
+        answer = 1
     elif data['close'] > futureCandles[0]['close']:
         testState = "SELL"
-        futureCandles.pop(0)
-        return -1  # Продаем 1 акцию
-    testState = "NONE"
+        answer = -1
     futureCandles.pop(0)
-    return 0
+    print(len(futureCandles))
+    return answer
 
 if __name__ == "__main__":
     robot = Robot(
@@ -63,7 +63,6 @@ if __name__ == "__main__":
     robot.subscribeHistorical(strategyHistorical, 1262304000, int(time.time()), 24)
     futureCandles = MLModule.getNextCandle(candles[0:-100], 100)
     print(candles[0:-100][-1])
-
 
     testRobot.enableTestMode(100000)
     testRobot.loadTestData(candles)
