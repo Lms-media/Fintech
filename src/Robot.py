@@ -106,5 +106,3 @@ class Robot:
         }
         quantity = self._subscriptions[interval](args)
         self.createOrder(quantity)
-    
-    
