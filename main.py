@@ -1,5 +1,5 @@
 from src.Robot import Robot
-from src.Robot import TestRobot
+from src.TestRobot import TestRobot
 from src.configLocal import clientCode
 from src.configLocal import accountId
 from src.MLModule import MLModule
@@ -7,7 +7,6 @@ import time
 
 state = "BUY"
 
-testRobot = TestRobot()
 testState = "BUY"
 candles = []
 futureCandles = []
@@ -49,24 +48,22 @@ def testStrategy(data: dict):
 
 if __name__ == "__main__":
     robot = Robot(
-        clientCode=clientCode,
-        accountId=accountId,
-        classCode="CETS",
-        tickerCode="USD000000TOD",
-        contentType="currency"
+        clientCode = clientCode,
+        accountId = accountId,
+        classCode = "CETS",
+        tickerCode = "USD000000TOD",
+        contentType = "currency"
     )
-    # robot.connectToQuik()
-    # robot.subscribe(strategy, 1)
-    # robot.subscribeHistorical(strategyHistorical, 1704067200, int(time.time()), 1)
-    # robot.createOrder(1)
-
     robot.subscribeHistorical(strategyHistorical, 1262304000, int(time.time()), 24)
     futureCandles = MLModule.getNextCandle(candles[0:-100], 100)
     print(candles[0:-100][-1])
 
-    testRobot.enableTestMode(100000)
-    testRobot.loadTestData(candles)
-    testRobot.setTestDate('2024-01-09 00:00:00')
+    testRobot = TestRobot(
+        initialBalance = 100000,
+        initialPositions = 0,
+        data = candles,
+        dateStr = '2024-01-09 00:00:00'
+    )
     testRobot.runTestToDate('2024-06-10 00:00:00', testStrategy)
     results = testRobot.getTestResults()
     print(f"Profit: {results['profit']}")
