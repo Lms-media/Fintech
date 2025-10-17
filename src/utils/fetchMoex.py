@@ -56,5 +56,5 @@ def fetchMoex(ticker: str, start: int, end: int, interval: int, contentType: str
                 if attempt < retries - 1:
                     time.sleep(2 ** attempt)
                 else:
-                    print(f'Ошибка загрузки {startDt}-{endDt}: {str(e)}')
+                    print(f'Error: {startDt}-{endDt}: {str(e)}')
                     return pd.DataFrame()
