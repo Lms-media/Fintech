@@ -20,43 +20,39 @@ class VirtualPortfolio:
     def getCurrentState(self) -> PortfolioSate:
         return self._currentState
 
-    def buy(self, lots: dict[str, float], candles: dict[str, Candle]):
+    def buy(self, lot: str, lotSize: float, candle: Candle):
         newAmount = self._currentState.amount
         newAssets = self._currentState.assets
         newRates = self._currentState.exchangeRates
-        for lot in lots:
-            if (
-                lots[lot] <= candles[lot].volume
-                and newAmount >= lots[lot] * candles[lot].close
-            ):
-                newAmount -= lots[lot] * candles[lot].close
-                newAssets[lot] = newAssets.get(lot, 0) + lots[lot]
-                newRates[lot] = candles[lot].close
+        if (
+            lotSize <= candle.volume
+            and newAmount >= lotSize * candle.close
+        ):
+            newAmount -= lotSize * candle.close
+            newAssets[lot] = newAssets.get(lot, 0) + lotSize
+            newRates[lot] = candle.close
         self._history.append(self._currentState)
         self._currentState = PortfolioSate(
-            newAmount, newAssets, candles[lot].datetime, newRates
+            newAmount, newAssets, candle.datetime, newRates
         )
 
-    def sell(self, lots: dict[str, float], candles: dict[str, Candle]):
-        newAmount = self._currentState.baseAmount
+    def sell(self, lot: str, lotSize: float, candle: Candle):
+        newAmount = self._currentState.amount
         newAssets = self._currentState.assets
         newRates = self._currentState.exchangeRates
-        for lot in lots:
-            if newAssets.get(lot, 0) >= lots[lot]:
-                newAmount += lots[lot] * candles[lot].close
-                newAssets[lot] = newAssets.get(lot, 0) - lots[lot]
-                newRates[lot] = candles[lot].close
+        if newAssets.get(lot, 0) >= lotSize:
+            newAmount += lotSize * candle.close
+            newAssets[lot] = newAssets.get(lot, 0) - lotSize
+            newRates[lot] = candle.close
         self._history.append(self._currentState)
         self._currentState = PortfolioSate(
-            newAmount, newAssets, candles[lot].datetime, newRates
+            newAmount, newAssets, candle.datetime, newRates
         )
 
-    def skip(self, candles: dict[str, Candle]):
+    def skip(self, lot: str, candle: Candle):
         newRates = self._currentState.exchangeRates
-        datetime = dt.now()
-        for asset in candles:
-            datetime = candles[asset].datetime
-            newRates[asset] = candles[asset].close
+        datetime = candle.datetime
+        newRates[lot] = candle.close
         self._history.append(self._currentState)
         self._currentState = PortfolioSate(
             self._currentState.amount, self._currentState.assets, datetime, newRates

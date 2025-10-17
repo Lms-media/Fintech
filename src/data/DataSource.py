@@ -16,6 +16,6 @@ class DataSource(abc.ABC):
                 
         return foundCandles
     def nextCandle(self, candle: Candle):
-        if candle in self.candles:
+        if candle in self.candles and self.candles.index(candle) + 1 < len(self.candles):
             return self.candles[self.candles.index(candle) + 1]
         return None

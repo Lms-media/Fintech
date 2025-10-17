@@ -17,6 +17,8 @@ class SimpleStrategy(Strategy):
             previous = current
             current = reversedCandles[i]
             i += 1
+            if i == 5:
+                break
         close = 0
         for j in range(stableCount):
             close += reversedCandles[j].close - reversedCandles[j + 1].close

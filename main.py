@@ -1,11 +1,8 @@
-from src.Robot import Robot
-from src.TestRobot import TestRobot
-from src.configLocal import clientCode
-from src.configLocal import accountId
-from src.MLModule import MLModule
 import time
 from datetime import datetime
 from src.data.MoexDataSource import MoexDataSource
+from src.managers.HistoricalTradingManager import HistoricalTradingManager
+from src.strategies.SimpleStrategy import SimpleStrategy
 
 state = "BUY"
 
@@ -53,37 +50,23 @@ def testStrategy(data: dict):
 
 
 if __name__ == "__main__":
-    lst = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    print(lst[:-4:-1][::-1])
-    # data = MoexDataSource(
-    #     datetime.fromtimestamp(1262304000),
-    #     datetime.fromtimestamp(int(time.time())),
-    #     24,
-    #     "USD000000TOD",
-    #     "currency",
-    # )
+    
+    data = MoexDataSource(
+        datetime.fromtimestamp(1262304000),
+        datetime.fromtimestamp(int(time.time())),
+        24,
+        "USD000000TOD",
+        "currency",
+    )
+    
+    simpleStrategy = SimpleStrategy(5)
+    
+    instruments = {"USD000000TOD": simpleStrategy}
+    dataSources = {"USD000000TOD": data}
+    date = datetime.strptime("2024-01-09 00:00:00", "%Y-%m-%d %H:%M:%S")
+    
+    print(100000)
+    manager = HistoricalTradingManager(instruments, 5, dataSources, 100000, date)
+    manager.start()
+    print(manager.virtualPortfolio.getCurrentState().getCapitalization())
 
-    # for candle in data.getSlice(
-    #     datetime.fromtimestamp(1262304000), datetime.fromtimestamp(int(time.time()))
-    # ):
-    #     print(candle)
-    # robot = Robot(
-    #     clientCode = clientCode,
-    #     accountId = accountId,
-    #     classCode = "CETS",
-    #     tickerCode = "USD000000TOD",
-    #     contentType = "currency"
-    # )
-    # robot.subscribeHistorical(strategyHistorical, 1262304000, int(time.time()), 24)
-    # futureCandles = MLModule.getNextCandle(candles[0:-100], 100)
-    # print(candles[0:-100][-1])
-
-    # testRobot = TestRobot(
-    #     initialBalance = 100000,
-    #     initialPositions = 0,
-    #     data = candles,
-    #     dateStr = '2024-01-09 00:00:00'
-    # )
-    # testRobot.runTestToDate('2024-06-10 00:00:00', testStrategy)
-    # results = testRobot.getTestResults()
-    # print(f"Profit: {results['profit']}")

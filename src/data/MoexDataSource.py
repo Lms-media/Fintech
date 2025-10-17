@@ -12,7 +12,7 @@ class MoexDataSource(DataSource):
     ):
         self.interval = interval
         self.tickerCode = tickerCode
-        self._candles: list[Candle] = []
+        self.candles: list[Candle] = []
         chunkSize = getChunkSize(interval)
         start = int(dateFrom.timestamp())
         end = int(dateTo.timestamp())
@@ -27,7 +27,7 @@ class MoexDataSource(DataSource):
                 contentType,
             )
             for candle in chunk:
-                self._candles.append(
+                self.candles.append(
                     Candle(
                         candle["open"],
                         candle["close"],
@@ -39,4 +39,4 @@ class MoexDataSource(DataSource):
                     )
                 )
             start += chunkSize
-        self.size = len(self._candles)
+        self.size = len(self.candles)

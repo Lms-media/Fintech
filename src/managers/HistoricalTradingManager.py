@@ -5,6 +5,7 @@ from datetime import datetime as dt
 from src.strategies.Strategy import Strategy
 from src.data.Candle import Candle
 
+
 class HistoricalTradingManager(TradingManager):
     def __init__(self, instruments: dict[str, Strategy], chunkSize: int, dataSources: dict[str, DataSource], initialAmount: float, startDate: dt):
         self.dataSources = dataSources
@@ -32,15 +33,17 @@ class HistoricalTradingManager(TradingManager):
                     continueCount += 1
                     continue
 
-    # def processTestStep(self, quantity: int, instrument: str):
-    #     currentCandle = self._currentCandles[instrument]
-        
-    #     if quantity == 0:
-    #         self._currentCandles[instrument] = self.dataSources[instrument].nextCandle(currentCandle)
-    #         return
-        
-    #     price = currentCandle.close
-    #     cost = price * abs(quantity)
-        
-    #     if quantity > 0:
-    #         if cost > self.virtualPortfolio.
+    def processTestStep(self, quantity: int, instrument: str):
+        currentCandle = self._currentCandles[instrument]
+
+        if quantity == 0:
+            self.virtualPortfolio.skip(instrument, currentCandle)
+            self._currentCandles[instrument] = self.dataSources[instrument].nextCandle(currentCandle)
+            return
+
+        if quantity > 0:
+            self.virtualPortfolio.buy(instrument, quantity, currentCandle)
+        else:
+            self.virtualPortfolio.sell(instrument, quantity, currentCandle)
+
+        self._currentCandles[instrument] = self.dataSources[instrument].nextCandle(currentCandle)
