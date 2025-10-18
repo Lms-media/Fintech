@@ -3,7 +3,7 @@
 
 ### для запуска основного скрипта (на данный момент - bagtest):
 ```cmd
-python3 main.py --config config/config.json --saved ./candles/candles.json
+python3 main.py --config ./config/config.json --saved ./candles/candles.json
 ```
 
 **--config** - путь к конфигурации  
