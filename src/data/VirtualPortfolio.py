@@ -22,8 +22,8 @@ class VirtualPortfolio:
 
     def buy(self, lot: str, lotSize: float, candle: Candle):
         newAmount = self._currentState.amount
-        newAssets = self._currentState.assets
-        newRates = self._currentState.exchangeRates
+        newAssets = self._currentState.assets.copy()
+        newRates = self._currentState.exchangeRates.copy()
         if (
             lotSize <= candle.volume
             and newAmount >= lotSize * candle.close
@@ -38,8 +38,8 @@ class VirtualPortfolio:
 
     def sell(self, lot: str, lotSize: float, candle: Candle):
         newAmount = self._currentState.amount
-        newAssets = self._currentState.assets
-        newRates = self._currentState.exchangeRates
+        newAssets = self._currentState.assets.copy()
+        newRates = self._currentState.exchangeRates.copy()
         if newAssets.get(lot, 0) >= lotSize:
             newAmount += lotSize * candle.close
             newAssets[lot] = newAssets.get(lot, 0) - lotSize
@@ -50,10 +50,10 @@ class VirtualPortfolio:
         )
 
     def skip(self, lot: str, candle: Candle):
-        newRates = self._currentState.exchangeRates
+        newRates = self._currentState.exchangeRates.copy()
         datetime = candle.datetime
         newRates[lot] = candle.close
         self._history.append(self._currentState)
         self._currentState = PortfolioSate(
-            self._currentState.amount, self._currentState.assets, datetime, newRates
+            self._currentState.amount, self._currentState.assets.copy(), datetime, newRates
         )

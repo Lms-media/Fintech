@@ -1,23 +1,9 @@
-Проект торгового бота, основанный на библиотеке QuikPy и API московской биржи iss.moex.com
+# Проект торгового бота
+на данный момент исторические данные получаем через API московской биржи iss.moex.com
 
-при клонировании репозитория выполнить дополнительно команды:
-на Windows:
+### для запуска основного скрипта (на данный момент - bagtest):
 ```cmd
-cd src
-copy config.py configLocal.py
+python3 main.py --config config/config.json
 ```
-на Linux:
-```cmd
-cd src
-cp config.py configLocal.py
-```
-для предотвращения изменения config.py свои данные записываем в configLocal.py
 
-![alt text](image-1.png)
-![alt text](image.png)
-![alt text](image-2.png)
-![alt text](image-3.png)
-![alt text](image-4.png)
-![alt text](image-5.png)
-![alt text](image-6.png)
-![alt text](image-7.png)
+**config/config.json** - конфигурация по умолчанию, в папке */config* в **README.md** можно посмотреть примеры конфигов и написать свою
