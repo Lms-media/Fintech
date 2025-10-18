@@ -8,11 +8,10 @@ class PortfolioSate:
     assets: dict[str, float]
     datetime: datetime
     exchangeRates: dict[str, float]
-    
+
     def getCapitalization(self) -> float:
         capital = 0
         for asset in self.assets:
             capital += self.assets[asset] * self.exchangeRates[asset]
-            
+
         return self.amount + capital
-        

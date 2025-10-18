@@ -42,15 +42,19 @@ class MoexDataSource(DataSource):
             start += chunkSize
             self.progress_bar(start - initStart, end - initStart)
         self.size = len(self.candles)
-        
+
     def progress_bar(self, current, total, bar_length=50):
         fraction = current / total
 
-        arrow = int(fraction * bar_length) * '█'
-        padding = (bar_length - len(arrow)) * ' '
-        ending = '\n' if current == total else '\r'
+        arrow = int(fraction * bar_length) * "█"
+        padding = (bar_length - len(arrow)) * " "
+        ending = "\n" if current == total else "\r"
 
         if int(fraction * 100) > 100:
-            print(f'Download data: [{arrow}{padding}] 100%', end=ending, flush=True)
+            print(f"Download data: [{arrow}{padding}] 100%", end=ending, flush=True)
         else:
-            print(f'Download data: [{arrow}{padding}] {int(fraction * 100)}%', end=ending, flush=True)
+            print(
+                f"Download data: [{arrow}{padding}] {int(fraction * 100)}%",
+                end=ending,
+                flush=True,
+            )

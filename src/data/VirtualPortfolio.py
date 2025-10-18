@@ -24,10 +24,7 @@ class VirtualPortfolio:
         newAmount = self._currentState.amount
         newAssets = self._currentState.assets.copy()
         newRates = self._currentState.exchangeRates.copy()
-        if (
-            lotSize <= candle.volume
-            and newAmount >= lotSize * candle.close
-        ):
+        if lotSize <= candle.volume and newAmount >= lotSize * candle.close:
             newAmount -= lotSize * candle.close
             newAssets[lot] = newAssets.get(lot, 0) + lotSize
             newRates[lot] = candle.close
@@ -55,5 +52,8 @@ class VirtualPortfolio:
         newRates[lot] = candle.close
         self._history.append(self._currentState)
         self._currentState = PortfolioSate(
-            self._currentState.amount, self._currentState.assets.copy(), datetime, newRates
+            self._currentState.amount,
+            self._currentState.assets.copy(),
+            datetime,
+            newRates,
         )

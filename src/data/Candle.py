@@ -6,7 +6,7 @@ from dataclasses import dataclass
 class Candle:
     open: float
     close: float
-    hight: float
+    high: float
     low: float
     volume: float
     datetime: datetime
