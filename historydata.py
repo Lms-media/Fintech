@@ -1,4 +1,10 @@
 import pandas as pd
+import numpy as np
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import TimeSeriesSplit
+from sklearn.metrics import mean_absolute_error, r2_score
+import matplotlib.pyplot as plt
+import seaborn as sns
 import requests
 from datetime import datetime, timedelta
 import pytz
@@ -6,11 +12,9 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 def fetch_moex_chunk(args):
-    """Выполняет один запрос к MOEX API с возможностью повторных попыток"""
     ticker, start_dt, end_dt, interval, timeout, max_retries = args
     tz = pytz.timezone('Europe/Moscow')
-    url = f'https://iss.moex.com/iss/engines/stock/markets/shares/securities/{ticker}/candles.json'
-    
+    url = f'https://iss.moex.com/iss/engines/currency/markets/selt/securities/{ticker}/candles.json'
     for attempt in range(max_retries):
         try:
             response = requests.get(
@@ -43,7 +47,6 @@ def fetch_moex_chunk(args):
                 return pd.DataFrame()
 
 def get_moex_history_fast(ticker, start_date, end_date, interval=1, max_workers=4):
-    """Параллельная загрузка исторических данных с ускорением"""
     tz = pytz.timezone('Europe/Moscow')
     start_dt = tz.localize(datetime.strptime(start_date, '%Y-%m-%d'))
     end_dt = tz.localize(datetime.strptime(end_date, '%Y-%m-%d') + timedelta(days=1))
@@ -73,7 +76,6 @@ def get_moex_history_fast(ticker, start_date, end_date, interval=1, max_workers=
     return final_df.loc[start_dt:end_dt]
 
 def calculate_chunk_size(interval):
-    """Определение оптимального размера чанка для параллельной загрузки"""
     if interval == 1:
         return timedelta(days=7)
     elif interval == 10:
@@ -84,7 +86,6 @@ def calculate_chunk_size(interval):
         return timedelta(days=365)
 
 def append_new_data(existing_df, ticker, new_end_date, interval=1):
-    """Добавляет новые данные к существующему DataFrame"""
     if existing_df.empty:
         return get_moex_history_fast(ticker, new_end_date, new_end_date, interval)
     
@@ -105,10 +106,10 @@ def append_new_data(existing_df, ticker, new_end_date, interval=1):
         return combined_df.sort_index()
     
     return existing_df
-
-# Пример использования
+def save_df(df, filepath):
+    df.to_csv(filepath)
 if __name__ == "__main__":
     # Параллельная загрузка за большой период
-    big_df = get_moex_history_fast('GAZP', '2023-01-01', '2024-01-01',interval=1, max_workers=6)
-    print(f"Загружено данных за год: {len(big_df)} записей")
-    print(big_df.tail())
+    big_df = get_moex_history_fast('USD000000TOD', '2020-01-01', '2024-01-01',interval=1, max_workers=6)
+    save_df(big_df, "USD_RUB.csv")
+    
