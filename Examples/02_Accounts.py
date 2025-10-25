@@ -5,13 +5,13 @@ def get_all_accounts():
     """Получение всех торговых счетов"""
     futures_firm_id = 'SPBFUT'  # Фирма для фьючерсов. Измените, если требуется, на фирму, которую для фьючерсов поставил ваш брокер
 
-    class_codes = qp_provider.GetClassesList()['data']  # Список классов
+    class_codes = qp_provider.get_classes_list()['data']  # Список классов
     class_codes_list = class_codes[:-1].split(',')  # Удаляем последнюю запятую, разбиваем значения по запятой
-    trade_accounts = qp_provider.GetTradeAccounts()['data']  # Все торговые счета
-    money_limits = qp_provider.GetMoneyLimits()['data']  # Все денежные лимиты (остатки на счетах)
-    depo_limits = qp_provider.GetAllDepoLimits()['data']  # Все лимиты по бумагам (позиции по инструментам)
-    orders = qp_provider.GetAllOrders()['data']  # Все заявки
-    stop_orders = qp_provider.GetAllStopOrders()['data']  # Все стоп заявки
+    trade_accounts = qp_provider.get_trade_accounts()['data']  # Все торговые счета
+    money_limits = qp_provider.get_money_limits()['data']  # Все денежные лимиты (остатки на счетах)
+    depo_limits = qp_provider.get_all_depo_limits()['data']  # Все лимиты по бумагам (позиции по инструментам)
+    orders = qp_provider.get_all_orders()['data']  # Все заявки
+    stop_orders = qp_provider.get_all_stop_orders()['data']  # Все стоп заявки
 
     # Коды клиента / Фирмы / Счета
     for trade_account in trade_accounts:  # Пробегаемся по всем счетам
@@ -23,16 +23,16 @@ def get_all_accounts():
         intersection_class_codes = list(set(trade_account_class_codes).intersection(class_codes_list))  # Классы, которые есть и в списке и в торговом счете
         # Классы
         for class_code in intersection_class_codes:  # Пробегаемся по всем общим классам
-            class_info = qp_provider.GetClassInfo(class_code)['data']  # Информация о классе
+            class_info = qp_provider.get_class_info(class_code)['data']  # Информация о классе
             print(f'- Класс {class_code} ({class_info["name"]}), Тикеров {class_info["nsecs"]}')
             # Инструменты. Если выводить на экран, то занимают много места. Поэтому, закомментировали
             # class_securities = qpProvider.GetClassSecurities(classCode)['data'][:-1].split(',')  # Список инструментов класса. Удаляем последнюю запятую, разбиваем значения по запятой
             # print(f'  - Тикеры ({class_securities})')
         if firm_id == futures_firm_id:  # Для фьючерсов свои расчеты
             # Лимиты
-            print(f'- Фьючерсный лимит {qp_provider.GetFuturesLimit(firm_id, trade_account_id, 0, "SUR")["data"]["cbplimit"]} SUR')
+            print(f'- Фьючерсный лимит {qp_provider.get_futures_limit(firm_id, trade_account_id, 0, "SUR")["data"]["cbplimit"]} SUR')
             # Позиции
-            futures_holdings = qp_provider.GetFuturesHoldings()['data']  # Все фьючерсные позиции
+            futures_holdings = qp_provider.get_futures_holdings()['data']  # Все фьючерсные позиции
             active_futures_holdings = [futuresHolding for futuresHolding in futures_holdings if futuresHolding['totalnet'] != 0]  # Активные фьючерсные позиции
             for active_futures_holding in active_futures_holdings:
                 print(f'  - Фьючерсная позиция {active_futures_holding["sec_code"]} {active_futures_holding["totalnet"]} @ {active_futures_holding["cbplused"]}')
@@ -46,9 +46,9 @@ def get_all_accounts():
                 firm_kind_depo_limits = [depoLimit for depoLimit in depo_limits if depoLimit['firmid'] == firm_id and depoLimit['limit_kind'] == limit_kind and depoLimit['currentbal'] != 0]  # Берем только открытые позиции по фирме и дню
                 for firm_kind_depo_limit in firm_kind_depo_limits:  # Пробегаемся по всем позициям
                     sec_code = firm_kind_depo_limit["sec_code"]  # Код тикера
-                    class_code = qp_provider.GetSecurityClass(class_codes, sec_code)['data']
+                    class_code = qp_provider.get_security_class(class_codes, sec_code)['data']
                     entry_price = float(firm_kind_depo_limit["wa_position_price"])
-                    last_price = float(qp_provider.GetParamEx(class_code, sec_code, 'LAST')['data']['param_value'])  # Последняя цена сделки
+                    last_price = float(qp_provider.get_param_ex(class_code, sec_code, 'LAST')['data']['param_value'])  # Последняя цена сделки
                     if class_code == 'TQOB':  # Для рынка облигаций
                         last_price *= 10  # Умножаем на 10
                     print(f'  - Позиция {class_code}.{sec_code} {firm_kind_depo_limit["currentbal"]} @ {entry_price:.2f}/{last_price:.2f}')
@@ -66,16 +66,16 @@ def get_all_accounts():
 
 def get_account(client_code='', firm_id='SPBFUT', trade_account_id='SPBFUT00PST', limit_kind=0, currency_code='SUR', futures=True):
     """Получение торгового счета. По умолчанию выдается счет срочного рынка"""
-    class_codes = qp_provider.GetClassesList()['data']  # Список классов
-    money_limits = qp_provider.GetMoneyLimits()['data']  # Все денежные лимиты (остатки на счетах)
-    depo_limits = qp_provider.GetAllDepoLimits()['data']  # Все лимиты по бумагам (позиции по инструментам)
-    orders = qp_provider.GetAllOrders()['data']  # Все заявки
-    stop_orders = qp_provider.GetAllStopOrders()['data']  # Все стоп заявки
+    class_codes = qp_provider.get_classes_list()['data']  # Список классов
+    money_limits = qp_provider.get_money_limits()['data']  # Все денежные лимиты (остатки на счетах)
+    depo_limits = qp_provider.get_all_depo_limits()['data']  # Все лимиты по бумагам (позиции по инструментам)
+    orders = qp_provider.get_all_orders()['data']  # Все заявки
+    stop_orders = qp_provider.get_all_stop_orders()['data']  # Все стоп заявки
 
     print(f'Код клиента {client_code}, Фирма {firm_id}, Счет {trade_account_id}, T{limit_kind}, {currency_code}')
     if futures:  # Для фьючерсов свои расчеты
-        print(f'- Фьючерсный лимит {qp_provider.GetFuturesLimit(firm_id, trade_account_id, 0, "SUR")["data"]["cbplimit"]} SUR')
-        futures_holdings = qp_provider.GetFuturesHoldings()['data']  # Все фьючерсные позиции
+        print(f'- Фьючерсный лимит {qp_provider.get_futures_limit(firm_id, trade_account_id, 0, "SUR")["data"]["cbplimit"]} SUR')
+        futures_holdings = qp_provider.get_futures_holdings()['data']  # Все фьючерсные позиции
         active_futures_holdings = [futuresHolding for futuresHolding in futures_holdings if futuresHolding['totalnet'] != 0]  # Активные фьючерсные позиции
         for active_futures_holding in active_futures_holdings:
             print(f'- Фьючерсная позиция {active_futures_holding["sec_code"]} {active_futures_holding["totalnet"]} @ {active_futures_holding["cbplused"]}')
@@ -94,8 +94,8 @@ def get_account(client_code='', firm_id='SPBFUT', trade_account_id='SPBFUT00PST'
         for firm_kind_depo_limit in account_depo_limits:  # Пробегаемся по всем позициям
             sec_code = firm_kind_depo_limit["sec_code"]  # Код тикера
             entry_price = float(firm_kind_depo_limit["wa_position_price"])
-            class_code = qp_provider.GetSecurityClass(class_codes, sec_code)['data']
-            last_price = float(qp_provider.GetParamEx(class_code, sec_code, 'LAST')['data']['param_value'])  # Последняя цена сделки
+            class_code = qp_provider.get_security_class(class_codes, sec_code)['data']
+            last_price = float(qp_provider.get_param_ex(class_code, sec_code, 'LAST')['data']['param_value'])  # Последняя цена сделки
             if class_code == 'TQOB':  # Для рынка облигаций
                 last_price *= 10  # Умножаем на 10
             print(f'- Позиция {class_code}.{sec_code} {firm_kind_depo_limit["currentbal"]} @ {entry_price:.2f}/{last_price:.2f}')
@@ -127,4 +127,4 @@ if __name__ == '__main__':  # Точка входа при запуске это
     # get_account('<Код клиента>', '<Код фирмы>', '<Счет>', <Номер дня лимита>, '<Валюта>', <Счет фьючерсов=True, иначе=False>)
 
     # Выход
-    qp_provider.CloseConnectionAndThread()  # Перед выходом закрываем соединение и поток QuikPy
+    qp_provider.close_connection_and_thread()  # Перед выходом закрываем соединение и поток QuikPy

@@ -17,8 +17,8 @@ if __name__ == '__main__':  # Точка входа при запуске это
                         handlers=[logging.FileHandler('Transactions.log'), logging.StreamHandler()])  # Лог записываем в файл и выводим на консоль
     logging.Formatter.converter = lambda *args: datetime.now(tz=qp_provider.tz_msk).timetuple()  # В логе время указываем по МСК
 
-    class_code = 'TQBR'  # Режим торгов
-    sec_code = 'SBER'  # Тикер
+    class_code = 'CETS'  # Режим торгов
+    sec_code = 'USD000TODTOM'  # Тикер
     # class_code = 'SPBFUT'  # Режим торгов
     # sec_code = 'CNYRUBF'  # Тикер
     quantity = 1  # Кол-во в лотах
