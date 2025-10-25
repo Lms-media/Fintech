@@ -13,6 +13,10 @@ from sklearn.model_selection import train_test_split
 class InvidualTrainingManager(TrainingManager):
     def __init__(
         self,
+        instrumentsData: dict[str, DataSource],
+        instruments: dict[str, Strategy],
+        chunkSize: int,
+        isStarted: bool,
         model_params=None,
         lookback_window=30
     ):
@@ -33,24 +37,15 @@ class InvidualTrainingManager(TrainingManager):
         self.interval = None
         self.last_trained = None
         self.feature_importances = None
-
+    @staticmethod
     def transform_candles_to_dataframe(self, candles):
-        """
-        Supports:
-         - pandas.DataFrame (returned as a copy)
-         - list of Candle objects
-         - DataSource instance (uses its .candles list)
-        Candle is expected to have attributes: datetime, open, high, low, close, volume
-        """
-        # If DataSource provided extract its candles list
+       
         if isinstance(candles, DataSource):
             candles = candles.candles
 
-        # If already a DataFrame
         if isinstance(candles, pd.DataFrame):
             return candles.copy()
 
-        # If it's an iterable of Candle-like objects
         try:
             data = {
                 'datetime': [candle.datetime for candle in candles],
@@ -61,7 +56,6 @@ class InvidualTrainingManager(TrainingManager):
                 'volume': [candle.volume for candle in candles],
             }
         except Exception:
-            # fallback: empty DataFrame if structure isn't as expected
             return pd.DataFrame()
 
         df = pd.DataFrame(data)
@@ -72,11 +66,9 @@ class InvidualTrainingManager(TrainingManager):
             except Exception:
                 pass
         return df
-
+    @staticmethod
     def generate_features(self, df: pd.DataFrame, ticker_id: int = None):
-        # df must have columns: open, high, low, close, volume and datetime index (or column)
         data = df.copy()
-        # ensure index is datetime
         if 'datetime' in data.columns:
             data['datetime'] = pd.to_datetime(data['datetime'])
             data.set_index('datetime', inplace=True)
@@ -113,7 +105,6 @@ class InvidualTrainingManager(TrainingManager):
         feature_columns = ['close', 'close_lag1', 'close_lag2', 'close_lag3',
                            'pct_change', 'volatility', 'sma5', 'vol_ratio', 'bullish']
 
-        # if ticker_id present add it as feature
         if 'ticker_id' in featured_df.columns:
             feature_columns = feature_columns + ['ticker_id']
 
@@ -134,11 +125,6 @@ class InvidualTrainingManager(TrainingManager):
         return np.array(features), np.array(targets)
 
     def train_on_tickers(self, datasets: dict, incremental: bool = False, test_size: float = 0.2):
-        """
-        datasets: dict where key=ticker (str) and value = DataSource or list of candles or DataFrame
-        Trains a single model on sequences from all provided tickers.
-        """
-        # convert and generate features per ticker
         all_X = []
         all_y = []
         ticker_to_id = {}
@@ -153,7 +139,6 @@ class InvidualTrainingManager(TrainingManager):
                 continue
             all_X.append(X_i)
             all_y.append(y_i)
-            # keep raw data for later per-ticker inspection
             self.data[ticker] = df
 
         if len(all_X) == 0:
@@ -163,17 +148,14 @@ class InvidualTrainingManager(TrainingManager):
         X = np.vstack(all_X)
         y = np.concatenate(all_y)
 
-        # flatten sequences for tree-based model
         n_samples, seq_len, n_feats = X.shape
         X_2d = X.reshape(n_samples, seq_len * n_feats)
 
-        # shuffle & split
         X_train, X_test, y_train, y_test = train_test_split(X_2d, y, test_size=test_size, random_state=42, shuffle=True)
 
         if self.model is None:
             self.model = RandomForestRegressor(**self.model_params)
 
-        # if incremental requested and model exists, continue training by increasing n_estimators
         if incremental and getattr(self, 'model', None) is not None:
             try:
                 self.model.n_estimators = int(self.model.n_estimators * 1.1) + 1
@@ -188,8 +170,6 @@ class InvidualTrainingManager(TrainingManager):
         mae = mean_absolute_error(y_test, predictions)
         r2 = r2_score(y_test, predictions)
 
-        # store combined featured data and mapping for prediction helpers
-        # build concatenated featured_data with a ticker column and continuous index
         combined = []
         for ticker, df in self.data.items():
             tid = ticker_to_id.get(ticker, None)
@@ -200,7 +180,6 @@ class InvidualTrainingManager(TrainingManager):
                 combined.append(fdf)
         if combined:
             self.featured_data = pd.concat(combined, axis=0)
-            # ensure chronological order
             try:
                 self.featured_data.sort_index(inplace=True)
             except Exception:
@@ -210,19 +189,15 @@ class InvidualTrainingManager(TrainingManager):
         return mae, r2
 
     def predict_for_ticker(self, ticker, recent_candles):
-        """
-        Predict next close for a specific ticker given recent_candles (DataSource, list or DataFrame)
-        """
+        
         df = self.transform_candles_to_dataframe(recent_candles)
         if df.empty:
             return None
-        # generate features without assigning a meaningful ticker_id (not used for single predict)
         feat = self.generate_features(df, ticker_id=None)
         if len(feat) < self.lookback_window:
             return None
         last_seq = feat[['close', 'close_lag1', 'close_lag2', 'close_lag3',
                          'pct_change', 'volatility', 'sma5', 'vol_ratio', 'bullish']].iloc[-self.lookback_window:]
-        # if ticker_id exists add it
         if 'ticker_id' in feat.columns:
             last_seq = pd.concat([last_seq, feat[['ticker_id']].iloc[-self.lookback_window:]], axis=1)
         X = last_seq.values.reshape(1, -1)
@@ -230,7 +205,6 @@ class InvidualTrainingManager(TrainingManager):
             return None
         return self.model.predict(X)[0]
 
-    # keep previously implemented helpers (save/load/visualize) but adapt to multiple-ticker feature names
     def save_model(self, filename):
         if self.model is None:
             return False
@@ -280,7 +254,6 @@ class InvidualTrainingManager(TrainingManager):
         if 'ticker_id' in (self.featured_data.columns if not self.featured_data.empty else []):
             base_feature_names = base_feature_names + ['ticker_id']
 
-        # full feature names across lookback
         full_feature_names = []
         for i in range(self.lookback_window):
             for feat in base_feature_names:
@@ -300,8 +273,6 @@ class InvidualTrainingManager(TrainingManager):
             print("Модель не обучена или данные отсутствуют")
             return
 
-        # for visualization, pick recent samples across combined featured_data
-        # prepare sequences from combined featured_data
         feature_columns = ['close', 'close_lag1', 'close_lag2', 'close_lag3',
                            'pct_change', 'volatility', 'sma5', 'vol_ratio', 'bullish']
         if 'ticker_id' in self.featured_data.columns:
