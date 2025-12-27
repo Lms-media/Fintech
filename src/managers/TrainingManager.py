@@ -20,7 +20,7 @@ class TrainingManager:
         self.instruments = instruments
         self.chunkSize = chunkSize
         self.isStarted = False
-    def getChunk(self, number: int):
-        pass
+    # def getChunk(self, number: int):
+    #     pass
          
         

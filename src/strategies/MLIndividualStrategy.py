@@ -8,7 +8,8 @@ import joblib
 
 class MLIndividualStrategy(Strategy):
     def __init__(self, chunkSize: int, ticker:str, datasource:DataSource , modelPath:str):
-        self.chunkSize = chunkSize
+        self.lookback_window = chunkSize
+        self.ticker = ticker
         self.datasource = datasource
         self.model = self.load_model(modelPath)  
 
@@ -16,7 +17,7 @@ class MLIndividualStrategy(Strategy):
         df = InvidualTrainingManager.transform_candles_to_dataframe(chunk)
         if df.empty:
             return None
-        feat = InvidualTrainingManager.generate_features(df, ticker_id=None)
+        feat = InvidualTrainingManager.generate_features(df, ticker_id=0)
         if len(feat) < self.lookback_window:
             return None
         last_seq = feat[['close', 'close_lag1', 'close_lag2', 'close_lag3',
@@ -26,7 +27,12 @@ class MLIndividualStrategy(Strategy):
         X = last_seq.values.reshape(1, -1)
         if self.model is None:
             return None
-        return self.model.predict(X)[0]
+        predict_price =  self.model.predict(X)[0]
+        cur_price = chunk[-1].close
+        if cur_price < predict_price:
+            return 1
+        else:
+            return -1 
     def load_model(self, filename):
         try:
             save_data = joblib.load(filename)

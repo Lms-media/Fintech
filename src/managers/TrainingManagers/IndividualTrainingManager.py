@@ -16,10 +16,13 @@ class InvidualTrainingManager(TrainingManager):
         instrumentsData: dict[str, DataSource],
         instruments: dict[str, Strategy],
         chunkSize: int,
-        isStarted: bool,
+        isStarted = False,
         model_params=None,
         lookback_window=30
     ):
+        self.instrumentsData = instrumentsData
+        self.chunkSize = chunkSize
+        self.isStarted = isStarted
         self.model_params = model_params or {
             'n_estimators': 500,
             'max_depth': 20,
@@ -32,13 +35,13 @@ class InvidualTrainingManager(TrainingManager):
         # state
         self.model = None
         self.featured_data = pd.DataFrame()
-        self.data = {}               # dict[ticker] -> DataFrame
+        self.data = {}               
         self.ticker = None
         self.interval = None
         self.last_trained = None
         self.feature_importances = None
     @staticmethod
-    def transform_candles_to_dataframe(self, candles):
+    def transform_candles_to_dataframe(candles):
        
         if isinstance(candles, DataSource):
             candles = candles.candles
@@ -67,7 +70,7 @@ class InvidualTrainingManager(TrainingManager):
                 pass
         return df
     @staticmethod
-    def generate_features(self, df: pd.DataFrame, ticker_id: int = None):
+    def generate_features(df: pd.DataFrame, ticker_id: int = None):
         data = df.copy()
         if 'datetime' in data.columns:
             data['datetime'] = pd.to_datetime(data['datetime'])
@@ -124,11 +127,11 @@ class InvidualTrainingManager(TrainingManager):
 
         return np.array(features), np.array(targets)
 
-    def train_on_tickers(self, datasets: dict, incremental: bool = False, test_size: float = 0.2):
+    def train_on_tickers(self, incremental: bool = False, test_size: float = 0.2):
         all_X = []
         all_y = []
         ticker_to_id = {}
-        for idx, (ticker, data_obj) in enumerate(datasets.items()):
+        for idx, (ticker, data_obj) in enumerate(self.instrumentsData.items()):
             df = self.transform_candles_to_dataframe(data_obj)
             if df.empty:
                 continue
@@ -185,25 +188,8 @@ class InvidualTrainingManager(TrainingManager):
             except Exception:
                 pass
 
-        print(f"Обучение завершено на {len(datasets)} тикерах. MAE: {mae:.4f}, R²: {r2:.4f}")
+        print(f"Обучение завершено на {len(self.instrumentsData)} тикерах. MAE: {mae:.4f}, R²: {r2:.4f}")
         return mae, r2
-
-    def predict_for_ticker(self, ticker, recent_candles):
-        
-        df = self.transform_candles_to_dataframe(recent_candles)
-        if df.empty:
-            return None
-        feat = self.generate_features(df, ticker_id=None)
-        if len(feat) < self.lookback_window:
-            return None
-        last_seq = feat[['close', 'close_lag1', 'close_lag2', 'close_lag3',
-                         'pct_change', 'volatility', 'sma5', 'vol_ratio', 'bullish']].iloc[-self.lookback_window:]
-        if 'ticker_id' in feat.columns:
-            last_seq = pd.concat([last_seq, feat[['ticker_id']].iloc[-self.lookback_window:]], axis=1)
-        X = last_seq.values.reshape(1, -1)
-        if self.model is None:
-            return None
-        return self.model.predict(X)[0]
 
     def save_model(self, filename):
         if self.model is None:

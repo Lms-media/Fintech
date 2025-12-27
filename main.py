@@ -7,6 +7,8 @@ from src.data.MoexDataSource import MoexDataSource
 from src.data.SavedDataSource import SavedDataSource
 from src.managers.HistoricalTradingManager import HistoricalTradingManager
 from src.strategies.SimpleStrategy import SimpleStrategy
+from src.strategies.MLIndividualStrategy import MLIndividualStrategy
+from src.managers.TrainingManagers.IndividualTrainingManager import InvidualTrainingManager
 from src.data.Candle import Candle
 from dataclasses import asdict
 from typing import List
@@ -50,17 +52,24 @@ if __name__ == "__main__":
         )
         if args.saved:
             Path(args.saved).parent.mkdir(parents=True, exist_ok=True)
-            candleListToJson(data.candles, "/home/maksi/Fintech/candles/candles.json")
+            candleListToJson(data.candles, "/home/Данил/Desktop/Fintech/candles/candles.json")
 
-    simpleStrategy = SimpleStrategy(5)
+    # simpleStrategy = SimpleStrategy(5)
+    trainingManager = InvidualTrainingManager({config["tickerCode"]: data}, {config["tickerCode"]: {}}, 5, False)
+    trainingManager.train_on_tickers()
+    filename = "IndividualModel.pkl"
+    # Path(path).parent.mkdir(parents=True, exist_ok=True)
+    trainingManager.save_model(filename)
 
-    instruments = {tickerCode: simpleStrategy}
+    mlStrategy = MLIndividualStrategy(30, config["tickerCode"], data, filename)
+    # mlStrategy.load_model(filename)
+    instruments = {tickerCode: mlStrategy}
     dataSources = {tickerCode: data}
     date = datetime.strptime("2024-01-09 00:00:00", "%Y-%m-%d %H:%M:%S")
 
     print("", flush=True)
     print(100000)
-    manager = HistoricalTradingManager(instruments, 5, dataSources, 100000, date)
+    manager = HistoricalTradingManager(instruments, 600, dataSources, 100000, date)
     manager.start()
     print(manager.virtualPortfolio.getCurrentState().getCapitalization())
 
@@ -87,3 +96,4 @@ if __name__ == "__main__":
     ax4.set_title("Amount")
     plt.tight_layout()
     plt.show()
+    
