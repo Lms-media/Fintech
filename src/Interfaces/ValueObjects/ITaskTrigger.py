@@ -1,6 +1,5 @@
 from abc import abstractmethod
-from Primitives.IValueObject import IValueObject
-from src.ValueObjects.Interfaces.IExecutionContext import IExecutionContext
+from src.Interfaces import IExecutionContext, IValueObject
 
 class ITaskTrigger(IValueObject['ITaskTrigger']):
 

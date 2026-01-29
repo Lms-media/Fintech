@@ -1,8 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from src.Primitives.Enums.ActionStatus import ActionStatus
-from src.Entities.Interfaces.ISignal import ISignal
-from src.Entities.Interfaces.ITask import ITask
+from src.Interfaces import ActionStatus, ISignal, ITask
 
 class IAction(ABC):
 

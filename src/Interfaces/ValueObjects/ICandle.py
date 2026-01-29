@@ -1,7 +1,5 @@
 from abc import abstractmethod
-from src.Primitives.Enums.IntervalType import IntervalType
-from Primitives.IValueObject import IValueObject
-from src.ValueObjects.Interfaces.IAssetPair import IAssetPair
+from src.Interfaces import IntervalType, IValueObject, IAssetPair
 
 class ICandle(IValueObject['ICandle']):
 

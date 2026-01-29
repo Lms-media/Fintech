@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
-from src.Primitives.Enums.TaskStatus import TaskStatus
-from src.Primitives.Enums.TaskType import TaskType
-from src.ValueObjects.Interfaces.ITaskTrigger import ITaskTrigger
+from src.Interfaces import TaskStatus, TaskType, ITaskTrigger
 
 class ITask(ABC):
 
