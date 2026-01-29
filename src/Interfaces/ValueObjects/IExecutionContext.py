@@ -1,6 +1,6 @@
 from abc import abstractmethod
-from src.Primitives.Interfaces import IValueObject
-from src.ValueObjects.Interfaces import IAssetPair
+from Primitives.IValueObject import IValueObject
+from src.ValueObjects.Interfaces.IAssetPair import IAssetPair
 
 class IExecutionContext(IValueObject['IExecutionContext']):
 

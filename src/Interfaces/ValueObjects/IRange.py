@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from src.Primitives.Interfaces import IValueObject
+from Primitives.IValueObject import IValueObject
 
 class IRange(IValueObject['IRange']):
 

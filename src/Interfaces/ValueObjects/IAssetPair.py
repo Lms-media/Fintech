@@ -1,6 +1,6 @@
 from abc import abstractmethod
-from src.Primitives.Interfaces import IValueObject
-from src.ValueObjects.Interfaces import IAsset
+from src.Interfaces.Primitives.IValueObject import IValueObject
+from src.Interfaces.ValueObjects.IAsset import IAsset
 
 class IAssetPair(IValueObject['IAssetPair']):
 
