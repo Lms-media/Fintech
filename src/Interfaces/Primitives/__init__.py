@@ -3,6 +3,7 @@ from ActionStatus import ActionStatus
 from IntervalType import IntervalType
 from TaskStatus import TaskStatus
 from TaskType import TaskType
+from DirectionType import DirectionType
 
 __all__ = [
     'IValueObject',
@@ -10,4 +11,5 @@ __all__ = [
     'IntervalType',
     'TaskStatus',
     'TaskType',
+    'DirectionType',
 ]

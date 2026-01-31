@@ -1,4 +1,4 @@
-from Primitives import IValueObject, ActionStatus, IntervalType, TaskStatus, TaskType
+from Primitives import IValueObject, ActionStatus, IntervalType, TaskStatus, TaskType, DirectionType
 from ValueObjects import IAsset, IAssetPair, ICandle, IExecutionContext, IRange, ITaskTrigger
 from Entities import IAction, ICandleSeries, IPrediction, ISignal, ITask
 from Services import IMarket
@@ -22,6 +22,7 @@ __all__ = [
     'IntervalType',
     'TaskStatus',
     'TaskType',
+    'DirectionType',
     'IDataSource',
     'IPredictor',
     'IPredictorAdapter',

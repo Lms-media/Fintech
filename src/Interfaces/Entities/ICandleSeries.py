@@ -15,3 +15,19 @@ class ICandleSeries(ABC):
     @abstractmethod
     def getByTimestamp(self, timestamp: int) -> Optional[ICandle]:
         pass
+
+    @abstractmethod
+    def appendLeft(self, candle: ICandle) -> None:
+        pass
+
+    @abstractmethod
+    def appendRight(self, candle: ICandle) -> None:
+        pass
+
+    @abstractmethod
+    def popLeft(self) -> Optional[ICandle]:
+        pass
+
+    @abstractmethod
+    def popRight(self) -> Optional[ICandle]:
+        pass
