@@ -1,6 +1,13 @@
-from ValueObjects import Range
+from ValueObjects import Asset, AssetPair, Candle, ExecutionContext, Range, EmptyTaskTrigger, ScheduleTaskTrigger, CompositeTaskTrigger
 
 
 __all__ = [
-    'Range'
+    'Asset',
+    'AssetPair',
+    'Candle',
+    'ExecutionContext',
+    'Range',
+    'EmptyTaskTrigger',
+    'ScheduleTaskTrigger',
+    'CompositeTaskTrigger',
 ]
