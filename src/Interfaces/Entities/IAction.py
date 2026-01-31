@@ -15,3 +15,11 @@ class IAction(ABC):
     @abstractmethod
     def getTasks(self) -> List[ITask]:
         pass
+
+    @abstractmethod
+    def start(self) -> None:
+        pass
+
+    @abstractmethod
+    def finish(self) -> None:
+        pass

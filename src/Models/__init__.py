@@ -1,5 +1,5 @@
 from ValueObjects import Asset, AssetPair, Candle, ExecutionContext, Range, EmptyTaskTrigger, ScheduleTaskTrigger, CompositeTaskTrigger
-from Entities import CandleSeries, APrediction, NextCandlePrediction, ASignal, DirectionSignal
+from Entities import CandleSeries, APrediction, NextCandlePrediction, ASignal, DirectionSignal, Task, AAction
 
 
 __all__ = [
@@ -16,4 +16,6 @@ __all__ = [
     'NextCandlePrediction',
     'ASignal',
     'DirectionSignal',
+    'Task',
+    'AAction'
 ]

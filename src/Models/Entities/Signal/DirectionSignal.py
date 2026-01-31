@@ -1,5 +1,5 @@
-from src.Interfaces import IPrediction, DirectionType
-from src.Models.Entities import APrediction
+from Interfaces import IPrediction, DirectionType
+from Models import APrediction
 
 class DirectionSignal(APrediction):
     _direction: DirectionType

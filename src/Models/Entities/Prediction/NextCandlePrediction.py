@@ -1,5 +1,5 @@
 from Interfaces import ICandle, ICandleSeries
-from Models.Entities import APrediction
+from Models import APrediction
 
 class NextCandlePrediction(APrediction):
     _nextCandle: ICandle
