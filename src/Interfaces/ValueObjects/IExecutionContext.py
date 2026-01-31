@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from src.Interfaces import IAssetPair, IValueObject
+from Interfaces import IAssetPair, IValueObject
 
 class IExecutionContext(IValueObject['IExecutionContext']):
 

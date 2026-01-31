@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from src.Interfaces import ActionStatus, ISignal, ITask
+from Interfaces import ActionStatus, ISignal, ITask
 
 class IAction(ABC):
 

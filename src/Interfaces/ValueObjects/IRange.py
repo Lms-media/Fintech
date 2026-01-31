@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from src.Interfaces import IValueObject
+from Interfaces import IValueObject
 
 class IRange(IValueObject['IRange']):
 

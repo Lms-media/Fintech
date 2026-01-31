@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.Interfaces import TaskStatus, TaskType, ITaskTrigger, IAssetPair
+from Interfaces import TaskStatus, TaskType, ITaskTrigger, IAssetPair
 
 class ITask(ABC):
 

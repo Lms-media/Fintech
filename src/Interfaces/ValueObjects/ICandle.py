@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from src.Interfaces import IntervalType, IValueObject, IAssetPair
+from Interfaces import IntervalType, IValueObject, IAssetPair
 
 class ICandle(IValueObject['ICandle']):
 

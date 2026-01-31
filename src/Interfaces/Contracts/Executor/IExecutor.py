@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.Interfaces import IMarket, IAction
+from Interfaces import IMarket, IAction
 
 class IExecutor(ABC):
 

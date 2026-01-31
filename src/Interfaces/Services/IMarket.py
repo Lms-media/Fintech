@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.Interfaces import ITask
+from Interfaces import ITask
 
 class IMarket(ABC):
 

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
-from src.Interfaces import ICandleSeries
+from Interfaces import ICandleSeries
 
 V = TypeVar('V')
 

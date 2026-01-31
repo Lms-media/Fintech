@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
-from src.Interfaces import IPrediction, ICandleSeries
+from Interfaces import IPrediction, ICandleSeries
 
 P = TypeVar('P', bound=IPrediction)
 

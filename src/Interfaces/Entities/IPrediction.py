@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.Interfaces import ICandleSeries
+from Interfaces import ICandleSeries
 
 class IPrediction(ABC):
 

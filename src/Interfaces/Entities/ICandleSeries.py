@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from src.Interfaces import ICandle
+from Interfaces import ICandle
 
 class ICandleSeries(ABC):
 

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
-from src.Interfaces import IAction
+from Interfaces import IAction
 
 V = TypeVar('V')
 A = TypeVar('A', bound=IAction)
