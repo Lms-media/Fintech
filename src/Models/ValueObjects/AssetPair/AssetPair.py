@@ -1,10 +1,12 @@
 from src.Interfaces import IAssetPair, IAsset
 
 class AssetPair(IAssetPair):
+    _baseAsset: IAsset
+    _quoteAsset: IAsset
 
     def __init__(self, baseAsset: IAsset, quoteAsset: IAsset):
         if baseAsset == quoteAsset:
-            raise ValueError(f"'baseAsset' must be different from 'quoteAsset'")
+            raise ValueError(f"'baseAsset' must be different from 'quoteAsset', but 'baseAsset' is {baseAsset} and 'qouteAsset' is {quoteAsset}")
 
         self._baseAsset = baseAsset
         self._quoteAsset = quoteAsset
@@ -16,9 +18,13 @@ class AssetPair(IAssetPair):
         return self._quoteAsset
 
     def withBaseAsset(self, baseAsset) -> IAssetPair:
+        if baseAsset == self._quoteAsset:
+            raise ValueError(f"'baseAsset' must be different from 'quoteAsset', but 'baseAsset' is {baseAsset} and 'qouteAsset' is {self._quoteAsset}")
         return AssetPair(baseAsset, self._quoteAsset)
 
     def withQuoteAsset(self, quoteAsset) -> IAssetPair:
+        if self._baseAsset == quoteAsset:
+            raise ValueError(f"'baseAsset' must be different from 'quoteAsset', but 'baseAsset' is {self._baseAsset} and 'qouteAsset' is {quoteAsset}")
         return AssetPair(self._baseAsset, quoteAsset)
 
     def __eq__(self, other: IAssetPair) -> bool:

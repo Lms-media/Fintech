@@ -4,9 +4,17 @@ from src.Interfaces import IAssetPair, IValueObject
 class IExecutionContext(IValueObject['IExecutionContext']):
 
     @abstractmethod
-    def getCurrentPrice(self, assetPair: IAssetPair) -> float:
+    def getPrice(self, assetPair: IAssetPair) -> float:
         pass
 
     @abstractmethod
     def getTimestamp(self) -> int:
+        pass
+
+    @abstractmethod
+    def withPrice(self, assetPair: IAssetPair) -> IExecutionContext:
+        pass
+
+    @abstractmethod
+    def withTimestamp(self, timestamp: int) -> IExecutionContext:
         pass

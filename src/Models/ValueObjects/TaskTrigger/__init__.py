@@ -1,5 +1,9 @@
-from Models.ValueObjects.TaskTrigger.TaskTrigger import Range
+from EmptyTaskTrigger import EmptyTaskTrigger
+from ScheduleTaskTrigger import ScheduleTaskTrigger
+from CompositeTaskTrigger import CompositeTaskTrigger
 
 __all__ = [
-    'Range'
+    'EmptyTaskTrigger',
+    'ScheduleTaskTrigger',
+    'CompositeTaskTrigger'
 ]

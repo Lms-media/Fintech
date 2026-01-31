@@ -1,34 +1,55 @@
-from src.Interfaces import IRange
+from typing import Optional
+from src.Interfaces import IExecutionContext, IAssetPair
 
-class Range(IRange):
+class ExecutionContext(IExecutionContext):
+    _timestamp: int
+    _prices: dict[IAssetPair, float]
 
-    def __init__(self, from_timestamp: int, to_timestamp: int):
-        if from_timestamp > to_timestamp:
-            raise ValueError(f"from_timestamp must be greater than to_timestamp")
+    def __init__(self, timestamp: int, prices: dict[IAssetPair, float]):
+        if timestamp < 0:
+            raise ValueError(f"'timestamp' must be greater than or equal zero, but 'timestamp' is {timestamp}")
 
-        self._from_timestamp = from_timestamp
-        self._to_timestamp = to_timestamp
+        self._timestamp = timestamp
+        self._prices = dict(prices)
 
-    def getFromTimestamp(self) -> int:
-        return self._from_timestamp
+    def getPrice(self, assetPair: IAssetPair) -> Optional[float]:
+        if assetPair in self._prices:
+            return self._prices[assetPair]
 
-    def getToTimestamp(self) -> int:
-        return self._to_timestamp
+        return None
 
-    def getDuration(self) -> int:
-        return self._to_timestamp - self._from_timestamp
+    def getTimestamp(self) -> int:
+        return self._timestamp
 
-    def includes(self, timestamp: int) -> bool:
-        return self._from_timestamp <= timestamp <= self._to_timestamp
+    def withPrice(self, assetPair: IAssetPair, price: float) -> IExecutionContext:
+        newPrices = dict(self._prices)
+        newPrices[assetPair] = price
 
-    def equals(self, other: IRange) -> bool:
-        if not isinstance(other, Range):
+        return ExecutionContext(self._timestamp, newPrices)
+
+    def withTimestamp(self, timestamp: int) -> IExecutionContext:
+        if timestamp < 0:
+            raise ValueError(f"'timestamp' must be greater than or equal zero, but 'timestamp' is {timestamp}")
+
+        return ExecutionContext(timestamp, self._prices)
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, ExecutionContext):
             return False
-        return (self._from_timestamp == other.getFromTimestamp() and
-                self._to_timestamp == other.getToTimestamp())
 
-    def copy(self) -> IRange:
-        return Range(self._from_timestamp, self._to_timestamp)
+        return self._timestamp == other._timestamp and self._prices == other._prices
+
+    def __hash__(self) -> int:
+        prices_hashable = frozenset((k, v) for k, v in self._prices.items())
+        return hash((self._timestamp, prices_hashable))
+
+    def __copy__(self) -> IExecutionContext:
+        return ExecutionContext(self._timestamp, dict(self._prices))
 
     def __str__(self) -> str:
-        return f"[{self._from_timestamp}, {self._to_timestamp}]"
+        result = [f"ℹ️ timestamp={self._timestamp}"]
+
+        for assetPair, price in self._prices.items():
+            result.append(f"{assetPair} - {price:.4f}")
+
+        return "\n".join(result)

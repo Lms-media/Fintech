@@ -16,5 +16,13 @@ class IRange(IValueObject['IRange']):
         pass
 
     @abstractmethod
+    def withFromTimestamp(self, fromTimestamp: int) -> IRange:
+        pass
+
+    @abstractmethod
+    def withToTimestamp(self, toTimestamp: int) -> IRange:
+        pass
+
+    @abstractmethod
     def includes(self, timestamp: int) -> bool:
         pass

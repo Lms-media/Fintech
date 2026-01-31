@@ -1,5 +1,5 @@
-from Models.ValueObjects.Candle.Candle import Range
+from Candle import Candle
 
 __all__ = [
-    'Range'
+    'Candle'
 ]

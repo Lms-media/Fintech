@@ -1,13 +1,15 @@
 from src.Interfaces import IAsset
 
 class Asset(IAsset):
+    _tickerCode: str
+    _lotSize: int
 
     def __init__(self, tickerCode: str, lotSize: int):
         if tickerCode == '':
-            raise ValueError(f"'tickerCode' must be a non-empty string")
+            raise ValueError(f"'tickerCode' must be a non-empty string, but 'tickerCode' is {tickerCode}")
 
         if lotSize <= 0:
-            raise ValueError(f"'lotSize' must be greater than zero")
+            raise ValueError(f"'lotSize' must be greater than zero, but 'lotSize' is {lotSize}")
 
         self._tickerCode = tickerCode
         self._lotSize = lotSize
@@ -19,9 +21,13 @@ class Asset(IAsset):
         return self._lotSize
 
     def withTickerCode(self, tickerCode) -> IAsset:
+        if tickerCode == '':
+            raise ValueError(f"'tickerCode' must be a non-empty string, but 'tickerCode' is {tickerCode}")
         return Asset(tickerCode, self._lotSize)
 
     def withLotSize(self, lotSize) -> IAsset:
+        if lotSize <= 0:
+            raise ValueError(f"'lotSize' must be greater than zero, but 'lotSize' is: {lotSize}")
         return Asset(self._tickerCode, lotSize)
 
     def __eq__(self, other: IAsset) -> bool:
