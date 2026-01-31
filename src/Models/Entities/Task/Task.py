@@ -1,13 +1,20 @@
-from Interfaces import ITask, ITaskTrigger, TaskStatus, TaskType
+from Interfaces import ITask, ITaskTrigger, IAssetPair, TaskStatus, TaskType
 
 class Task(ITask):
     _status: TaskStatus
     _type: TaskType
     _trigger: ITaskTrigger
+    _assetPair: IAssetPair
+    _lotCount: int
 
-    def __init__(self, type: TaskType, trigger: ITaskTrigger):
+    def __init__(self, type: TaskType, assetPair:IAssetPair, lotCount: int, trigger: ITaskTrigger):
+        if lotCount < 0:
+            raise ValueError(f"'lotCount' must be greater than or equal zero, but 'lotCount' is {lotCount}")
+
         self._status = TaskStatus.Locked
         self._type = type
+        self._assetPair = assetPair
+        self._lotCount = lotCount
         self._trigger = trigger
 
     def getStatus(self) -> TaskStatus:
@@ -18,6 +25,12 @@ class Task(ITask):
 
     def getTrigger(self) -> ITaskTrigger:
         return self._trigger
+
+    def getAssetPair(self) -> IAssetPair:
+        return self._assetPair
+
+    def getLotCount(self) -> int:
+        return self._lotCount
 
     def unlock(self) -> None:
         if not self._status == TaskStatus.Locked:

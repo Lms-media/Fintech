@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.Interfaces import TaskStatus, TaskType, ITaskTrigger
+from src.Interfaces import TaskStatus, TaskType, ITaskTrigger, IAssetPair
 
 class ITask(ABC):
 
@@ -13,6 +13,14 @@ class ITask(ABC):
 
     @abstractmethod
     def getTrigger(self) -> ITaskTrigger:
+        pass
+
+    @abstractmethod
+    def getAssetPair(self) -> IAssetPair:
+        pass
+
+    @abstractmethod
+    def getLotCount(self) -> int:
         pass
 
     @abstractmethod
