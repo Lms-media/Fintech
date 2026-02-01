@@ -1,7 +1,7 @@
 from Repository import MockDataSource
-from Predictor import IFloatPredictorValue
+from Predictor import DummyPredictor
 
 __all__ = [
     'MockDataSource',
-    'IFloatPredictorValue'
+    'DummyPredictor'
 ]
