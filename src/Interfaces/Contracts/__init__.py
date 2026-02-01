@@ -1,4 +1,4 @@
-from .Predictor import IPredictor, IPredictorAlgo, IPredictorAdapter
+from .Predictor import IPredictor, IPredictorAlgo, IPredictorAdapter, IPredictorValue
 from .Strategy import IStrategy, IStrategyAlgo, IStrategyAdapter
 from .Assessor import IAssessor, IAssessorAlgo, IAssessorAdapter
 from .Repository import IDataSource
@@ -8,6 +8,7 @@ __all__ = [
     'IPredictor',
     'IPredictorAdapter',
     'IPredictorAlgo',
+    'IPredictorValue',
     'IStrategy',
     'IStrategyAdapter',
     'IStrategyAlgo',

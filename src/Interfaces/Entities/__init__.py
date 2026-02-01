@@ -1,8 +1,8 @@
-from .IAction import IAction
-from .ICandleSeries import ICandleSeries
-from .IPrediction import IPrediction
-from .ISignal import ISignal
-from .ITask import ITask
+from .Action import IAction
+from .CandleSeries import ICandleSeries
+from .Prediction import IPrediction
+from .Signal import ISignal
+from .Task import ITask
 
 __all__ = [
     'IAction',
