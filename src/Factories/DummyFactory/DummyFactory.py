@@ -18,6 +18,7 @@ class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAc
     def __init__(self, assetPair: IAssetPair):
         self._assetPair = assetPair
         self._dataSource = MockDataSource(self._assetPair)
+        self._dataSource.init()
         self._predictor = DummyPredictor()
         self._strategy = DummyStrategy()
         self._market = LogMarket()

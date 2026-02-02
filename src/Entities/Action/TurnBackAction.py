@@ -1,7 +1,8 @@
 import time
 from .Interfaces import ITurnBackAction
 from Interfaces import ITask, IAssetPair, ISignal, TaskType
-from Entities import AAction, Task
+from .AAction import AAction
+from ..Task import Task
 from ValueObjects import EmptyTaskTrigger, ScheduleTaskTrigger
 
 class TurnBackAction(AAction, ITurnBackAction):

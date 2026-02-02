@@ -1,5 +1,7 @@
+from __future__ import annotations
 from abc import abstractmethod
-from Interfaces import IntervalType, IValueObject, IAssetPair
+from ..Primitives import IntervalType, IValueObject
+from .IAssetPair import IAssetPair
 
 class ICandle(IValueObject['ICandle']):
 

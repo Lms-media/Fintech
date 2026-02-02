@@ -1,5 +1,6 @@
+from __future__ import annotations
 from abc import abstractmethod
-from Interfaces import IValueObject
+from ..Primitives import IValueObject
 
 class IRange(IValueObject['IRange']):
 

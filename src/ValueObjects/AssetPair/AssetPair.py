@@ -1,3 +1,4 @@
+from __future__ import annotations
 from Interfaces import IAssetPair, IAsset
 
 class AssetPair(IAssetPair):

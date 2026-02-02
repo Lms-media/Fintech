@@ -1,3 +1,4 @@
+from __future__ import annotations
 from Interfaces import ICandle, IAssetPair, IntervalType
 
 class Candle(ICandle):

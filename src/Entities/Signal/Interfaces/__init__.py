@@ -1,5 +1,5 @@
-from IDirectionSignal import IDirectionSignal
+from .IDirectionSignal import IDirectionSignal
 
 __all__ = [
-    'IDirection'
+    'IDirectionSignal'
 ]

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from Interfaces import IMarket, IAction
+from ...Services import IMarket
+from ...Entities import IAction
 
 class IExecutor(ABC):
 

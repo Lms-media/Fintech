@@ -1,4 +1,4 @@
-from DummyStrategy import DummyStrategy
+from .DummyStrategy import DummyStrategy
 
 __all__ = [
     'DummyStrategy'

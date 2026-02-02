@@ -1,5 +1,7 @@
+from __future__ import annotations
 from abc import abstractmethod
-from Interfaces import IValueObject, IAsset
+from ..Primitives import IValueObject
+from .IAsset import IAsset
 
 class IAssetPair(IValueObject['IAssetPair']):
 

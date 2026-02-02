@@ -1,5 +1,7 @@
+from __future__ import annotations
 from abc import abstractmethod
-from Interfaces import IExecutionContext, IValueObject
+from ..Primitives import IValueObject
+from .IExecutionContext import IExecutionContext
 
 class ITaskTrigger(IValueObject['ITaskTrigger']):
 

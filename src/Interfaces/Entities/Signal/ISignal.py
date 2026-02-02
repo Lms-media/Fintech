@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Interfaces import IPrediction
+from ..Prediction import IPrediction
 
 class ISignal(ABC):
 

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Interfaces import IExecutionContext
+from ...ValueObjects import IExecutionContext
 
 class IContextProvider(ABC):
 

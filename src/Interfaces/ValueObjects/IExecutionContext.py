@@ -1,6 +1,8 @@
+from __future__ import annotations
 from abc import abstractmethod
 from typing import Optional
-from Interfaces import IAssetPair, IValueObject
+from ..Primitives import IValueObject
+from .IAssetPair import IAssetPair
 
 class IExecutionContext(IValueObject['IExecutionContext']):
 

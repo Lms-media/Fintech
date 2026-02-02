@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import List
-from Interfaces import ActionStatus, ISignal, ITask, IExecutionContext
+from ...Primitives import ActionStatus
+from ...ValueObjects import IExecutionContext
+from ..Signal import ISignal
+from ..Task import ITask
 
 class IAction(ABC):
 

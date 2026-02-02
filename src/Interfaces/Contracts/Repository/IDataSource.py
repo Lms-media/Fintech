@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Interfaces import ICandleSeries
+from ...Entities import ICandleSeries
 
 class IDataSource(ABC):
 

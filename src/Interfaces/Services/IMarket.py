@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Interfaces import ITask
+from ..Entities import ITask
 
 class IMarket(ABC):
 

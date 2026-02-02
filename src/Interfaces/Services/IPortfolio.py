@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Interfaces import IAsset
+from ..ValueObjects import IAsset
 
 class IPortfolio(ABC):
 

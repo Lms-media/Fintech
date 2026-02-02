@@ -6,9 +6,11 @@ class DummyPredictor(IPredictor[INextCandlePrediction]):
 
     def predict(self, input: ICandleSeries) -> INextCandlePrediction:
         lastCandle = input.getByIndex(input.getCount() - 1)
+        assetPair = input.getAssetPair()
+        interval = lastCandle.getInterval()
         fromPrice = lastCandle.getClosePrice()
         toPrice = lastCandle.getClosePrice() + 10
-        nextCandle = Candle(fromPrice, toPrice, fromPrice, toPrice)
-        timestamp = lastCandle.getOpenTimestamp() + lastCandle.getInterval().value
+        timestamp = lastCandle.getOpenTimestamp() + interval.value
+        nextCandle = Candle(assetPair, timestamp, interval, fromPrice, toPrice, toPrice, fromPrice, 1)
 
         return NextCandlePrediction(timestamp, input, 0.5, nextCandle)

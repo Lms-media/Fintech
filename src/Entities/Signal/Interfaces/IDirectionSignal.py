@@ -1,7 +1,7 @@
 from abc import abstractmethod
-from Interfaces import IPrediction, DirectionType
+from Interfaces import ISignal, DirectionType
 
-class IDirectionSignal(IPrediction):
+class IDirectionSignal(ISignal):
 
     @abstractmethod
     def getDirection(self) -> DirectionType:

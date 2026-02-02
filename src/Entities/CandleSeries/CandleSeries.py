@@ -8,6 +8,7 @@ class CandleSeries(ICandleSeries):
 
     def __init__(self, assetPair: IAssetPair):
         self._candles = deque()
+        self._assetPair = assetPair
 
     def getCount(self) -> int:
         return len(self._candles)

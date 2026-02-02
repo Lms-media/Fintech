@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar
+from typing import TypeVar, Generic
 from Interfaces import IPrediction, ISignal, IAction, IDataSource, IPredictor, IStrategy, IAssessor, IExecutor, IMarket, IPortfolio, IContextProvider
 
 P = TypeVar('P', bound=IPrediction)
 S = TypeVar('S', bound=ISignal)
 A = TypeVar('A', bound=IAction)
 
-class IFactory(ABC):
+class IFactory(ABC, Generic[P, S, A]):
 
     @abstractmethod
     def getDataSource(self) -> IDataSource:

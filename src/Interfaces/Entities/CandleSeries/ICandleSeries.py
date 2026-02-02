@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from Interfaces import ICandle, IAssetPair
+from ...ValueObjects import ICandle, IAssetPair
 
 class ICandleSeries(ABC):
 
