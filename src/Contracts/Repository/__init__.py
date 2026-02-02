@@ -1,4 +1,4 @@
-from Repository import MockDataSource
+from .MockDataSource import MockDataSource
 
 __all__ = [
     'MockDataSource'
