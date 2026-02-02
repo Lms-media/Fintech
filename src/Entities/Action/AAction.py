@@ -1,5 +1,5 @@
 from abc import ABC
-from Interfaces import IAction, ISignal, ITask, ActionStatus
+from Interfaces import IAction, ISignal, ITask, IExecutionContext, ActionStatus, TaskStatus
 
 class AAction(IAction, ABC):
     _signal: ISignal
@@ -32,3 +32,11 @@ class AAction(IAction, ABC):
             raise ValueError(f"Action was already finished")
 
         self._status = ActionStatus.Finished
+
+    def update(self, context: IExecutionContext) -> None:
+        for task in self._tasks:
+            if task.getStatus == TaskStatus.Finished:
+                continue
+            trigger = task.getTrigger()
+            if trigger.isTriggered(context):
+                task.unlock()

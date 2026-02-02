@@ -1,20 +1,15 @@
-from .Predictor import IPredictor, IPredictorAlgo, IPredictorAdapter, IPredictorValue
-from .Strategy import IStrategy, IStrategyAlgo, IStrategyAdapter
-from .Assessor import IAssessor, IAssessorAlgo, IAssessorAdapter
+from .Predictor import IPredictor
+from .Strategy import IStrategy
+from .Assessor import IAssessor
 from .Repository import IDataSource
 from .Executor import IExecutor
+from .ContextProvider import IContextProvider
 
 __all__ = [
     'IPredictor',
-    'IPredictorAdapter',
-    'IPredictorAlgo',
-    'IPredictorValue',
     'IStrategy',
-    'IStrategyAdapter',
-    'IStrategyAlgo',
     'IAssessor',
-    'IAssessorAdapter',
-    'IAssessorAlgo',
     'IDataSource',
     'IExecutor',
+    'IContextProvider',
 ]

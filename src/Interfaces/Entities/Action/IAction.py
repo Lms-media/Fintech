@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
-from Interfaces import ActionStatus, ISignal, ITask
+from Interfaces import ActionStatus, ISignal, ITask, IExecutionContext
 
 class IAction(ABC):
 
@@ -22,4 +22,8 @@ class IAction(ABC):
 
     @abstractmethod
     def finish(self) -> None:
+        pass
+
+    @abstractmethod
+    def update(self, context: IExecutionContext) -> None:
         pass
