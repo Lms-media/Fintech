@@ -1,11 +1,15 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from Interfaces import ICandle
+from Interfaces import ICandle, IAssetPair
 
 class ICandleSeries(ABC):
 
     @abstractmethod
     def getCount(self) -> int:
+        pass
+
+    @abstractmethod
+    def getAssetPair(self) -> IAssetPair:
         pass
 
     @abstractmethod

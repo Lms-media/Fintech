@@ -1,11 +1,12 @@
 from typing import Optional, Deque
 from collections import deque
-from Interfaces import ICandleSeries, ICandle
+from Interfaces import ICandleSeries, ICandle, IAssetPair
 
 class CandleSeries(ICandleSeries):
     _candles: Deque[ICandle]
+    _assetPair: IAssetPair
 
-    def __init__(self):
+    def __init__(self, assetPair: IAssetPair):
         self._candles = deque()
 
     def getCount(self) -> int:
@@ -17,6 +18,9 @@ class CandleSeries(ICandleSeries):
 
         return None
 
+    def getAssetPair(self) -> IAssetPair:
+        return  self._assetPair
+
     def getByTimestamp(self, timestamp: int) -> Optional[ICandle]:
         index = self._locate(timestamp)
         if index >= 0:
@@ -25,6 +29,9 @@ class CandleSeries(ICandleSeries):
         return None
 
     def appendLeft(self, candle: ICandle) -> None:
+        if not candle.getAssetPair() == self._assetPair:
+            raise ValueError(f"Candle asset pair must be equal to candle series asset pair, but candle series asset pair is {self._assetPair} and candle asset pair is {candle.getAssetPair()}")
+
         if not self._candles:
             self._candles.appendleft(candle)
             return None
@@ -38,6 +45,9 @@ class CandleSeries(ICandleSeries):
         self._candles.appendleft(candle)
 
     def appendRight(self, candle: ICandle) -> None:
+        if not candle.getAssetPair() == self._assetPair:
+            raise ValueError(f"Candle asset pair must be equal to candle series asset pair, but candle series asset pair is {self._assetPair} and candle asset pair is {candle.getAssetPair()}")
+
         if not self._candles:
             self._candles.append(candle)
             return None
