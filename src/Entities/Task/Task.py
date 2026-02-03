@@ -36,6 +36,8 @@ class Task(ITask):
         if not self._status == TaskStatus.Locked:
             raise ValueError(f"Task is already unlocked")
 
+        self._status = TaskStatus.Executing
+
     def finish(self) -> None:
         if self._status == TaskStatus.Locked:
             raise ValueError(f"Unable to finish locked task")
@@ -43,4 +45,4 @@ class Task(ITask):
         if self._status == TaskStatus.Finished:
             raise ValueError(f"Task is already finished")
 
-        self._status == TaskStatus.Finished
+        self._status = TaskStatus.Finished

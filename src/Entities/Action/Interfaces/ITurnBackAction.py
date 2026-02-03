@@ -4,5 +4,5 @@ from Interfaces import IAction
 class ITurnBackAction(IAction, ABC):
 
     @abstractmethod
-    def getDuration(self) -> int:
+    def getTriggerTimestamp(self) -> int:
         pass

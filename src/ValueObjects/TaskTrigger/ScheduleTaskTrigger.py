@@ -1,5 +1,5 @@
 from __future__ import annotations
-from Interfaces import ITaskTrigger
+from Interfaces import ITaskTrigger, IExecutionContext
 
 class ScheduleTaskTrigger(ITaskTrigger):
     _timestamp: int
@@ -19,8 +19,8 @@ class ScheduleTaskTrigger(ITaskTrigger):
 
         return ScheduleTaskTrigger(timestamp)
 
-    def isTriggered(self, context) -> bool:
-        return True
+    def isTriggered(self, context: IExecutionContext) -> bool:
+        return context.getTimestamp() > self._timestamp
 
     def __eq__(self, other) -> bool:
         if not isinstance(other, ScheduleTaskTrigger):

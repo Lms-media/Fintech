@@ -23,4 +23,4 @@ class HalfInAssessor(IAssessor[IDirectionSignal, ITurnBackAction]):
 
         lotCount = volume / price / assetPair.getQuoteAsset().getLotSize()
 
-        return TurnBackAction(input, assetPair, lotCount, input.getDirection() == DirectionType.Up, 24 * 60 * 60)
+        return TurnBackAction(input, assetPair, lotCount, input.getDirection() == DirectionType.Up, self._context.getTimestamp() + 15)

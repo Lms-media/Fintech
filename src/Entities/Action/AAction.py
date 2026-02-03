@@ -35,7 +35,7 @@ class AAction(IAction, ABC):
 
     def update(self, context: IExecutionContext) -> None:
         for task in self._tasks:
-            if task.getStatus == TaskStatus.Finished:
+            if task.getStatus() == TaskStatus.Finished:
                 continue
             trigger = task.getTrigger()
             if trigger.isTriggered(context):

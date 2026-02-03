@@ -23,6 +23,7 @@ class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAc
         self._strategy = DummyStrategy()
         self._market = LogMarket()
         self._portfolio = RuntimePortfolio(self._assetPair.getBaseAsset())
+        self._portfolio.deposit(1000)
         self._contextProvider = MockContextProvider(self._assetPair)
         self._assessor = HalfInAssessor(self._portfolio, self._contextProvider.getContext())
         self._executor = BackgroundPollingExecutor(self._market, self._contextProvider)

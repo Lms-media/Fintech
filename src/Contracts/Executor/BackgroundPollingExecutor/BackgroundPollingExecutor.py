@@ -11,7 +11,8 @@ class BackgroundPollingExecutor(IExecutor):
         self._contextProvider = contextProvider
 
     def start(self, action: IAction) -> None:
-        thread = threading.Thread(target=self._polling, args=(self, action))
+        thread = threading.Thread(target=self._polling, args=(action,))
+        thread.start()
 
     def getMarket(self):
         return self._market
@@ -24,10 +25,13 @@ class BackgroundPollingExecutor(IExecutor):
             action.update(context)
 
             for task in action.getTasks():
-                if not task.getStatus() == TaskStatus.Executing:
+                if task.getStatus() == TaskStatus.Locked:
                     done = False
+
+                if not task.getStatus() == TaskStatus.Executing:
                     continue
+
                 self._market.execute(task)
                 task.finish()
 
-            time.sleep(1)
+            time.sleep(0.01)

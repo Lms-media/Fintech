@@ -8,7 +8,7 @@ from UseCases import SingleActionUseCase
 from ValueObjects import Asset, AssetPair
 
 baseAsset = Asset('RUB', 1)
-quoteAsset = Asset('SBER', 10)
+quoteAsset = Asset('USD', 10)
 assetPair = AssetPair(baseAsset, quoteAsset)
 
 factory = DummyFactory(assetPair)
