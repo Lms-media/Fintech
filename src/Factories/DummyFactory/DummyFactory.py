@@ -17,15 +17,15 @@ class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAc
 
     def __init__(self, assetPair: IAssetPair):
         self._assetPair = assetPair
+        self._contextProvider = MockContextProvider(self._assetPair)
         self._dataSource = MockDataSource(self._assetPair)
         self._dataSource.init()
         self._predictor = DummyPredictor()
         self._strategy = DummyStrategy()
-        self._market = LogMarket()
         self._portfolio = RuntimePortfolio(self._assetPair.getBaseAsset())
         self._portfolio.deposit(1000)
-        self._contextProvider = MockContextProvider(self._assetPair)
-        self._assessor = HalfInAssessor(self._portfolio, self._contextProvider.getContext())
+        self._market = LogMarket(self._portfolio, self._contextProvider)
+        self._assessor = HalfInAssessor(self._portfolio, self._contextProvider)
         self._executor = BackgroundPollingExecutor(self._market, self._contextProvider)
 
     def getDataSource(self) -> IDataSource:

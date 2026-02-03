@@ -9,6 +9,7 @@ class RuntimePortfolio(IPortfolio):
     def __init__(self, baseAsset: IAsset):
         self._baseAsset = baseAsset
         self._baseAmount = 0
+        self._contents = dict()
 
     def getBaseAsset(self) -> IAsset:
         return self._baseAsset
@@ -23,13 +24,13 @@ class RuntimePortfolio(IPortfolio):
         return self._baseAmount
 
     def getCapitalization(self, context: IExecutionContext) -> float:
-        capitalization = 0
+        capitalization = self._baseAmount
         for asset in self._contents:
             assetPair = AssetPair(self._baseAsset, asset)
             price = context.getPrice(assetPair)
             if not price:
                 raise ValueError(f"Unable to get portfolio capitalization, context doesn't have price for {assetPair}")
-            capitalization += price
+            capitalization += price * self._contents[asset]
 
         return capitalization
 
