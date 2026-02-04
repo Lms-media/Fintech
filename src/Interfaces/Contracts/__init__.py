@@ -1,7 +1,7 @@
 from .Predictor import IPredictor
 from .Strategy import IStrategy
 from .Assessor import IAssessor
-from .Repository import IDataSource
+from .DataSource import IDataSource
 from .Executor import IExecutor
 from .ContextProvider import IContextProvider
 

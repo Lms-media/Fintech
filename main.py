@@ -1,5 +1,10 @@
 import sys
 import os
+import shutil
+
+if os.path.exists('logs'):
+    shutil.rmtree('logs')
+os.makedirs('logs')
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
