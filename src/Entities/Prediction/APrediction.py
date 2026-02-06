@@ -1,7 +1,9 @@
 from abc import ABC
+import uuid
 from Interfaces import IPrediction, ICandleSeries
 
 class APrediction(IPrediction, ABC):
+    _id: str
     _timestamp: int
     _candleSeries: ICandleSeries
     _confidence: float
@@ -16,6 +18,10 @@ class APrediction(IPrediction, ABC):
         self._timestamp = timestamp
         self._candleSeries = candleSeries
         self._confidence = confidence
+        self._id = uuid.uuid4()
+
+    def getId(self) -> str:
+        return self._id
 
     def getTimestamp(self) -> int:
         return self._timestamp
@@ -25,3 +31,6 @@ class APrediction(IPrediction, ABC):
 
     def getConfidence(self) -> float:
         return self._confidence
+
+    def __str__(self) -> str:
+        return f"🔮 ({self.getId()}). Confidence: {self.getConfidence()}."

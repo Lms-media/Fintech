@@ -5,5 +5,5 @@ class PrintLogger(ILogger):
     def init(self):
         pass
 
-    def log(self, line: str):
-        print(line)
+    def log(self, chunk: str):
+        print(chunk)

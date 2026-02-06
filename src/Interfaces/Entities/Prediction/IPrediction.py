@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from ..CandleSeries import ICandleSeries
+from ..IEntity import IEntity
 
-class IPrediction(ABC):
+class IPrediction(IEntity, ABC):
 
     @abstractmethod
     def getTimestamp(self) -> int:

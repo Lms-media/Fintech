@@ -11,3 +11,6 @@ class NextCandlePrediction(APrediction, INextCandlePrediction):
 
     def getNextCandle(self) -> ICandle:
         return self._nextCandle
+
+    def __str__(self) -> str:
+        return f"{super().__str__()} Next candle: {self.getNextCandle()}"

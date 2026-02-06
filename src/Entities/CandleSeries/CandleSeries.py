@@ -1,14 +1,20 @@
 from typing import Optional, Deque
 from collections import deque
+import uuid
 from Interfaces import ICandleSeries, ICandle, IAssetPair
 
 class CandleSeries(ICandleSeries):
+    _id: str
     _candles: Deque[ICandle]
     _assetPair: IAssetPair
 
     def __init__(self, assetPair: IAssetPair):
         self._candles = deque()
         self._assetPair = assetPair
+        self._id = uuid.uuid4()
+
+    def getId(self) -> str:
+        return self._id
 
     def getCount(self) -> int:
         return len(self._candles)
@@ -73,6 +79,14 @@ class CandleSeries(ICandleSeries):
 
         return self._candles.pop()
 
+    def __str__(self) -> str:
+        lines = list([f'📋 ({self.getId()})'])
+
+        for i in range(self.getCount()):
+            candle = self.getByIndex(i)
+            lines.append(f"{i + 1}. {candle}")
+
+        return '\n'.join(lines)
 
     def _locate(self, timestamp: int) -> int:
         if not self._candles:

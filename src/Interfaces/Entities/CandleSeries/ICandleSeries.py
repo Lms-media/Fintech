@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 from ...ValueObjects import ICandle, IAssetPair
+from ..IEntity import IEntity
 
-class ICandleSeries(ABC):
+class ICandleSeries(IEntity, ABC):
 
     @abstractmethod
     def getCount(self) -> int:

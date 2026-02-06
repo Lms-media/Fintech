@@ -11,7 +11,6 @@ class MockDataSource(IDataSource):
         self._series = CandleSeries(assetPair)
 
     def init(self) -> None:
-        # Candle(assetPair, openTimestamp, interval, openPrice, closePrice, highPrice, lowPrice, volume)
         self._series.appendRight(Candle(self._assetPair, 0, IntervalType.OneMinute, 1, 2, 3, 1, 1))
         self._series.appendRight(Candle(self._assetPair, 60, IntervalType.OneMinute, 2, 4, 5, 1.5, 2))
         self._series.appendRight(Candle(self._assetPair, 120, IntervalType.OneMinute, 4, 6, 8, 3, 2))

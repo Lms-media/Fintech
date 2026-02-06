@@ -11,6 +11,6 @@ class FileLogger(ILogger):
             os.remove(self._filename)
         open(self._filename, 'w').close()
 
-    def log(self, line: str):
+    def log(self, chunk: str):
         with open(self._filename, 'a') as f:
-            f.write(line + '\n')
+            f.write(chunk + '\n')

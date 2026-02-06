@@ -1,7 +1,7 @@
 from Interfaces import IAssetPair, IDataSource, IPredictor, IStrategy, IAssessor, IExecutor, IMarket, IPortfolio, IContextProvider
 from Factories import IFactory
 from Entities import INextCandlePrediction, IDirectionSignal, ITurnBackAction
-from Contracts import MockDataSource, LoggedDataSource, DummyPredictor, DummyStrategy, HalfInAssessor, BackgroundPollingExecutor, MockContextProvider
+from Contracts import MockDataSource, LoggedDataSource, DummyPredictor, LoggedPredictor, DummyStrategy, HalfInAssessor, BackgroundPollingExecutor, MockContextProvider
 from Services import LogMarket, RuntimePortfolio, FileLogger, TimestampedLogger
 
 class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAction]):
@@ -17,12 +17,13 @@ class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAc
 
     def __init__(self, assetPair: IAssetPair):
         dataSourceLogger = TimestampedLogger(FileLogger("logs/dataSource.log"))
+        predictorLogger = TimestampedLogger(FileLogger("logs/predictor.log"))
 
         self._assetPair = assetPair
         self._contextProvider = MockContextProvider(self._assetPair)
         self._dataSource = LoggedDataSource(MockDataSource(self._assetPair), dataSourceLogger)
         self._dataSource.init()
-        self._predictor = DummyPredictor()
+        self._predictor = LoggedPredictor(DummyPredictor(), predictorLogger)
         self._strategy = DummyStrategy()
         self._portfolio = RuntimePortfolio(self._assetPair.getBaseAsset())
         self._portfolio.deposit(1000)

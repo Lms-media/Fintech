@@ -11,5 +11,6 @@ class TimestampedLogger(ILogger):
     def init(self):
         self._logger.init()
 
-    def log(self, line: str):
-        self._logger.log(f"[{datetime.now()}] {line}")
+    def log(self, chunk: str):
+        for line in chunk.split('\n'):
+            self._logger.log(f"[{datetime.now()}] {line}")

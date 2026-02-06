@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 
-class ILogger(ABC):
+class IEntity(ABC):
 
     @abstractmethod
-    def init(self):
+    def getId(self) -> str:
         pass
 
     @abstractmethod
-    def log(self, chunk: str):
+    def __str__(self) -> str:
         pass

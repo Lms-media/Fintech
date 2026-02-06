@@ -15,10 +15,7 @@ class LoggedDataSource(IDataSource):
 
     def getSeries(self):
         series = self._dataSource.getSeries()
-        self._logger.log("Got candle series from Data Source:")
-
-        for i in range(series.getCount()):
-            candle = series.getByIndex(i)
-            self._logger.log(f"{i + 1}. {candle}")
+        self._logger.log("Got candle series from Data Source")
+        self._logger.log(str(series))
 
         return series
