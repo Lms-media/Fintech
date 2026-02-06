@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from ..Prediction import IPrediction
+from ..IEntity import IEntity
 
-class ISignal(ABC):
+class ISignal(IEntity, ABC):
 
     @abstractmethod
     def getTimestamp(self) -> int:

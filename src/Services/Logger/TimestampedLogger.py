@@ -1,5 +1,4 @@
 from datetime import datetime
-import time
 from Interfaces import ILogger
 
 class TimestampedLogger(ILogger):

@@ -20,6 +20,8 @@ class TurnBackAction(AAction, ITurnBackAction):
 
         super().__init__(signal, tasks)
 
-
     def getTriggerTimestamp(self) -> int:
         return self._triggerTimestamp
+
+    def __str__(self) -> str:
+        return super().__str__()

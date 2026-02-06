@@ -33,4 +33,4 @@ class APrediction(IPrediction, ABC):
         return self._confidence
 
     def __str__(self) -> str:
-        return f"🔮 ({self.getId()}). Confidence: {self.getConfidence()}."
+        return f"🔮 ({self.getId()}); Confidence: {self.getConfidence()};"

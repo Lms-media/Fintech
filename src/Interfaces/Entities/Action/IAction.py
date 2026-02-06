@@ -4,8 +4,9 @@ from ...Primitives import ActionStatus
 from ...ValueObjects import IExecutionContext
 from ..Signal import ISignal
 from ..Task import ITask
+from ..IEntity import IEntity
 
-class IAction(ABC):
+class IAction(IEntity, ABC):
 
     @abstractmethod
     def getSignal(self) -> ISignal:

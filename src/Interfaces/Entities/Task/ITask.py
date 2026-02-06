@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
 from ...Primitives import TaskStatus, TaskType
 from ...ValueObjects import ITaskTrigger, IAssetPair
+from ..IEntity import IEntity
 
-class ITask(ABC):
+class ITask(IEntity, ABC):
 
     @abstractmethod
     def getStatus(self) -> TaskStatus:

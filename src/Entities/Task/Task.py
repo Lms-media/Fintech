@@ -1,6 +1,8 @@
+import uuid
 from Interfaces import ITask, ITaskTrigger, IAssetPair, TaskStatus, TaskType
 
 class Task(ITask):
+    _id: str
     _status: TaskStatus
     _type: TaskType
     _trigger: ITaskTrigger
@@ -16,6 +18,10 @@ class Task(ITask):
         self._assetPair = assetPair
         self._lotCount = lotCount
         self._trigger = trigger
+        self._id = uuid.uuid4()
+
+    def getId(self) -> str:
+        return self._id
 
     def getStatus(self) -> TaskStatus:
         return self._status
@@ -46,3 +52,6 @@ class Task(ITask):
             raise ValueError(f"Task is already finished")
 
         self._status = TaskStatus.Finished
+
+    def __str__(self) -> str:
+        return f"🧩 ({self.getId()}); Status: {self.getStatus()}; Type: {self.getType()}; Trigger: {self.getTrigger()}; Asset Pair: {self.getAssetPair()}; Lot Count: {self.getLotCount()}"

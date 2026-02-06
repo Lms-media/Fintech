@@ -11,3 +11,6 @@ class DirectionSignal(ASignal, IDirectionSignal):
 
     def getDirection(self) -> DirectionType:
         return self._direction
+
+    def __str__(self) -> str:
+        return f"{super().__str__()} Direction: {self.getDirection()}"
