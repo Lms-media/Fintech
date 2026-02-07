@@ -14,9 +14,6 @@ class BackgroundPollingExecutor(IExecutor):
         thread = threading.Thread(target=self._polling, args=(action,))
         thread.start()
 
-    def getMarket(self):
-        return self._market
-
     def _polling(self, action: IAction) -> None:
         done = False
         while(not done):
