@@ -2,7 +2,7 @@ from Interfaces import IAssetPair, IDataSource, IPredictor, IStrategy, IAssessor
 from Factories import IFactory
 from Entities import INextCandlePrediction, IDirectionSignal, ITurnBackAction
 from Contracts import MockDataSource, LoggedDataSource, DummyPredictor, LoggedPredictor, DummyStrategy, LoggedStrategy, HalfInAssessor, LoggedAssessor, BackgroundPollingExecutor, LoggedExecutor, MockContextProvider, LoggedContextProvider
-from Services import PortfolioSyncMarket, LoggedMarket, RuntimePortfolio, FileLogger, TimestampedLogger
+from Services import PortfolioSyncMarket, LoggedMarket, RuntimePortfolio, LoggedPortfolio, FileLogger, TimestampedLogger
 
 class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAction]):
     _assetPair: IAssetPair
@@ -23,6 +23,7 @@ class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAc
         contextProviderLogger = TimestampedLogger(FileLogger("logs/contextProvider.log"))
         executorLogger = TimestampedLogger(FileLogger("logs/executor.log"))
         marketLogger = TimestampedLogger(FileLogger("logs/market.log"))
+        portfolioLogger = TimestampedLogger(FileLogger("logs/portfolio.log"))
 
         dataSourceLogger.init()
         predictorLogger.init()
@@ -31,6 +32,7 @@ class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAc
         contextProviderLogger.init()
         executorLogger.init()
         marketLogger.init()
+        portfolioLogger.init()
 
         self._assetPair = assetPair
         self._contextProvider = LoggedContextProvider(MockContextProvider(self._assetPair), contextProviderLogger)
@@ -38,7 +40,7 @@ class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAc
         self._dataSource.init()
         self._predictor = LoggedPredictor(DummyPredictor(), predictorLogger)
         self._strategy = LoggedStrategy(DummyStrategy(), strategyLogger)
-        self._portfolio = RuntimePortfolio(self._assetPair.getBaseAsset())
+        self._portfolio = LoggedPortfolio(RuntimePortfolio(self._assetPair.getBaseAsset()), portfolioLogger)
         self._portfolio.deposit(1000)
         self._market = LoggedMarket(PortfolioSyncMarket(self._portfolio, self._contextProvider), marketLogger)
         self._assessor = LoggedAssessor(HalfInAssessor(self._portfolio, self._contextProvider), assessorLogger)
