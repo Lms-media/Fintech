@@ -34,4 +34,4 @@ class BackgroundPollingExecutor(IExecutor):
                 self._market.execute(task)
                 task.finish()
 
-            time.sleep(0.01)
+            time.sleep(0.5)

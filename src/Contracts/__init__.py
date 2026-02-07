@@ -2,7 +2,7 @@ from .DataSource import MockDataSource, LoggedDataSource
 from .Predictor import DummyPredictor, LoggedPredictor
 from .Strategy import DummyStrategy, LoggedStrategy
 from .Assessor import HalfInAssessor, LoggedAssessor
-from .ContextProvider import MockContextProvider
+from .ContextProvider import MockContextProvider, LoggedContextProvider
 from .Executor import BackgroundPollingExecutor
 
 __all__ = [
@@ -15,5 +15,6 @@ __all__ = [
     'HalfInAssessor',
     'LoggedAssessor',
     'MockContextProvider',
+    'LoggedContextProvider',
     'BackgroundPollingExecutor',
 ]

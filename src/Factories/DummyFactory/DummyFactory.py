@@ -1,7 +1,7 @@
 from Interfaces import IAssetPair, IDataSource, IPredictor, IStrategy, IAssessor, IExecutor, IMarket, IPortfolio, IContextProvider
 from Factories import IFactory
 from Entities import INextCandlePrediction, IDirectionSignal, ITurnBackAction
-from Contracts import MockDataSource, LoggedDataSource, DummyPredictor, LoggedPredictor, DummyStrategy, LoggedStrategy, HalfInAssessor, LoggedAssessor, BackgroundPollingExecutor, MockContextProvider
+from Contracts import MockDataSource, LoggedDataSource, DummyPredictor, LoggedPredictor, DummyStrategy, LoggedStrategy, HalfInAssessor, LoggedAssessor, BackgroundPollingExecutor, MockContextProvider, LoggedContextProvider
 from Services import LogMarket, RuntimePortfolio, FileLogger, TimestampedLogger
 
 class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAction]):
@@ -20,14 +20,16 @@ class DummyFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAc
         predictorLogger = TimestampedLogger(FileLogger("logs/predictor.log"))
         strategyLogger = TimestampedLogger(FileLogger("logs/strategy.log"))
         assessorLogger = TimestampedLogger(FileLogger("logs/assessor.log"))
+        contextProviderLogger = TimestampedLogger(FileLogger("logs/contextProvider.log"))
 
         dataSourceLogger.init()
         predictorLogger.init()
         strategyLogger.init()
         assessorLogger.init()
+        contextProviderLogger.init()
 
         self._assetPair = assetPair
-        self._contextProvider = MockContextProvider(self._assetPair)
+        self._contextProvider = LoggedContextProvider(MockContextProvider(self._assetPair), contextProviderLogger)
         self._dataSource = LoggedDataSource(MockDataSource(self._assetPair), dataSourceLogger)
         self._dataSource.init()
         self._predictor = LoggedPredictor(DummyPredictor(), predictorLogger)

@@ -41,14 +41,14 @@ class ExecutionContext(IExecutionContext):
         return self._timestamp == other._timestamp and self._prices == other._prices
 
     def __hash__(self) -> int:
-        prices_hashable = frozenset((k, v) for k, v in self._prices.items())
-        return hash((self._timestamp, prices_hashable))
+        pricesHashable = frozenset((k, v) for k, v in self._prices.items())
+        return hash((self._timestamp, pricesHashable))
 
     def __copy__(self) -> IExecutionContext:
         return ExecutionContext(self._timestamp, dict(self._prices))
 
     def __str__(self) -> str:
-        result = [f"ℹ️ timestamp={self._timestamp}"]
+        result = [f"ℹ️ Timestamp: {self._timestamp}"]
 
         for assetPair, price in self._prices.items():
             result.append(f"{assetPair} - {price:.4f}")

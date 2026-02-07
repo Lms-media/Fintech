@@ -13,4 +13,5 @@ class FileLogger(ILogger):
 
     def log(self, chunk: str):
         with open(self._filename, 'a') as f:
-            f.write(chunk + '\n')
+            for line in chunk.split('\n'):
+                f.write(line + '\n')
