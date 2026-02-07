@@ -1,6 +1,6 @@
 from Interfaces import IMarket, ITask, IPortfolio, IContextProvider, TaskType
 
-class LogMarket(IMarket):
+class PortfolioSyncMarket(IMarket):
     _portfolio: IPortfolio
     _contextProvider: IContextProvider
 
@@ -20,5 +20,3 @@ class LogMarket(IMarket):
 
         if task.getType() == TaskType.Sell:
             self._portfolio.sellAsset(quoteAsset, lotCount, price)
-
-        print(f"Executing task... Type: {task.getType()}, Asset Pair: {task.getAssetPair()}, Lot Count: {task.getLotCount()}")

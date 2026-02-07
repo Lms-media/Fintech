@@ -1,10 +1,11 @@
 from .Portfolio import RuntimePortfolio
-from .Market import LogMarket
+from .Market import PortfolioSyncMarket, LoggedMarket
 from .Logger import PrintLogger, FileLogger, TimestampedLogger
 
 __all__ = [
     'RuntimePortfolio',
-    'LogMarket',
+    'PortfolioSyncMarket',
+    'LoggedMarket',
     'PrintLogger',
     'FileLogger',
     'TimestampedLogger',

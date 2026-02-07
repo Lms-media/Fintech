@@ -1,5 +1,7 @@
-from .LogMarket import LogMarket
+from .PortfolioSyncMarket import PortfolioSyncMarket
+from .LoggedMarket import LoggedMarket
 
 __all__ = [
-    'LogMarket'
+    'PortfolioSyncMarket',
+    'LoggedMarket',
 ]
