@@ -46,7 +46,7 @@ class CandleSeries(ICandleSeries):
         firstCandle = self._candles[0]
         newEndTimestamp = candle.getOpenTimestamp() + candle.getInterval().value
 
-        if not newEndTimestamp == firstCandle.getOpenTimestamp():
+        if not newEndTimestamp > firstCandle.getOpenTimestamp():
             raise ValueError(f"New candle must adjoin the first candle on {firstCandle.getOpenTimestamp()}, but actual end of new candle is {newEndTimestamp}")
 
         self._candles.appendleft(candle)
@@ -62,7 +62,7 @@ class CandleSeries(ICandleSeries):
         lastCandle = self._candles[-1]
         endTimestamp = lastCandle.getOpenTimestamp() + lastCandle.getInterval().value
 
-        if not candle.getOpenTimestamp() == endTimestamp:
+        if candle.getOpenTimestamp() < endTimestamp:
             raise ValueError(f"New candle must adjoin the last candle on {endTimestamp}, but actual start of new candle is {candle.getOpenTimestamp()}")
 
         self._candles.append(candle)

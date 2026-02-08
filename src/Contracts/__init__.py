@@ -1,4 +1,4 @@
-from .DataSource import MockDataSource, LoggedDataSource
+from .DataSource import MockDataSource, LoggedDataSource, MoexCurrencyDataSource
 from .Predictor import DummyPredictor, LoggedPredictor
 from .Strategy import DummyStrategy, LoggedStrategy
 from .Assessor import HalfInAssessor, LoggedAssessor
@@ -8,6 +8,7 @@ from .Executor import BackgroundPollingExecutor, LoggedExecutor
 __all__ = [
     'MockDataSource',
     'LoggedDataSource',
+    'MoexCurrencyDataSource',
     'DummyPredictor',
     'LoggedPredictor',
     'DummyStrategy',
