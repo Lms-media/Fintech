@@ -11,7 +11,8 @@ class HalfInAssessor(IAssessor[IDirectionSignal, ITurnBackAction]):
 
     def getAction(self, input: IDirectionSignal) -> ITurnBackAction:
         volume = self._portfolio.getBaseAmount() / 2
-        assetPair = input.getPrediction().getCandleSeries().getAssetPair()
+        meta = input.getPrediction().getMeta()
+        assetPair = meta.getCandleSeries().getAssetPair()
 
         if not self._portfolio.getBaseAsset() == assetPair.getBaseAsset():
             raise ValueError(f"Assessor's signal must match with portfolio with base asset, but portfolio base asset is {self._portfolio.getBaseAsset()} and signal base asset is {assetPair.getBaseAsset()}")

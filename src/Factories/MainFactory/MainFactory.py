@@ -39,8 +39,8 @@ class MainFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAct
 
         self._contextProvider = LoggedContextProvider(MockContextProvider(self._assetPair), contextProviderLogger)
 
-        fromTimestamp = time.time() - 60 * 60 * 24 * 365 * 5
-        toTimestamp = time.time() - 60 * 60 * 24 * 365 * 4
+        fromTimestamp = time.time() - 60 * 60 * 24 * 365 * 4
+        toTimestamp = time.time() - 60 * 60 * 24 * 365 * 3
         self._dataSource = LoggedDataSource(MoexCurrencyDataSource(self._assetPair, tickerCode, fromTimestamp, toTimestamp, IntervalType.OneDay), dataSourceLogger)
         self._dataSource.init()
 

@@ -36,9 +36,13 @@ class MoexCurrencyDataSource(IDataSource):
         data: list[dict] = list()
         while(currentTimestamp < self._toTimestamp):
             currentData = self._fetchMoex(currentTimestamp, self._toTimestamp)
+            if len(currentData) == 0:
+                break
+
             data.extend(currentData)
             lastOpenDate = data[len(data) - 1]['TRADEDATE']
             currentTimestamp = datetime.strptime(lastOpenDate, '%Y-%m-%d').timestamp() + self._interval.value
+
 
         for item in data:
             assetPair = self._assetPair

@@ -1,12 +1,12 @@
-from Interfaces import ICandle, ICandleSeries
+from Interfaces import ICandle, IPredictionMeta
 from .Interfaces import INextCandlePrediction
 from .APrediction import APrediction
 
 class NextCandlePrediction(APrediction, INextCandlePrediction):
     _nextCandle: ICandle
 
-    def __init__(self, timestamp: int, candleSeries: ICandleSeries, confidence: float, nextCandle: ICandle):
-        super().__init__(timestamp, candleSeries, confidence)
+    def __init__(self, meta: IPredictionMeta, nextCandle: ICandle):
+        super().__init__(meta)
         self._nextCandle = nextCandle
 
     def getNextCandle(self) -> ICandle:

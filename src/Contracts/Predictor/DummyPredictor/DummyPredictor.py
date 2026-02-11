@@ -1,16 +1,10 @@
-from Interfaces import IPredictor, ICandleSeries
-from Entities import INextCandlePrediction, NextCandlePrediction
-from ValueObjects import Candle
+from Entities import INextCandlePrediction
+from .DummyPredictorValue import DummyPredictorValue
+from .DummyPredictorAdapter import DummyPredictorAdapter
+from .DummyPredictorAlgo import DummyPredictorAlgo
+from ..APredictor import APredictor
 
-class DummyPredictor(IPredictor[INextCandlePrediction]):
+class DummyPredictor(APredictor[DummyPredictorValue, INextCandlePrediction]):
 
-    def predict(self, input: ICandleSeries) -> INextCandlePrediction:
-        lastCandle = input.getByIndex(input.getCount() - 1)
-        assetPair = input.getAssetPair()
-        interval = lastCandle.getInterval()
-        fromPrice = lastCandle.getClosePrice()
-        toPrice = lastCandle.getClosePrice() + 10
-        timestamp = lastCandle.getOpenTimestamp() + interval.value
-        nextCandle = Candle(assetPair, timestamp, interval, fromPrice, toPrice, toPrice, fromPrice, 1)
-
-        return NextCandlePrediction(timestamp, input, 0.5, nextCandle)
+    def __init__(self):
+        super().__init__(DummyPredictorAlgo(), DummyPredictorAdapter())

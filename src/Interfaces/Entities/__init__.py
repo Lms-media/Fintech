@@ -3,6 +3,7 @@ from .CandleSeries import ICandleSeries
 from .Prediction import IPrediction
 from .Signal import ISignal
 from .Task import ITask
+from .PredictionMeta import IPredictionMeta
 
 __all__ = [
     'IAction',
@@ -10,4 +11,5 @@ __all__ = [
     'IPrediction',
     'ISignal',
     'ITask',
+    'IPredictionMeta',
 ]

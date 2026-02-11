@@ -1,8 +1,8 @@
 from .Primitives import IValueObject, ActionStatus, IntervalType, TaskStatus, TaskType, DirectionType
 from .ValueObjects import IAsset, IAssetPair, ICandle, IExecutionContext, IRange, ITaskTrigger
-from .Entities import IAction, ICandleSeries, IPrediction, ISignal, ITask
+from .Entities import IAction, ICandleSeries, IPrediction, ISignal, ITask, IPredictionMeta
 from .Services import IMarket, IPortfolio, ILogger
-from .Contracts import IDataSource, IPredictor, IStrategy, IAssessor, IExecutor, IContextProvider
+from .Contracts import IDataSource, IPredictor, IPredictorAlgo, IPredictorAdapter, IStrategy, IAssessor, IExecutor, IContextProvider
 
 __all__ = [
     'IValueObject',
@@ -17,6 +17,7 @@ __all__ = [
     'IPrediction',
     'ISignal',
     'ITask',
+    'IPredictionMeta',
     'IMarket',
     'ActionStatus',
     'IntervalType',
@@ -25,6 +26,8 @@ __all__ = [
     'DirectionType',
     'IDataSource',
     'IPredictor',
+    'IPredictorAlgo',
+    'IPredictorAdapter',
     'IStrategy',
     'IAssessor',
     'IExecutor',
