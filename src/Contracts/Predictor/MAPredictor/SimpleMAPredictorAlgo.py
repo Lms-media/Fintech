@@ -9,14 +9,16 @@ class SimpleMAPredictorAlgo(IPredictorAlgo[MAPredictorValue]):
         self._candlesCount = candlesCount
 
     def calc(self, input: ICandleSeries):
-        lastCandle = input.getByIndex(input.getCount() - 2)
+        lastCandle = input.getByIndex(input.getCount() - 1)
         interval = lastCandle.getInterval()
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         meta = PredictionMeta(timestamp, input, 0.5)
 
         lastOpens = []
         for i in range(self._candlesCount):
-            candle = input.getByIndex(input.getCount() - 2 - i)
+            candle = input.getByIndex(input.getCount() - 1 - i)
+            if not candle:
+                continue
             lastOpens.append(candle.getOpenPrice())
 
         average = sum(lastOpens) / len(lastOpens)

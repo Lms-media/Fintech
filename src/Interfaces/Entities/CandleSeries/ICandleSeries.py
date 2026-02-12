@@ -1,25 +1,9 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Optional
-from ...ValueObjects import ICandle, IAssetPair
-from ..IEntity import IEntity
+from ...ValueObjects import ICandle
+from .IReadonlyCandleSeries import IReadonlyCandleSeries
 
-class ICandleSeries(IEntity, ABC):
-
-    @abstractmethod
-    def getCount(self) -> int:
-        pass
-
-    @abstractmethod
-    def getAssetPair(self) -> IAssetPair:
-        pass
-
-    @abstractmethod
-    def getByIndex(self, index: int) -> Optional[ICandle]:
-        pass
-
-    @abstractmethod
-    def getByTimestamp(self, timestamp: int) -> Optional[ICandle]:
-        pass
+class ICandleSeries(IReadonlyCandleSeries):
 
     @abstractmethod
     def appendLeft(self, candle: ICandle) -> None:

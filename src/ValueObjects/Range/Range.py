@@ -29,7 +29,7 @@ class Range(IRange):
 
     def withFromTimestamp(self, fromTimestamp: int) -> IRange:
         if fromTimestamp > self._toTimestamp:
-            raise ValueError(f"'fromTimestamp' must be greater than 'toTimestamp', but 'fromTimestamp' is {fromTimestamp} and 'toTimestamp' is {self._toTimestamp}")
+            raise ValueError(f"'fromTimestamp' must be less than 'toTimestamp', but 'fromTimestamp' is {fromTimestamp} and 'toTimestamp' is {self._toTimestamp}")
 
         if fromTimestamp < 0:
             raise ValueError(f"'fromTimestamp' must be greater than or equal to zero, but 'fromTimestamp' is {fromTimestamp}")
@@ -38,7 +38,7 @@ class Range(IRange):
 
     def withToTimestamp(self, toTimestamp: int) -> IRange:
         if self._fromTimestamp > toTimestamp:
-            raise ValueError(f"'fromTimestamp' must be greater than 'toTimestamp', but 'fromTimestamp' is {self._fromTimestamp} and 'toTimestamp' is {toTimestamp}")
+            raise ValueError(f"'fromTimestamp' must be less than 'toTimestamp', but 'fromTimestamp' is {self._fromTimestamp} and 'toTimestamp' is {toTimestamp}")
 
         if toTimestamp < 0:
             raise ValueError(f"'toTimestamp' must be greater than or equal to zero, but 'toTimestamp' is {toTimestamp}")

@@ -9,7 +9,7 @@ class MAPredictorAdapter(IPredictorAdapter[MAPredictorValue, INextCandlePredicti
         meta = value.meta
         intersectionPrice = value.intersectionPrice
         candleSeries = meta.getCandleSeries()
-        lastCandle = candleSeries.getByIndex(candleSeries.getCount() - 2)
+        lastCandle = candleSeries.getByIndex(candleSeries.getCount() - 1)
         priceDelta = intersectionPrice - lastCandle.getClosePrice()
         timestamp = meta.getTimestamp()
         interval = lastCandle.getInterval()

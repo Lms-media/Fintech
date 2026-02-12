@@ -1,4 +1,4 @@
-from .CandleSeries import CandleSeries
+from .CandleSeries import CandleSeries, TrimmedCandleSeries
 from .Prediction import APrediction, NextCandlePrediction, INextCandlePrediction
 from .Signal import ASignal, DirectionSignal, IDirectionSignal
 from .Task import Task
@@ -7,6 +7,7 @@ from .PredictionMeta import PredictionMeta
 
 __all__ = [
     'CandleSeries',
+    'TrimmedCandleSeries',
     'APrediction',
     'NextCandlePrediction',
     'INextCandlePrediction',
