@@ -25,5 +25,5 @@ dataSource.init()
 
 candleSeries = dataSource.getSeries()
 
-useCase = PredictorTestingUseCase(candleSeries, LoggedPredictor(MAPredictor(50), predictorLogger), mainLogger)
+useCase = PredictorTestingUseCase(candleSeries, LoggedPredictor(MAPredictor(3), predictorLogger), mainLogger)
 useCase.execute()

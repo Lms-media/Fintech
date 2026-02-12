@@ -15,7 +15,7 @@ class MAPredictorAdapter(IPredictorAdapter[MAPredictorValue, INextCandlePredicti
         interval = lastCandle.getInterval()
         openPrice = lastCandle.getClosePrice()
         assetPair = lastCandle.getAssetPair()
-        closePrice = lastCandle.getClosePrice() + priceDelta / 2
+        closePrice = lastCandle.getClosePrice() - priceDelta / 2
         lowPrice = min(openPrice, closePrice)
         highPrice = max(openPrice, closePrice)
         volume = lastCandle.getVolume()

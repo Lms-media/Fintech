@@ -21,7 +21,7 @@ class PredictorTestingUseCase(IUseCase):
             toIndex += 1
             actual = self._candleSeries.getByIndex(toIndex)
 
-            delta = predicted.getOpenPrice() - actual.getOpenPrice()
+            delta = predicted.getClosePrice() - actual.getClosePrice()
             error = delta * delta
             totalError += error
             self._logger.log(f"Actual:\n{actual}\nPredicted:\n{predicted}")
