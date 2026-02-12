@@ -2,7 +2,7 @@ import time
 from Interfaces import IAssetPair, IDataSource, IPredictor, IStrategy, IAssessor, IExecutor, IMarket, IPortfolio, IContextProvider, IntervalType
 from Factories import IFactory
 from Entities import INextCandlePrediction, IDirectionSignal, ITurnBackAction
-from Contracts import MoexCurrencyDataSource, LoggedDataSource, DummyPredictor, LoggedPredictor, DummyStrategy, LoggedStrategy, HalfInAssessor, LoggedAssessor, BackgroundPollingExecutor, LoggedExecutor, MockContextProvider, LoggedContextProvider
+from Contracts import MoexCurrencyDataSource, LoggedDataSource, MAPredictor, LoggedPredictor, DummyStrategy, LoggedStrategy, HalfInAssessor, LoggedAssessor, BackgroundPollingExecutor, LoggedExecutor, MockContextProvider, LoggedContextProvider
 from Services import PortfolioSyncMarket, LoggedMarket, RuntimePortfolio, LoggedPortfolio, FileLogger, TimestampedLogger
 
 class MainFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAction]):
@@ -44,7 +44,7 @@ class MainFactory(IFactory[INextCandlePrediction, IDirectionSignal, ITurnBackAct
         self._dataSource = LoggedDataSource(MoexCurrencyDataSource(self._assetPair, tickerCode, fromTimestamp, toTimestamp, IntervalType.OneDay), dataSourceLogger)
         self._dataSource.init()
 
-        self._predictor = LoggedPredictor(DummyPredictor(), predictorLogger)
+        self._predictor = LoggedPredictor(MAPredictor(), predictorLogger)
 
         self._strategy = LoggedStrategy(DummyStrategy(), strategyLogger)
 

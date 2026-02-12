@@ -1,6 +1,6 @@
 from .Predictor.APredictor import APredictor
 from .DataSource import MockDataSource, LoggedDataSource, MoexCurrencyDataSource
-from .Predictor import DummyPredictor, LoggedPredictor
+from .Predictor import DummyPredictor, LoggedPredictor, MAPredictor
 from .Strategy import DummyStrategy, LoggedStrategy
 from .Assessor import HalfInAssessor, LoggedAssessor
 from .ContextProvider import MockContextProvider, LoggedContextProvider
@@ -12,6 +12,7 @@ __all__ = [
     'MoexCurrencyDataSource',
     'DummyPredictor',
     'LoggedPredictor',
+    'MAPredictor',
     'APredictor',
     'DummyStrategy',
     'LoggedStrategy',
