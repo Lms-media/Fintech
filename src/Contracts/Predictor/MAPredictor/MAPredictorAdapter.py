@@ -4,18 +4,21 @@ from ValueObjects import Candle
 from .MAPredictorValue import MAPredictorValue
 
 class MAPredictorAdapter(IPredictorAdapter[MAPredictorValue, INextCandlePrediction]):
+    _sensitivity: float
+
+    def __init__(self, sensitivity: float):
+        self._sensitivity = sensitivity
 
     def transform(self, value: MAPredictorValue) -> INextCandlePrediction:
         meta = value.meta
-        intersectionPrice = value.intersectionPrice
+        priceDelta = value.priceDelta
         candleSeries = meta.getCandleSeries()
         lastCandle = candleSeries.getByIndex(candleSeries.getCount() - 1)
-        priceDelta = intersectionPrice - lastCandle.getClosePrice()
         timestamp = meta.getTimestamp()
         interval = lastCandle.getInterval()
         openPrice = lastCandle.getClosePrice()
         assetPair = lastCandle.getAssetPair()
-        closePrice = lastCandle.getClosePrice() - priceDelta / 2
+        closePrice = lastCandle.getClosePrice() - priceDelta
         lowPrice = min(openPrice, closePrice)
         highPrice = max(openPrice, closePrice)
         volume = lastCandle.getVolume()

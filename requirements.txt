@@ -1,3 +1,4 @@
 pytz
 pandas
 requests
+matplotlib

@@ -2,6 +2,7 @@ import os
 from Interfaces import ILogger
 
 class FileLogger(ILogger):
+    _filename: str
 
     def __init__(self, filename: str):
         self._filename = filename
