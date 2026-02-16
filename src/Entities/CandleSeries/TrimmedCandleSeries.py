@@ -9,7 +9,7 @@ class TrimmedCandleSeries(IReadonlyCandleSeries):
     _toIndex: int
 
     def __init__(self, base: IReadonlyCandleSeries, fromIndex: int, toIndex: int):
-        self._id = uuid.uuid4()
+        self._id = str(uuid.uuid4())
         self._base = base
         self._fromIndex = fromIndex
         self._toIndex = toIndex
@@ -22,7 +22,7 @@ class TrimmedCandleSeries(IReadonlyCandleSeries):
 
     def getByIndex(self, index: int) -> Optional[ICandle]:
         if 0 <= index < self._toIndex - self._fromIndex:
-            return self._base.getByIndex(index - self._fromIndex)
+            return self._base.getByIndex(index + self._fromIndex)
 
         return None
 
@@ -30,9 +30,15 @@ class TrimmedCandleSeries(IReadonlyCandleSeries):
         return self._base.getAssetPair()
 
     def getByTimestamp(self, timestamp: int) -> Optional[ICandle]:
-        interval = self._base.getByIndex(0).getInterval().value
-        fromTimestamp = self._base.getByIndex(self._fromIndex).getOpenTimestamp()
-        toTimestamp = self._base.getByIndex(self._toIndex).getOpenTimestamp() + interval
+        fromCandle = self._base.getByIndex(self._fromIndex)
+        toCandle = self._base.getByIndex(self._toIndex)
+
+        if not fromCandle or not toCandle:
+            return None
+
+        interval = fromCandle.getInterval().value
+        fromTimestamp = fromCandle.getOpenTimestamp()
+        toTimestamp = toCandle.getOpenTimestamp() + interval
         if fromTimestamp <= timestamp < toTimestamp:
             return self._base.getByTimestamp(timestamp)
 

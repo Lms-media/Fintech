@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
-from ...Entities import IPrediction, ICandleSeries
+from ...Entities import IPrediction, IReadonlyCandleSeries
 
 P = TypeVar('P', bound=IPrediction)
 
 class IPredictor(ABC, Generic[P]):
 
     @abstractmethod
-    def predict(self, input: ICandleSeries) -> P:
+    def predict(self, input: IReadonlyCandleSeries) -> P:
         pass

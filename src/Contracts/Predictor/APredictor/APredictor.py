@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
-from Interfaces import IPredictor, IPredictorAlgo, IPredictorAdapter, IPrediction, ICandleSeries
+from Interfaces import IPredictor, IPredictorAlgo, IPredictorAdapter, IPrediction, IReadonlyCandleSeries
 
 V = TypeVar('V')
 P = TypeVar('P', bound=IPrediction)
@@ -13,7 +13,7 @@ class APredictor(IPredictor[P], Generic[V, P]):
         self._algo = algo
         self._adapter = adapter
 
-    def predict(self, input: ICandleSeries) -> P:
+    def predict(self, input: IReadonlyCandleSeries) -> P:
         value = self._algo.calc(input)
         prediction = self._adapter.transform(value)
 

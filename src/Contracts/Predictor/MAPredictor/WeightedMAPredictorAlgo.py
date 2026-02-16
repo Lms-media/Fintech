@@ -10,11 +10,15 @@ class WeightedMAPredictorAlgo(IPredictorAlgo[MAPredictorValue]):
 
     def calc(self, input: ICandleSeries):
         lastCandle = input.getByIndex(input.getCount() - 1)
+
+        if not lastCandle:
+            raise ValueError("Cannot extract last candle from meta")
+
         interval = lastCandle.getInterval()
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         meta = PredictionMeta(timestamp, input, 0.5)
 
-        lastOpens = []
+        lastCloses = []
         multiplier = 1
         multSum = 0
         deltaSum = 0
@@ -22,15 +26,18 @@ class WeightedMAPredictorAlgo(IPredictorAlgo[MAPredictorValue]):
             candle = input.getByIndex(input.getCount() - 1 - i)
             if not candle:
                 continue
-            lastOpens.append(multiplier * candle.getOpenPrice())
+            lastCloses.append(multiplier * candle.getClosePrice())
             multSum += multiplier
             multiplier += 1
             deltaSum += abs(candle.getOpenPrice() - candle.getClosePrice())
 
-        average = sum(lastOpens) / multSum
-        avgDelta = deltaSum / len(lastOpens)
+        average = sum(lastCloses) / multSum
+        avgDelta = deltaSum / len(lastCloses)
 
-        if average > lastCandle.getOpenPrice():
+        if abs(average - lastCandle.getClosePrice()) < 0.1:
+            return MAPredictorValue(meta, 0)
+
+        if average > lastCandle.getClosePrice():
             return MAPredictorValue(meta, -avgDelta)
         else:
             return MAPredictorValue(meta, avgDelta)

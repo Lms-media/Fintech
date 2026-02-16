@@ -1,34 +1,35 @@
 from UseCases import IUseCase
-from Entities import INextCandlePrediction, TrimmedCandleSeries
-from Interfaces import ICandleSeries, IPredictor, ILogger
-from Contracts import MAPredictor
+from Entities import TrimmedCandleSeries, INextCandlePrediction
+from Interfaces import IDataSource, IPredictor, ILogger
 
 class PredictorTestingUseCase(IUseCase):
-    _candleSeries: ICandleSeries
+    _dataSource: IDataSource
     _logger: ILogger
+    _predictor: IPredictor[INextCandlePrediction]
 
-    def __init__(self, candleSeries: ICandleSeries, logger: ILogger):
-        self._candleSeries = candleSeries
+    def __init__(self, dataSource: IDataSource, predictor: IPredictor[INextCandlePrediction], logger: ILogger):
+        self._dataSource = dataSource
         self._logger = logger
+        self._predictor = predictor
 
     def execute(self) -> None:
-        i = 1
-        while i <= self._candleSeries.getCount():
-            self._singleExecute(i, 0.02)
-            i += 1
-
-    def _singleExecute(self, candlesCount: int, sensitivity: float) -> None:
-        predictor = MAPredictor(candlesCount, sensitivity)
-        toIndex = 2
+        self._dataSource.init()
+        candleSeries = self._dataSource.getSeries()
         totalError = 0
-        while toIndex < self._candleSeries.getCount() - 1:
-            trimmedSeries = TrimmedCandleSeries(self._candleSeries, 0, toIndex)
-            predicted = predictor.predict(trimmedSeries).getNextCandle()
-            toIndex += 1
-            actual = self._candleSeries.getByIndex(toIndex)
 
-            delta = predicted.getClosePrice() - actual.getClosePrice()
-            error = delta * delta
-            totalError += error
+        for i in range(45, candleSeries.getCount()):
+            trimmedSeries = TrimmedCandleSeries(candleSeries, 0, i)
+            predicted = self._predictor.predict(trimmedSeries).getNextCandle()
+            self._logger.log(f"x:{i - 1};p:{predicted.getClosePrice()}")
+            actual = candleSeries.getByIndex(i + 1)
 
-        self._logger.log(str(totalError))
+            if actual:
+                delta = predicted.getClosePrice() - actual.getClosePrice()
+                error = delta * delta
+                totalError += error
+                self._logger.log(f"Actual: {actual}")
+                self._logger.log(f"Predicted: {predicted}")
+                self._logger.log(f"Delta: {delta}")
+                self._logger.log(f"Error: {error}")
+
+        self._logger.log(f"Total Error: {str(totalError)}")

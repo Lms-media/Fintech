@@ -14,6 +14,10 @@ class MAPredictorAdapter(IPredictorAdapter[MAPredictorValue, INextCandlePredicti
         priceDelta = value.priceDelta
         candleSeries = meta.getCandleSeries()
         lastCandle = candleSeries.getByIndex(candleSeries.getCount() - 1)
+
+        if not lastCandle:
+            raise ValueError("Cannot extract last candle from meta")
+
         timestamp = meta.getTimestamp()
         interval = lastCandle.getInterval()
         openPrice = lastCandle.getClosePrice()

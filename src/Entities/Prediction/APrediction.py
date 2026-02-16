@@ -17,4 +17,4 @@ class APrediction(IPrediction, ABC):
         return self._meta
 
     def __str__(self) -> str:
-        return f"🔮 ({self.getId()}) Meta: {str(self.getMeta())};"
+        return f"🔮 ({self.getId()}) Meta: {str(self.getMeta())}"

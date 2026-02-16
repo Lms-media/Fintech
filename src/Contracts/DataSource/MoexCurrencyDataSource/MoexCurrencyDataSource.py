@@ -41,12 +41,13 @@ class MoexCurrencyDataSource(IDataSource):
 
             data.extend(currentData)
             lastOpenDate = data[len(data) - 1]['TRADEDATE']
-            currentTimestamp = datetime.strptime(lastOpenDate, '%Y-%m-%d').timestamp() + self._interval.value
+            currentTimestamp = int(datetime.strptime(lastOpenDate, '%Y-%m-%d').timestamp()) + self._interval.value
 
+        self._series = CandleSeries(self._assetPair)
 
         for item in data:
             assetPair = self._assetPair
-            openTimestamp = datetime.strptime(item['TRADEDATE'], '%Y-%m-%d').timestamp()
+            openTimestamp = int(datetime.strptime(item['TRADEDATE'], '%Y-%m-%d').timestamp())
             openPrice = item['OPEN']
             closePrice = item['CLOSE']
             lowPrice = item['LOW']

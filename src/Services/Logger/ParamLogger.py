@@ -14,5 +14,5 @@ class ParamLogger(ILogger):
         self._logger.init()
 
     def log(self, chunk: str):
-        self._logger.log(f"{self._value}:{chunk}")
+        self._logger.log(f"x:{self._value};y:{chunk}")
         self._value += self._step

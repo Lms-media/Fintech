@@ -2,3 +2,4 @@ pytz
 pandas
 requests
 matplotlib
+keras

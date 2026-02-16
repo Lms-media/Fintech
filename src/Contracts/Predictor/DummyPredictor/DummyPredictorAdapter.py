@@ -13,6 +13,10 @@ class DummyPredictorAdapter(IPredictorAdapter[DummyPredictorValue, INextCandlePr
         assetPair = candleSeries.getAssetPair()
         timestamp = meta.getTimestamp()
         lastCandle = candleSeries.getByIndex(candleSeries.getCount() - 1)
+
+        if not lastCandle:
+            raise ValueError("Cannot extract last candle from meta")
+
         interval = lastCandle.getInterval()
         fromPrice = lastCandle.getClosePrice()
         toPrice = lastCandle.getClosePrice() + priceDelta

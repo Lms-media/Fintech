@@ -10,23 +10,27 @@ class SimpleMAPredictorAlgo(IPredictorAlgo[MAPredictorValue]):
 
     def calc(self, input: ICandleSeries):
         lastCandle = input.getByIndex(input.getCount() - 1)
+
+        if not lastCandle:
+            raise ValueError("Cannot extract last candle from meta")
+
         interval = lastCandle.getInterval()
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         meta = PredictionMeta(timestamp, input, 0.5)
 
         deltaSum = 0
-        lastOpens = []
+        lastCloses = []
         for i in range(self._candlesCount):
             candle = input.getByIndex(input.getCount() - 1 - i)
             if not candle:
                 continue
-            lastOpens.append(candle.getOpenPrice())
+            lastCloses.append(candle.getClosePrice())
             deltaSum += abs(candle.getOpenPrice() - candle.getClosePrice())
 
-        average = sum(lastOpens) / len(lastOpens)
-        avgDelta = deltaSum / len(lastOpens)
+        average = sum(lastCloses) / len(lastCloses)
+        avgDelta = deltaSum / len(lastCloses)
 
-        if average > lastCandle.getOpenPrice():
+        if average > lastCandle.getClosePrice():
             return MAPredictorValue(meta, -avgDelta)
         else:
             return MAPredictorValue(meta, avgDelta)

@@ -8,23 +8,29 @@ os.makedirs('logs')
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
-from UseCases import PredictorTestingUseCase
-from ValueObjects import Asset, AssetPair
-from Contracts import MoexCurrencyDataSource, MAPredictor, LoggedDataSource, LoggedPredictor
-from Services import FileLogger, GraphLogger2D, CompositeLogger, ParamLogger
+from config import assetPair
+
+from UseCases import PredictorVisualizeUseCase, PredictorTrainingUseCase, PredictorTestingUseCase
+from Contracts import MoexCurrencyDataSource, LoggedDataSource, MLPredictor, MAPredictor
+from Services import FileLogger, GraphLogger2D
 from Interfaces import IntervalType
 
-baseAsset = Asset('RUB', 1)
-quoteAsset = Asset('USD', 10)
-assetPair = AssetPair(baseAsset, quoteAsset)
-
-dataSourceLogger = FileLogger("logs/dataSource.log")
+trainingDataSourceLogger = FileLogger("logs/trainingDataSource.log")
+testingDataSourceLogger = FileLogger("logs/testingDataSource.log")
 predictorLogger = FileLogger("logs/predictor.log")
-mainLogger = ParamLogger(CompositeLogger([FileLogger("logs/main.log"), GraphLogger2D("logs/main.png")]), 1, 1)
-dataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UTSTOM", 1676224135, 1707760135, IntervalType.OneDay), dataSourceLogger)
-dataSource.init()
+mainLogger = FileLogger("logs/main.log")
+dynamicLogger = GraphLogger2D("logs/dynamic.png")
+testingLogger = FileLogger("logs/testing.log")
+trainingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UTSTOM", 0, 1701171835, IntervalType.OneDay), trainingDataSourceLogger)
+testingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UTSTOM", 1651171835, 1701171835, IntervalType.OneDay), testingDataSourceLogger)
+predictor = MLPredictor(45)
+# predictor = MAPredictor(15, 0.02)
 
-candleSeries = dataSource.getSeries()
+trainingUseCase = PredictorTrainingUseCase(trainingDataSource, predictor, mainLogger)
+trainingUseCase.execute()
 
-useCase = PredictorTestingUseCase(candleSeries, mainLogger)
-useCase.execute()
+visualizeUseCase = PredictorVisualizeUseCase(testingDataSource, predictor, dynamicLogger)
+visualizeUseCase.execute()
+
+testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, testingLogger)
+testingUseCase.execute()
