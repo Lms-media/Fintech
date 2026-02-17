@@ -3,6 +3,7 @@ from .RelativeMLPredictorValue import RelativeMLPredictorValue
 from .RelativeMLPredictorAdapter import RelativeMLPredictorAdapter
 from .RelativePerceptronPredictorAlgo import RelativePerceptronPredictorAlgo
 from .RelativeRNNPredictorAlgo import RelativeRNNPredictorAlgo
+from .RelativeMemorizingPredictorAlgo import RelativeMemorizingPredictorAlgo
 from ..ATrainablePredictor import ATrainablePredictor
 from ..Interfaces import ITrainablePredictor
 from Interfaces import ICandleSeries

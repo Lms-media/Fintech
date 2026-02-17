@@ -29,7 +29,13 @@ class RelativePerceptronPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredicto
             metrics=['mae']
         )
 
-        self._limits = self._deltaLimits = [
+        self._limits = [
+            (float('inf'), float('-inf')),
+            (float('inf'), float('-inf')),
+            (float('inf'), float('-inf')),
+            (float('inf'), float('-inf')),
+        ]
+        self._deltaLimits = [
             (float('inf'), float('-inf')),
             (float('inf'), float('-inf')),
             (float('inf'), float('-inf')),
@@ -89,10 +95,10 @@ class RelativePerceptronPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredicto
             deltaHighPrice = lastCandle.getHighPrice() - preLastCandle.getHighPrice()
             deltaLowPrice = lastCandle.getLowPrice() - preLastCandle.getLowPrice()
 
-            self._deltaLimits[0] = (min(deltaOpenPrice, self._limits[0][0]), max(deltaOpenPrice, self._limits[0][1]))
-            self._deltaLimits[1] = (min(deltaClosePrice, self._limits[1][0]), max(deltaClosePrice, self._limits[1][1]))
-            self._deltaLimits[2] = (min(deltaHighPrice, self._limits[2][0]), max(deltaHighPrice, self._limits[2][1]))
-            self._deltaLimits[3] = (min(deltaOpenPrice, self._limits[3][0]), max(deltaLowPrice, self._limits[3][1]))
+            self._deltaLimits[0] = (min(deltaOpenPrice, self._deltaLimits[0][0]), max(deltaOpenPrice, self._deltaLimits[0][1]))
+            self._deltaLimits[1] = (min(deltaClosePrice, self._deltaLimits[1][0]), max(deltaClosePrice, self._deltaLimits[1][1]))
+            self._deltaLimits[2] = (min(deltaHighPrice, self._deltaLimits[2][0]), max(deltaHighPrice, self._deltaLimits[2][1]))
+            self._deltaLimits[3] = (min(deltaLowPrice, self._deltaLimits[3][0]), max(deltaLowPrice, self._deltaLimits[3][1]))
 
             for i in range(item.getCount()):
                 candle = item.getByIndex(i)

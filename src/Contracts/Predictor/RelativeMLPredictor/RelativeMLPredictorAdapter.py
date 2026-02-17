@@ -17,19 +17,20 @@ class RelativeMLPredictorAdapter(IPredictorAdapter[RelativeMLPredictorValue, INe
         if not lastCandle:
             raise ValueError(f"Failed to parse last candle from meta")
 
-        timestamp = lastCandle.getOpenTimestamp()
         interval = lastCandle.getInterval()
+        timestamp = lastCandle.getOpenTimestamp() + interval.value
         volume = 1
 
+        # Denormalize absolute delta
         deltaOpenPrice = outputs[0] * (limits[0][1] - limits[0][0]) + limits[0][0]
         deltaClosePrice = outputs[1] * (limits[1][1] - limits[1][0]) + limits[1][0]
         deltaHighPrice = outputs[2] * (limits[2][1] - limits[2][0]) + limits[2][0]
-        dletaLowPrice = outputs[3] * (limits[3][1] - limits[3][0]) + limits[3][0]
+        deltaLowPrice = outputs[3] * (limits[3][1] - limits[3][0]) + limits[3][0]
 
         openPrice = lastCandle.getOpenPrice() + deltaOpenPrice
         closePrice = lastCandle.getClosePrice() + deltaClosePrice
         highPrice = lastCandle.getHighPrice() + deltaHighPrice
-        lowPrice = lastCandle.getLowPrice() + dletaLowPrice
+        lowPrice = lastCandle.getLowPrice() + deltaLowPrice
 
         highPrice = max(openPrice, closePrice, highPrice, lowPrice)
         lowPrice = min(openPrice, closePrice, highPrice, lowPrice)
