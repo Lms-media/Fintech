@@ -3,7 +3,7 @@ from .LoggedPredictor import LoggedPredictor
 from .APredictor import APredictor
 from .MAPredictor import MAPredictor
 from .AbsolutePerceptronPredictor import AbsolutePerceptronPredictor
-from .RelativePerceptronPredictor import RelativePerceptronPredictor
+from .RelativeMLPredictor import RelativeMLPredictor
 from .Interfaces import ITrainablePredictor, ITrainablePredictorAlgo
 
 __all__ = [
@@ -12,7 +12,7 @@ __all__ = [
     'APredictor',
     'MAPredictor',
     'AbsolutePerceptronPredictor',
-    'RelativePerceptronPredictor',
+    'RelativeMLPredictor',
     'ITrainablePredictor',
     'ITrainablePredictorAlgo',
 ]
