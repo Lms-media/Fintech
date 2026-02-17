@@ -29,7 +29,6 @@ def candleListToJson(candles: List[Candle], filename: str):
     with open(filename, "w", encoding="utf-8") as f:
         json.dump([asdict(c) for c in candles], f, default=default_serializer, indent=2)
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, required=True, help="config path")
@@ -57,6 +56,7 @@ if __name__ == "__main__":
     # simpleStrategy = SimpleStrategy(5)
     trainingManager = InvidualTrainingManager({config["tickerCode"]: data}, {config["tickerCode"]: {}}, 5, False)
     trainingManager.train_on_tickers()
+    trainingManager.evaluate_model()
     filename = "IndividualModel.pkl"
     # Path(path).parent.mkdir(parents=True, exist_ok=True)
     trainingManager.save_model(filename)

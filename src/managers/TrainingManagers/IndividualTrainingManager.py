@@ -294,3 +294,177 @@ class InvidualTrainingManager(TrainingManager):
         plt.xticks(rotation=45)
         plt.tight_layout()
         plt.show()
+    def prepare_feature_columns(self):
+        cols = [
+            'close', 'close_lag1', 'close_lag2', 'close_lag3',
+            'pct_change', 'volatility', 'sma5',
+            'vol_ratio', 'bullish'
+        ]
+        if self.model is not None:
+            cols.append('ticker_id')
+        return cols
+    def _evaluate_on_dataframe(self, model, df: pd.DataFrame, ticker_id: int):
+        feat = self.generate_features(df, ticker_id=ticker_id)
+        X, y = self.prepare_sequences(feat)
+
+        if X is None:
+            return None
+
+        X_2d = X.reshape(X.shape[0], X.shape[1] * X.shape[2])
+        preds = model.predict(X_2d)
+
+        return np.mean((preds - y) ** 2)
+
+    def evaluate_on_train_data(self, ticker: str):
+        if self.model is None:
+            return None
+        df = self.data.get(ticker)
+        if df is None or df.empty:
+            return None
+        ticker_id = list(self.instrumentsData.keys()).index(ticker)
+        return self._evaluate_on_dataframe(self.model, df, ticker_id)
+    
+    def evaluate_on_new_data(self, ticker: str, new_data: DataSource | pd.DataFrame):
+        if self.model is None:
+            return None
+
+        df = self.transform_candles_to_dataframe(new_data)
+        if df.empty:
+            return None
+
+        ticker_id = list(self.instrumentsData.keys()).index(ticker)
+        return self._evaluate_on_dataframe(self.model, df, ticker_id)
+    
+    def evaluate_walk_forward(self, ticker: str, min_train_size: int = 200, step: int = 10):
+        df = self.data.get(ticker)
+        if df is None or len(df) < min_train_size + self.lookback_window + 1:
+            return None
+
+        ticker_id = list(self.instrumentsData.keys()).index(ticker)
+        errors = []
+
+        wf_params = self.model_params.copy()
+        wf_params.update({
+            'n_estimators': 30,
+            'max_depth': 10,
+            'warm_start': False
+        })
+
+        for i in range(min_train_size, len(df) - 1, step):
+            train_df = df.iloc[:i]
+
+            feat = self.generate_features(train_df, ticker_id=ticker_id)
+            X, y = self.prepare_sequences(feat)
+            if X is None:
+                continue
+
+            X_2d = X.reshape(X.shape[0], -1)
+
+            model = RandomForestRegressor(**wf_params)
+            model.fit(X_2d, y)
+
+            last_window = feat.iloc[-self.lookback_window:]
+            X_next = last_window[self.prepare_feature_columns()].values.reshape(1, -1)
+
+            pred = model.predict(X_next)[0]
+            real = df['close'].iloc[i + 1]
+
+            errors.append((pred - real) ** 2)
+
+            if (i - min_train_size) % 50 == 0:
+                print(f"Walk-forward {ticker}: {i}/{len(df)}")
+
+        return np.mean(errors) if errors else None
+    def evaluate_out_of_sample(self, ticker: str, train_ratio: float = 0.5):
+        df = self.data.get(ticker)
+        if df is None or len(df) < self.lookback_window * 2:
+            return None
+
+        ticker_id = list(self.instrumentsData.keys()).index(ticker)
+
+        split_idx = int(len(df) * train_ratio)
+        train_df = df.iloc[:split_idx]
+        test_df = df.iloc[split_idx:]
+
+        feat_train = self.generate_features(train_df, ticker_id=ticker_id)
+        X_train, y_train = self.prepare_sequences(feat_train)
+        if X_train is None:
+            return None
+
+        X_train_2d = X_train.reshape(X_train.shape[0], -1)
+
+        model = RandomForestRegressor(**self.model_params)
+        model.fit(X_train_2d, y_train)
+
+        errors = []
+
+        for i in range(self.lookback_window, len(test_df) - 1):
+            history_df = pd.concat([
+                train_df,
+                test_df.iloc[:i]
+            ])
+
+            feat_hist = self.generate_features(history_df, ticker_id=ticker_id)
+            last_window = feat_hist.iloc[-self.lookback_window:]
+
+            X_next = last_window[self.prepare_feature_columns()].values.reshape(1, -1)
+
+            pred = model.predict(X_next)[0]
+            real = test_df['close'].iloc[i + 1]
+
+            errors.append((pred - real) ** 2)
+
+        return np.mean(errors) if errors else None
+    def evaluate_model(self):
+        if self.model is None:
+            print("Модель не обучена. Оценка невозможна.")
+            return None
+
+        if not self.data:
+            print("Нет данных для оценки модели.")
+            return None
+
+        results = {}
+
+        print("\n===== ОЦЕНКА ML СТРАТЕГИИ =====\n")
+
+        for ticker in self.data.keys():
+            print(f"Тикер: {ticker}")
+
+            ticker_result = {}
+
+            # Оценка на обучающих данных
+            try:
+                train_score = self.evaluate_on_train_data(ticker)
+                ticker_result['train'] = train_score
+            except Exception as e:
+                print(f"Ошибка train-оценки: {e}")
+                ticker_result['train'] = None
+
+            # Оценка walk-forward
+            try:
+                walk_score = self.evaluate_walk_forward(ticker)
+                ticker_result['walk_forward'] = walk_score
+            except Exception as e:
+                print(f"Ошибка walk-forward оценки: {e}")
+                ticker_result['walk_forward'] = None
+            # Оценка на новых данных
+            try:
+                ticker_result['out_of_sample'] = self.evaluate_out_of_sample(ticker, 0.8)
+            except Exception as e:
+                print(f"Ошибка out-of-sample оценки: {e}")
+                ticker_result['out_of_sample'] = None
+
+            results[ticker] = ticker_result
+            print("-" * 40)
+
+        print("\n===== ИТОГИ =====")
+        for ticker, res in results.items():
+            print(
+                f"{ticker} | "
+                f"Train: {res['train']} | "
+                f"Walk: {res['walk_forward']} |"
+                f" Out of sample: {res['out_of_sample']}"
+            )
+
+        return results

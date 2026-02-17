@@ -72,3 +72,5 @@ class HistoricalTradingManager(TradingManager):
         self._currentCandles[instrument] = self.dataSources[instrument].nextCandle(
             currentCandle
         )
+    
+
