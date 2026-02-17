@@ -8,11 +8,10 @@ P = TypeVar('P', bound=IPrediction)
 
 class ATrainablePredictor(APredictor[V, P], ITrainablePredictor, Generic[V, P]):
     _algo: ITrainablePredictorAlgo[V]
-    _candlesCount: int
     _dataset: list[ICandleSeries]
 
     def __init__(self, algo: ITrainablePredictorAlgo[V], adapter: IPredictorAdapter[V, P], candlesCount: int):
-        super().__init__(algo, adapter)
+        super().__init__(algo, adapter, candlesCount)
         self._candlesCount = candlesCount
         self._dataset = list()
         self._algo = algo

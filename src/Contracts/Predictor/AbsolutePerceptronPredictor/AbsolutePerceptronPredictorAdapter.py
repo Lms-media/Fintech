@@ -1,11 +1,11 @@
 from Interfaces import IPredictorAdapter
 from Entities import INextCandlePrediction, NextCandlePrediction
 from ValueObjects import Candle
-from .MLPredictorValue import MLPredictorValue
+from .AbsolutePerceptronPredictorValue import AbsolutePerceptronPredictorValue
 
-class MLPredictorAdapter(IPredictorAdapter[MLPredictorValue, INextCandlePrediction]):
+class AbsolutePerceptronPredictorAdapter(IPredictorAdapter[AbsolutePerceptronPredictorValue, INextCandlePrediction]):
 
-    def transform(self, value: MLPredictorValue) -> INextCandlePrediction:
+    def transform(self, value: AbsolutePerceptronPredictorValue) -> INextCandlePrediction:
         meta = value.meta
         outputs = value.outputs
         limits = value.limits

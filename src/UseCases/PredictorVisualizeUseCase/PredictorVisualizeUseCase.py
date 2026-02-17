@@ -27,7 +27,7 @@ class PredictorVisualizeUseCase(IUseCase):
 
             self._logger.log(f"x:{i};actual:{actual.getClosePrice()}")
 
-            if i < 45:
+            if i < self._predictor.getCandlesCount():
                 continue
 
             trimmed = TrimmedCandleSeries(candleSeries, 0, i)

@@ -17,3 +17,6 @@ class LoggedPredictor(IPredictor, Generic[P]):
         self._logger.log(f"Prediction: {str(prediction)}")
 
         return prediction
+
+    def getCandlesCount(self):
+        return self._predictor.getCandlesCount()

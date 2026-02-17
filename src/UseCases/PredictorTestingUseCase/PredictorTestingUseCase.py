@@ -17,7 +17,7 @@ class PredictorTestingUseCase(IUseCase):
         candleSeries = self._dataSource.getSeries()
         totalError = 0
 
-        for i in range(45, candleSeries.getCount()):
+        for i in range(self._predictor.getCandlesCount(), candleSeries.getCount()):
             trimmedSeries = TrimmedCandleSeries(candleSeries, 0, i)
             predicted = self._predictor.predict(trimmedSeries).getNextCandle()
             self._logger.log(f"x:{i - 1};p:{predicted.getClosePrice()}")

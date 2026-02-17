@@ -3,13 +3,14 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Input, Flatten
 from keras.optimizers import Adam
 from Interfaces import ICandleSeries
-from .MLPredictorValue import MLPredictorValue
+from .RelativePerceptronPredictorValue import RelativePerceptronPredictorValue
 from Entities import PredictionMeta
 from ..Interfaces import ITrainablePredictorAlgo
 
-class MLPredictorAlgo(ITrainablePredictorAlgo[MLPredictorValue]):
+class RelativePerceptronPredictorAlgo(ITrainablePredictorAlgo[RelativePerceptronPredictorValue]):
     _candlesCount: int
     _limits: list[tuple[float, float]]
+    _deltaLimits: list[tuple[float, float]]
 
     def __init__(self, candlesCount: int):
         self._candlesCount = candlesCount
@@ -28,13 +29,12 @@ class MLPredictorAlgo(ITrainablePredictorAlgo[MLPredictorValue]):
             metrics=['mae']
         )
 
-        self._limits = [
+        self._limits = self._deltaLimits = [
             (float('inf'), float('-inf')),
             (float('inf'), float('-inf')),
             (float('inf'), float('-inf')),
             (float('inf'), float('-inf')),
         ]
-
 
     def calc(self, input: ICandleSeries):
         allNormalized = self._normalize(input)
@@ -53,7 +53,7 @@ class MLPredictorAlgo(ITrainablePredictorAlgo[MLPredictorValue]):
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         meta = PredictionMeta(timestamp, input, 0.5)
 
-        return MLPredictorValue(meta, result, self._limits)
+        return RelativePerceptronPredictorValue(meta, result, self._deltaLimits)
 
     def train(self, dataset: list[ICandleSeries]) -> None:
         if len(dataset) == 0:
@@ -66,8 +66,9 @@ class MLPredictorAlgo(ITrainablePredictorAlgo[MLPredictorValue]):
 
         for series in dataset:
             normalized = self._normalize(series)
+            deltaNormalized = self._normalizeDelta(series)
             X_list.append(normalized[:self._candlesCount])
-            y_list.append(normalized[self._candlesCount])
+            y_list.append(deltaNormalized)
 
         X_train = np.array(X_list)
         y_train = np.array(y_list)
@@ -76,6 +77,23 @@ class MLPredictorAlgo(ITrainablePredictorAlgo[MLPredictorValue]):
 
     def _initNormalization(self, dataset: list[ICandleSeries]):
         for item in dataset:
+            count = item.getCount()
+            lastCandle = item.getByIndex(count - 1)
+            preLastCandle = item.getByIndex(count - 2)
+
+            if not lastCandle or not preLastCandle:
+                raise ValueError("Dataset persing error")
+
+            deltaOpenPrice = lastCandle.getOpenPrice() - preLastCandle.getOpenPrice()
+            deltaClosePrice = lastCandle.getClosePrice() - preLastCandle.getClosePrice()
+            deltaHighPrice = lastCandle.getHighPrice() - preLastCandle.getHighPrice()
+            deltaLowPrice = lastCandle.getLowPrice() - preLastCandle.getLowPrice()
+
+            self._deltaLimits[0] = (min(deltaOpenPrice, self._limits[0][0]), max(deltaOpenPrice, self._limits[0][1]))
+            self._deltaLimits[1] = (min(deltaClosePrice, self._limits[1][0]), max(deltaClosePrice, self._limits[1][1]))
+            self._deltaLimits[2] = (min(deltaHighPrice, self._limits[2][0]), max(deltaHighPrice, self._limits[2][1]))
+            self._deltaLimits[3] = (min(deltaOpenPrice, self._limits[3][0]), max(deltaLowPrice, self._limits[3][1]))
+
             for i in range(item.getCount()):
                 candle = item.getByIndex(i)
 
@@ -106,3 +124,24 @@ class MLPredictorAlgo(ITrainablePredictorAlgo[MLPredictorValue]):
             normalized.append([scaledOpen, scaledClose, scaledHigh, scaledLow])
 
         return normalized
+
+    def _normalizeDelta(self, input: ICandleSeries) -> list[float]:
+        count = input.getCount()
+
+        lastCandle = input.getByIndex(count - 1)
+        preLastCandle = input.getByIndex(count - 2)
+
+        if not lastCandle or not preLastCandle:
+            raise ValueError("Delta normalization failed")
+
+        deltaOpenPrice = lastCandle.getOpenPrice() - preLastCandle.getOpenPrice()
+        deltaClosePrice = lastCandle.getClosePrice() - preLastCandle.getClosePrice()
+        deltaHighPrice = lastCandle.getHighPrice() - preLastCandle.getHighPrice()
+        deltaLowPrice = lastCandle.getLowPrice() - preLastCandle.getLowPrice()
+
+        scaledDeltaOpen = (deltaOpenPrice - self._deltaLimits[0][0]) / (self._deltaLimits[0][1] - self._deltaLimits[0][0])
+        scaledDeltaClose = (deltaClosePrice - self._deltaLimits[1][0]) / (self._deltaLimits[1][1] - self._deltaLimits[1][0])
+        scaledDeltaHigh = (deltaHighPrice - self._deltaLimits[2][0]) / (self._deltaLimits[2][1] - self._deltaLimits[2][0])
+        scaledDeltaLow = (deltaLowPrice - self._deltaLimits[3][0]) / (self._deltaLimits[3][1] - self._deltaLimits[3][0])
+
+        return [scaledDeltaOpen, scaledDeltaClose, scaledDeltaHigh, scaledDeltaLow]
