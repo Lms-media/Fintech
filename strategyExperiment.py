@@ -15,9 +15,10 @@ from Services import FileLogger
 from Contracts import MoexCurrencyDataSource, LoggedDataSource
 from Interfaces import IntervalType
 
-predictor = DirectPredictor()
 logger = FileLogger("logs/strategyTest.log")
 dataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UTSTOM", 0, 1701171835, IntervalType.OneDay), logger)
+dataSource.init()
+predictor = DirectPredictor(dataSource)
 
 testingUseCase = StrategyTestingUseCase(dataSource, predictor, logger)
 testingUseCase.execute()

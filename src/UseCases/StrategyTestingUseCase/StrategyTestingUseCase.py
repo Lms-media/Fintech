@@ -13,7 +13,6 @@ class StrategyTestingUseCase(IUseCase):
         self._predictor = predictor
 
     def execute(self) -> None:
-        self._dataSource.init()
         candleSeries = self._dataSource.getSeries()
         totalError = 0
         offset = self._predictor.getCandlesCount()
@@ -21,7 +20,7 @@ class StrategyTestingUseCase(IUseCase):
         for i in range(offset, candleSeries.getCount()):
             trimmedSeries = TrimmedCandleSeries(candleSeries, i - offset, i)
             predicted = self._predictor.predict(trimmedSeries).getNextCandle()
-            actual = candleSeries.getByIndex(i - 1)
+            actual = candleSeries.getByIndex(i)
 
             if actual:
                 delta = predicted.getClosePrice() - actual.getClosePrice()
