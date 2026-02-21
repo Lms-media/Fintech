@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from Interfaces import IPredictionMeta
 
 @dataclass
-class MLPredictorValue():
+class RelativeMLPredictorValue():
     meta: IPredictionMeta
     outputs: list[float]
     limits: list[tuple[float, float]]

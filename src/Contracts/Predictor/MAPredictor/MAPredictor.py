@@ -6,5 +6,5 @@ from ..APredictor import APredictor
 
 class MAPredictor(APredictor[MAPredictorValue, INextCandlePrediction]):
 
-    def __init__(self, candlesCount: int, sensitivity: float):
-        super().__init__(WeightedMAPredictorAlgo(candlesCount), MAPredictorAdapter(sensitivity))
+    def __init__(self, candlesCount: int):
+        super().__init__(WeightedMAPredictorAlgo(candlesCount), MAPredictorAdapter(), candlesCount)

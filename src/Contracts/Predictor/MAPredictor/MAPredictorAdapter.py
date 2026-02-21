@@ -4,11 +4,6 @@ from ValueObjects import Candle
 from .MAPredictorValue import MAPredictorValue
 
 class MAPredictorAdapter(IPredictorAdapter[MAPredictorValue, INextCandlePrediction]):
-    _sensitivity: float
-
-    def __init__(self, sensitivity: float):
-        self._sensitivity = sensitivity
-
     def transform(self, value: MAPredictorValue) -> INextCandlePrediction:
         meta = value.meta
         priceDelta = value.priceDelta

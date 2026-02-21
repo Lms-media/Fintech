@@ -21,16 +21,17 @@ class PredictorVisualizeUseCase(IUseCase):
 
         for i in range(candleSeries.getCount()):
             actual = candleSeries.getByIndex(i)
+            offset = self._predictor.getCandlesCount()
 
             if not actual:
                 continue
 
             self._logger.log(f"x:{i};actual:{actual.getClosePrice()}")
 
-            if i < 45:
+            if i < offset:
                 continue
 
-            trimmed = TrimmedCandleSeries(candleSeries, 0, i)
+            trimmed = TrimmedCandleSeries(candleSeries, i - offset, i)
             prediction = self._predictor.predict(trimmed)
             predicted = prediction.getNextCandle()
             self._logger.log(f"x:{i};predicted:{predicted.getClosePrice()}")

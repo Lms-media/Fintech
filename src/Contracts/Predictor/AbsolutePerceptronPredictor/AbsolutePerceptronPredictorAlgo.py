@@ -3,11 +3,11 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Input, Flatten
 from keras.optimizers import Adam
 from Interfaces import ICandleSeries
-from .MLPredictorValue import MLPredictorValue
+from .AbsolutePerceptronPredictorValue import AbsolutePerceptronPredictorValue
 from Entities import PredictionMeta
 from ..Interfaces import ITrainablePredictorAlgo
 
-class MLPredictorAlgo(ITrainablePredictorAlgo[MLPredictorValue]):
+class AbsolutePerceptronPredictorAlgo(ITrainablePredictorAlgo[AbsolutePerceptronPredictorValue]):
     _candlesCount: int
     _limits: list[tuple[float, float]]
 
@@ -53,7 +53,7 @@ class MLPredictorAlgo(ITrainablePredictorAlgo[MLPredictorValue]):
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         meta = PredictionMeta(timestamp, input, 0.5)
 
-        return MLPredictorValue(meta, result, self._limits)
+        return AbsolutePerceptronPredictorValue(meta, result, self._limits)
 
     def train(self, dataset: list[ICandleSeries]) -> None:
         if len(dataset) == 0:

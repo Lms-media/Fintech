@@ -9,3 +9,7 @@ class IPredictor(ABC, Generic[P]):
     @abstractmethod
     def predict(self, input: IReadonlyCandleSeries) -> P:
         pass
+
+    @abstractmethod
+    def getCandlesCount(self) -> int:
+        pass

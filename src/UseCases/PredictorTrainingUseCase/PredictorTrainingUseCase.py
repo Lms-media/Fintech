@@ -16,7 +16,7 @@ class PredictorTrainingUseCase(IUseCase):
     def execute(self) -> None:
         self._dataSource.init()
         candleSeries = self._dataSource.getSeries()
-        offset = 45
+        offset = self._predictor.getCandlesCount()
 
         for i in range(offset, candleSeries.getCount()):
             trimmed = TrimmedCandleSeries(candleSeries, i - offset, i + 1)

@@ -54,6 +54,9 @@ class MoexCurrencyDataSource(IDataSource):
             highPrice = item['HIGH']
             volume = item['VOLRUR']
 
+            if openPrice == 0 or closePrice == 0 or openPrice is None or closePrice is None:
+                continue
+
             candle = Candle(assetPair, openTimestamp, self._interval, openPrice, closePrice, highPrice, lowPrice, volume)
             self._series.appendRight(candle)
 
