@@ -7,4 +7,4 @@ from ..APredictor import APredictor
 class DirectPredictor(APredictor[DirectPredictorValue, INextCandlePrediction]):
 
     def __init__(self):
-        super().__init__(DirectPredictorAlgo(), DirectPredictorAdapter())
+        super().__init__(DirectPredictorAlgo(), DirectPredictorAdapter(), 1)

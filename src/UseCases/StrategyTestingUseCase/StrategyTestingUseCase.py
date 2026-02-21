@@ -16,12 +16,12 @@ class StrategyTestingUseCase(IUseCase):
         self._dataSource.init()
         candleSeries = self._dataSource.getSeries()
         totalError = 0
+        offset = self._predictor.getCandlesCount()
 
-        for i in range(45, candleSeries.getCount()):
-            trimmedSeries = TrimmedCandleSeries(candleSeries, 0, i)
+        for i in range(offset, candleSeries.getCount()):
+            trimmedSeries = TrimmedCandleSeries(candleSeries, i - offset, i)
             predicted = self._predictor.predict(trimmedSeries).getNextCandle()
-            self._logger.log(f"x:{i - 1};p:{predicted.getClosePrice()}")
-            actual = candleSeries.getByIndex(i + 1)
+            actual = candleSeries.getByIndex(i - 1)
 
             if actual:
                 delta = predicted.getClosePrice() - actual.getClosePrice()
@@ -32,4 +32,8 @@ class StrategyTestingUseCase(IUseCase):
                 self._logger.log(f"Delta: {delta}")
                 self._logger.log(f"Error: {error}")
 
+        relativeError = totalError / (candleSeries.getCount() - offset)
+
         self._logger.log(f"Total Error: {str(totalError)}")
+        self._logger.log(f"Relative Error: {str(relativeError)}")
+        self._logger.log(f"Average Delta: {str(relativeError ** 0.5)}")
