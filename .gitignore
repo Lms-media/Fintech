@@ -1,6 +1,8 @@
 venv/
 .idea/
+.vscode/
 __pycache__/
 src/configLocal.py
+candles/
 
 logs

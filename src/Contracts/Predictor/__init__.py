@@ -4,6 +4,7 @@ from .APredictor import APredictor
 from .MAPredictor import MAPredictor
 from .MLPredictor import MLPredictor
 from .Interfaces import ITrainablePredictor, ITrainablePredictorAlgo
+from .DirectPredictor import DirectPredictor
 
 __all__ = [
     'DummyPredictor',
@@ -13,4 +14,5 @@ __all__ = [
     'MLPredictor',
     'ITrainablePredictor',
     'ITrainablePredictorAlgo',
+    'DirectPredictor',
 ]
