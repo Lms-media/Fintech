@@ -1,7 +1,7 @@
 from Interfaces import IAssessor, IPortfolio, IContextProvider, DirectionType
-from Entities import IDirectionSignal, ITurnBackAction, TurnBackAction
+from Entities import CandleSignal, ITurnBackAction, TurnBackAction
 
-class HalfInAssessor(IAssessor[IDirectionSignal, ITurnBackAction]):
+class CandleTestAssesor(IAssessor[CandleSignal, ITurnBackAction]):
     _portfolio: IPortfolio
     _contextProvider: IContextProvider
 
@@ -9,10 +9,9 @@ class HalfInAssessor(IAssessor[IDirectionSignal, ITurnBackAction]):
         self._portfolio = portfolio
         self._contextProvider = contextProvider
 
-    def getAction(self, input: IDirectionSignal) -> ITurnBackAction:
+    def getAction(self, input: CandleSignal) -> ITurnBackAction:
         volume = self._portfolio.getBaseAmount() / 2
-        meta = input.getPrediction().getMeta()
-        assetPair = meta.getCandleSeries().getAssetPair()
+        assetPair = input.previousCandles.getAssetPair()
 
         if not self._portfolio.getBaseAsset() == assetPair.getBaseAsset():
             raise ValueError(f"Assessor's signal must match with portfolio with base asset, but portfolio base asset is {self._portfolio.getBaseAsset()} and signal base asset is {assetPair.getBaseAsset()}")
@@ -23,5 +22,11 @@ class HalfInAssessor(IAssessor[IDirectionSignal, ITurnBackAction]):
             raise ValueError(f"Assessor's context is missing folowing asset pair price: {assetPair}")
 
         lotCount = volume / price / assetPair.getQuoteAsset().getLotSize()
+        lotToBuy = int((self._portfolio.getCapitalization(self._contextProvider.getContext()) * 0.4) / price)
+        
+        if input.getPrediction().getOpenPrice() < input.getPrediction().getClosePrice():
+            self._portfolio.buyAsset(assetPair.getQuoteAsset(), lotToBuy, price)
+        if input.getPrediction().getOpenPrice() > input.getPrediction().getClosePrice():
+            self._portfolio.sellAsset(assetPair.getQuoteAsset(), lotToBuy, price)
 
-        return TurnBackAction(input, assetPair, int(lotCount), input.getDirection() == DirectionType.Up, self._contextProvider.getContext(), 15)
+        return TurnBackAction(input, assetPair, int(lotCount), True, self._contextProvider.getContext(), 15)
