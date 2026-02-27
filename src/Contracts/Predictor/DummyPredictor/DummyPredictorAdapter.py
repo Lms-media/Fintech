@@ -7,8 +7,6 @@ class DummyPredictorAdapter(IPredictorAdapter[DummyPredictorValue, INextCandlePr
 
     def transform(self, value: DummyPredictorValue) -> INextCandlePrediction:
         meta = value.meta
-        priceDelta = value.priceDelta
-        volume = value.volume
         candleSeries = meta.getCandleSeries()
         assetPair = candleSeries.getAssetPair()
         timestamp = meta.getTimestamp()
@@ -18,9 +16,12 @@ class DummyPredictorAdapter(IPredictorAdapter[DummyPredictorValue, INextCandlePr
             raise ValueError("Cannot extract last candle from meta")
 
         interval = lastCandle.getInterval()
-        fromPrice = lastCandle.getClosePrice()
-        toPrice = lastCandle.getClosePrice() + priceDelta
+        openPrice = lastCandle.getOpenPrice()
+        closePrice = lastCandle.getClosePrice()
+        highPrice = lastCandle.getHighPrice()
+        lowPrice = lastCandle.getLowPrice()
+        volume = lastCandle.getVolume()
 
-        nextCandle = Candle(assetPair, timestamp, interval, fromPrice, toPrice, toPrice, fromPrice, volume)
+        nextCandle = Candle(assetPair, timestamp, interval, openPrice, closePrice, highPrice, lowPrice, volume)
 
         return NextCandlePrediction(meta, nextCandle)

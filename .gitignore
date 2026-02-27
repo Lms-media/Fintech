@@ -4,3 +4,4 @@ __pycache__/
 src/configLocal.py
 
 logs
+stats
