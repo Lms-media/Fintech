@@ -8,8 +8,8 @@ class LoggedContextProvider(IContextProvider):
         self._contextProvider = contextProvider
         self._logger = logger
 
-    def getContext(self) -> IExecutionContext:
-        context = self._contextProvider.getContext()
+    def getContext(self, timestamp: int) -> IExecutionContext:
+        context = self._contextProvider.getContext(timestamp)
         self._logger.log(f"Got context: {str(context)}")
 
         return context

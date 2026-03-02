@@ -1,6 +1,7 @@
 from UseCases import IUseCase
+import time
 from Entities import TrimmedCandleSeries, INextCandlePrediction
-from Interfaces import IDataSource, IPredictor, ILogger, IStrategy, IAssessor
+from Interfaces import IDataSource, IPredictor, ILogger, IStrategy, IAssessor, IExecutor, IAction, ActionStatus
 
 class StrategyTestingUseCase(IUseCase):
     _dataSource: IDataSource
@@ -13,25 +14,30 @@ class StrategyTestingUseCase(IUseCase):
         predictor: IPredictor[INextCandlePrediction],
         strategy: IStrategy,
         assessor: IAssessor,
-        logger: ILogger
+        logger: ILogger,
+        executor: IExecutor
     ):
         self._dataSource = dataSource
         self._logger = logger
         self._predictor = predictor
         self._strategy = strategy
         self._assessor = assessor
+        self._executor = executor
 
     def execute(self) -> None:
         candleSeries = self._dataSource.getSeries()
         totalError = 0
         offset = self._predictor.getCandlesCount()
-
+        counter = 0
         for i in range(offset, candleSeries.getCount()):
             trimmedSeries = TrimmedCandleSeries(candleSeries, i - offset, i)
             predicted = self._predictor.predict(trimmedSeries)
             signal = self._strategy.getSignal(predicted)
-            action = self._assessor.getAction(signal)
+            action: IAction = self._assessor.getAction(signal)
+            self._executor.start(action)
             actual = candleSeries.getByIndex(i)
+            while action.getStatus() != ActionStatus.Finished:
+                time.sleep(0.5)
 
             if actual:
                 delta = predicted.getNextCandle().getClosePrice() - actual.getClosePrice()
@@ -42,6 +48,9 @@ class StrategyTestingUseCase(IUseCase):
                 self._logger.log(f"Delta: {delta}")
                 self._logger.log(f"Error: {error}")
                 self._logger.log(f"action: {action.__str__()}")
+            if counter > 100:
+                break
+            counter += 1
 
         relativeError = totalError / (candleSeries.getCount() - offset)
 

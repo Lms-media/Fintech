@@ -6,7 +6,7 @@ from ..Signal import ISignal
 from ..Task import ITask
 from ..IEntity import IEntity
 
-class IAction(IEntity, ABC):
+class   IAction(IEntity, ABC):
 
     @abstractmethod
     def getSignal(self) -> ISignal:

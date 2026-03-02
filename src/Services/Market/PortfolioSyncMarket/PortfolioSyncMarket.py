@@ -12,11 +12,13 @@ class PortfolioSyncMarket(IMarket):
         assetPair = task.getAssetPair()
         quoteAsset = assetPair.getQuoteAsset()
         lotCount = task.getLotCount()
-        context = self._contextProvider.getContext()
+        context = self._contextProvider.getContext(task.getTimestamp())
         price = context.getPrice(assetPair)
 
-        if task.getType() == TaskType.Buy:
+        if task.getType() == TaskType.Buy and price:
+            print("market buying", price)
             self._portfolio.buyAsset(quoteAsset, lotCount, price)
 
-        if task.getType() == TaskType.Sell:
+        if task.getType() == TaskType.Sell and price:
+            print("market selling", price)
             self._portfolio.sellAsset(quoteAsset, lotCount, price)

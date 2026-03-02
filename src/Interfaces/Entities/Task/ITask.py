@@ -32,3 +32,7 @@ class ITask(IEntity, ABC):
     @abstractmethod
     def finish(self) -> None:
         pass
+    
+    @abstractmethod
+    def getTimestamp(self) -> int:
+        pass

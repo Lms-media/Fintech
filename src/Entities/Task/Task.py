@@ -8,8 +8,9 @@ class Task(ITask):
     _trigger: ITaskTrigger
     _assetPair: IAssetPair
     _lotCount: int
+    _timestamp: int
 
-    def __init__(self, type: TaskType, assetPair:IAssetPair, lotCount: int, trigger: ITaskTrigger):
+    def __init__(self, type: TaskType, assetPair:IAssetPair, lotCount: int, trigger: ITaskTrigger, timestamp: int):
         if lotCount < 0:
             raise ValueError(f"'lotCount' must be greater than or equal zero, but 'lotCount' is {lotCount}")
 
@@ -19,6 +20,7 @@ class Task(ITask):
         self._lotCount = lotCount
         self._trigger = trigger
         self._id = uuid.uuid4()
+        self._timestamp = timestamp
 
     def getId(self) -> str:
         return self._id
@@ -52,6 +54,9 @@ class Task(ITask):
             raise ValueError(f"Task is already finished")
 
         self._status = TaskStatus.Finished
+    
+    def getTimestamp(self) -> int:
+        return self._timestamp
 
     def __str__(self) -> str:
         return f"🧩 ({self.getId()}); Status: {self.getStatus()}; Type: {self.getType()}; Trigger: {self.getTrigger()}; Asset Pair: {self.getAssetPair()}; Lot Count: {self.getLotCount()}"

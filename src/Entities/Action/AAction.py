@@ -29,8 +29,10 @@ class AAction(IAction, ABC):
     def start(self) -> None:
         if not self._status == ActionStatus.Waiting:
             raise ValueError(f"Action was already started")
+        self._status = ActionStatus.Executing
 
     def finish(self) -> None:
+        print("finished")
         if self._status == ActionStatus.Waiting:
             raise ValueError(f"Unable to finish waiting action")
 

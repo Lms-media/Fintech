@@ -5,5 +5,5 @@ class DirectStrategy(IStrategy[INextCandlePrediction, CandleSignal]):
     def getSignal(self, input: INextCandlePrediction) -> CandleSignal:
         predictionCandles = input.getMeta().getCandleSeries()
         nextCandle = input.getNextCandle()
-        timestamp = nextCandle.getOpenPrice()
-        return CandleSignal(int(timestamp), nextCandle, predictionCandles)
+        timestamp = predictionCandles.getByIndex(predictionCandles.getCount() - 1).getOpenTimestamp()
+        return CandleSignal(timestamp, nextCandle, predictionCandles)

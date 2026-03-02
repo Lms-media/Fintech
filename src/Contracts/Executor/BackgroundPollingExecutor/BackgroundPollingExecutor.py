@@ -16,9 +16,10 @@ class BackgroundPollingExecutor(IExecutor):
 
     def _polling(self, action: IAction) -> None:
         done = False
+        action.start()
         while(not done):
             done = True
-            context = self._contextProvider.getContext()
+            context = self._contextProvider.getContext(action.getSignal().getTimestamp())
             action.update(context)
 
             for task in action.getTasks():
@@ -32,3 +33,4 @@ class BackgroundPollingExecutor(IExecutor):
                 task.finish()
 
             time.sleep(0.5)
+        action.finish()
