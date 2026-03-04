@@ -1,7 +1,7 @@
 from .DummyPredictor import DummyPredictor
 from .LoggedPredictor import LoggedPredictor
 from .APredictor import APredictor
-from .MAPredictor import MAPredictor
+from .IndicatorPredictor import IndicatorPredictor
 from .AbsolutePerceptronPredictor import AbsolutePerceptronPredictor
 from .RelativeMLPredictor import RelativeMLPredictor
 from .PercentageMLPredictor import PercentageMLPredictor
@@ -11,7 +11,7 @@ __all__ = [
     'DummyPredictor',
     'LoggedPredictor',
     'APredictor',
-    'MAPredictor',
+    'IndicatorPredictor',
     'AbsolutePerceptronPredictor',
     'RelativeMLPredictor',
     'PercentageMLPredictor',

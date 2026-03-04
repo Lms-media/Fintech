@@ -1,8 +1,8 @@
 from Interfaces import IPredictorAlgo, ICandleSeries
-from .MAPredictorValue import MAPredictorValue
+from .IndicatorPredictorValue import IndicatorPredictorValue
 from Entities import PredictionMeta
 
-class ExponentialMAPredictorAlgo(IPredictorAlgo[MAPredictorValue]):
+class ExponentialMAPredictorAlgo(IPredictorAlgo[IndicatorPredictorValue]):
     _candlesCount: int
 
     def __init__(self, candlesCount: int):
@@ -38,6 +38,6 @@ class ExponentialMAPredictorAlgo(IPredictorAlgo[MAPredictorValue]):
         avgDelta = deltaSum / len(lastCloses)
 
         if ema > lastCandle.getClosePrice():
-            return MAPredictorValue(meta, avgDelta)
+            return IndicatorPredictorValue(meta, avgDelta)
         else:
-            return MAPredictorValue(meta, -avgDelta)
+            return IndicatorPredictorValue(meta, -avgDelta)
