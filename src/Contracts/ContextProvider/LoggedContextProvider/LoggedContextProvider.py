@@ -1,4 +1,5 @@
-from Interfaces import IContextProvider, ILogger, IExecutionContext
+from typing import Optional
+from Interfaces import IContextProvider, ILogger, IExecutionContext, ICandle
 
 class LoggedContextProvider(IContextProvider):
     _contextProvider: IContextProvider
@@ -13,3 +14,6 @@ class LoggedContextProvider(IContextProvider):
         self._logger.log(f"Got context: {str(context)}")
 
         return context
+
+    def getNextCandle(self, candle: ICandle) -> Optional[ICandle]:
+        return self._contextProvider.getNextCandle(candle)

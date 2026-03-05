@@ -1,5 +1,6 @@
 import time
-from Interfaces import IExecutionContext, IContextProvider, IAssetPair, IDataSource
+from typing import Optional
+from Interfaces import IExecutionContext, IContextProvider, IAssetPair, IDataSource, ICandle
 from ValueObjects import ExecutionContext
 
 class DatasetContextProvider(IContextProvider):
@@ -18,3 +19,8 @@ class DatasetContextProvider(IContextProvider):
             prices[self._assetPair] = candle.getOpenPrice()
             return ExecutionContext(int(time.time()) - self._startTimestamp, prices)
         raise Exception("invalid candle exeption")
+    
+    def getNextCandle(self, candle: ICandle) -> Optional[ICandle]:
+        candles = self._dataset.getSeries()
+        nextCandle = candles.getByIndex(candles.getIndexOf(candle) + 1)
+        return nextCandle

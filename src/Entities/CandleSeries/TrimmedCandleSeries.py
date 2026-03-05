@@ -25,6 +25,10 @@ class TrimmedCandleSeries(IReadonlyCandleSeries):
             return self._base.getByIndex(index + self._fromIndex)
 
         return None
+    
+    def getIndexOf(self, candle: ICandle) -> int:
+        baseIndex = self._base.getIndexOf(candle)
+        return baseIndex - self._fromIndex if baseIndex >= self._fromIndex else -1
 
     def getAssetPair(self) -> IAssetPair:
         return self._base.getAssetPair()

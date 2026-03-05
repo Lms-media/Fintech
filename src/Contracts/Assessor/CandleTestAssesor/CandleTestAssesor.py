@@ -18,6 +18,10 @@ class CandleTestAssesor(IAssessor[CandleSignal, ITurnBackAction]):
         context = self._contextProvider.getContext(previousCandle.getOpenTimestamp())
         assetPair = input.previousCandles.getAssetPair()
 
+        nextCandle = self._contextProvider.getNextCandle(previousCandle)
+        if not nextCandle:
+            raise ValueError("Invalid next candle") 
+
         if not self._portfolio.getBaseAsset() == assetPair.getBaseAsset():
             raise ValueError(f"Assessor's signal must match with portfolio with base asset, but portfolio base asset is {self._portfolio.getBaseAsset()} and signal base asset is {assetPair.getBaseAsset()}")
 
@@ -32,11 +36,14 @@ class CandleTestAssesor(IAssessor[CandleSignal, ITurnBackAction]):
             lotToBuy = int((self._portfolio.getBaseAmount() * 0.4) / price)
             lotToBuy = lotToBuy if lotToBuy > 0 else 0
             print("buying:", lotToBuy)
-            return TurnBackAction(input, assetPair, lotToBuy, True, context, 1, previousCandle.getOpenTimestamp(), predictionCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
+            # return TurnBackAction(input, assetPair, lotToBuy, True, context, 1, previousCandle.getOpenTimestamp(), predictionCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
+            return TurnBackAction(input, assetPair, lotToBuy, True, context, 1, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
         if previousCandle.getOpenPrice() > predictionCandle.getClosePrice():
             lotToBuy = int((self._portfolio.getBaseAmount() * 0.4) / price)
             lotToBuy = lotToBuy if lotToBuy > 0 else 0
             print("selling:", lotToBuy)
-            return TurnBackAction(input, assetPair, lotToBuy, False, context, 1, previousCandle.getOpenTimestamp(), predictionCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
+            # return TurnBackAction(input, assetPair, lotToBuy, False, context, 1, previousCandle.getOpenTimestamp(), predictionCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
+            return TurnBackAction(input, assetPair, lotToBuy, False, context, 1, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
 
-        return TurnBackAction(input, assetPair, 0, True, context, 1, previousCandle.getOpenTimestamp(), predictionCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
+        # return TurnBackAction(input, assetPair, 0, True, context, 1, previousCandle.getOpenTimestamp(), predictionCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
+        return TurnBackAction(input, assetPair, 0, True, context, 1, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())

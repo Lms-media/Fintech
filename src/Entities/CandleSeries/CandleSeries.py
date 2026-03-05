@@ -24,6 +24,14 @@ class CandleSeries(ICandleSeries):
             return self._candles[index]
 
         return None
+    
+    def getIndexOf(self, candle: ICandle) -> int:
+        print("popal")
+        for index in range(len(self._candles)):
+            if self._isEqual(self._candles[index], candle):
+                print("found index:", index)
+                return index
+        return -1
 
     def getAssetPair(self) -> IAssetPair:
         return  self._assetPair
@@ -87,6 +95,17 @@ class CandleSeries(ICandleSeries):
             lines.append(f"{i + 1}. {candle}")
 
         return '\n'.join(lines)
+    
+    def _isEqual(self, candle1: ICandle, candle2: ICandle):
+        return (
+            candle1.getClosePrice() == candle2.getClosePrice() and
+            candle1.getHighPrice() == candle2.getHighPrice() and
+            candle1.getLowPrice() == candle2.getLowPrice() and
+            candle1.getOpenPrice() == candle2.getOpenPrice() and
+            candle1.getInterval() == candle2.getInterval() and
+            candle1.getOpenTimestamp() == candle2.getOpenTimestamp() and
+            candle1.getVolume() == candle2.getVolume()
+        )
 
     def _locate(self, timestamp: int) -> int:
         if not self._candles:

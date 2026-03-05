@@ -20,3 +20,7 @@ class IReadonlyCandleSeries(IEntity, ABC):
     @abstractmethod
     def getByTimestamp(self, timestamp: int) -> Optional[ICandle]:
         pass
+    
+    @abstractmethod
+    def getIndexOf(self, candle: ICandle) -> int:
+        pass
