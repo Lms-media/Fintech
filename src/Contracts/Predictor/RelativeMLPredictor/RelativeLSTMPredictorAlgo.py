@@ -1,13 +1,13 @@
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, SimpleRNN
+from keras.layers import Dense, Dropout, LSTM
 from keras.optimizers import Adam
 from Interfaces import ICandleSeries
 from .RelativeMLPredictorValue import RelativeMLPredictorValue
 from Entities import PredictionMeta
 from ..Interfaces import ITrainablePredictorAlgo
 
-class RelativeRNNPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredictorValue]):
+class RelativeLSTMPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredictorValue]):
     _candlesCount: int
     _limits: list[tuple[float, float]]
     _deltaLimits: list[tuple[float, float]]
@@ -16,15 +16,15 @@ class RelativeRNNPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredictorValue]
         self._candlesCount = candlesCount
 
         self._model = Sequential([
-            # SimpleRNN(50, return_sequences=False, input_shape=(candlesCount, 4)),
-            # Dense(25, activation='relu'),
-            # Dropout(0.2),
-            # Dense(4, activation='linear')
-            SimpleRNN(50, return_sequences=True, input_shape=(candlesCount, 4)),
-            SimpleRNN(30, return_sequences=False),
+            LSTM(50, return_sequences=False, input_shape=(candlesCount, 4)),
             Dense(25, activation='relu'),
             Dropout(0.2),
             Dense(4, activation='linear')
+            # LSTM(50, return_sequences=True, input_shape=(candlesCount, 4)),
+            # LSTM(30, return_sequences=False),
+            # Dense(25, activation='relu'),
+            # Dropout(0.2),
+            # Dense(4, activation='linear')
         ])
         self._model.compile(
             optimizer=Adam(learning_rate=0.001),
@@ -91,7 +91,7 @@ class RelativeRNNPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredictorValue]
             preLastCandle = item.getByIndex(count - 2)
 
             if not lastCandle or not preLastCandle:
-                raise ValueError("Dataset persing error")
+                raise ValueError("Dataset parsing error")
 
             deltaOpenPrice = lastCandle.getOpenPrice() - preLastCandle.getOpenPrice()
             deltaClosePrice = lastCandle.getClosePrice() - preLastCandle.getClosePrice()

@@ -6,3 +6,4 @@ src/configLocal.py
 candles/
 
 logs
+stats

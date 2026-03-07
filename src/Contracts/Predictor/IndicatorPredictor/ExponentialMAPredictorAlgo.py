@@ -1,8 +1,8 @@
 from Interfaces import IPredictorAlgo, ICandleSeries
-from .MAPredictorValue import MAPredictorValue
+from .IndicatorPredictorValue import IndicatorPredictorValue
 from Entities import PredictionMeta
 
-class SimpleMAPredictorAlgo(IPredictorAlgo[MAPredictorValue]):
+class ExponentialMAPredictorAlgo(IPredictorAlgo[IndicatorPredictorValue]):
     _candlesCount: int
 
     def __init__(self, candlesCount: int):
@@ -18,8 +18,8 @@ class SimpleMAPredictorAlgo(IPredictorAlgo[MAPredictorValue]):
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         meta = PredictionMeta(timestamp, input, 0.5)
 
-        deltaSum = 0
         lastCloses = []
+        deltaSum = 0
         for i in range(self._candlesCount):
             candle = input.getByIndex(input.getCount() - 1 - i)
             if not candle:
@@ -27,10 +27,17 @@ class SimpleMAPredictorAlgo(IPredictorAlgo[MAPredictorValue]):
             lastCloses.append(candle.getClosePrice())
             deltaSum += abs(candle.getOpenPrice() - candle.getClosePrice())
 
-        average = sum(lastCloses) / len(lastCloses)
+        if len(lastCloses) == 0:
+            raise ValueError("No valid candles for EMA calculation")
+
+        ema = lastCloses[0]
+        alpha = 2.0 / (self._candlesCount + 1)
+        for i in range(1, len(lastCloses)):
+            ema = alpha * lastCloses[i] + (1 - alpha) * ema
+
         avgDelta = deltaSum / len(lastCloses)
 
-        if average > lastCandle.getClosePrice():
-            return MAPredictorValue(meta, -avgDelta)
+        if ema > lastCandle.getClosePrice():
+            return IndicatorPredictorValue(meta, avgDelta)
         else:
-            return MAPredictorValue(meta, avgDelta)
+            return IndicatorPredictorValue(meta, -avgDelta)

@@ -14,4 +14,4 @@ class DummyPredictorAlgo(IPredictorAlgo[DummyPredictorValue]):
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         meta = PredictionMeta(timestamp, input, 0.5)
 
-        return DummyPredictorValue(meta, 10, 1)
+        return DummyPredictorValue(meta)

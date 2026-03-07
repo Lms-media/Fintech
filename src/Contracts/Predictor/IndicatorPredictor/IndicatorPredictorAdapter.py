@@ -1,10 +1,10 @@
 from Interfaces import IPredictorAdapter
 from Entities import INextCandlePrediction, NextCandlePrediction
 from ValueObjects import Candle
-from .MAPredictorValue import MAPredictorValue
+from .IndicatorPredictorValue import IndicatorPredictorValue
 
-class MAPredictorAdapter(IPredictorAdapter[MAPredictorValue, INextCandlePrediction]):
-    def transform(self, value: MAPredictorValue) -> INextCandlePrediction:
+class IndicatorPredictorAdapter(IPredictorAdapter[IndicatorPredictorValue, INextCandlePrediction]):
+    def transform(self, value: IndicatorPredictorValue) -> INextCandlePrediction:
         meta = value.meta
         priceDelta = value.priceDelta
         candleSeries = meta.getCandleSeries()

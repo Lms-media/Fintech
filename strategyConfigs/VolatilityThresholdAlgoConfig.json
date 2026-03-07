@@ -1,0 +1,8 @@
+{
+  "predictor": "algo",
+  "strategy": "direct",
+  "assessor": "VolatilityThresholdAssessor",
+  "candlesCount": 14,
+  "iterations": 100,
+  "params": [0.5]
+}

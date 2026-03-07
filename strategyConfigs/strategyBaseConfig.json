@@ -1,0 +1,8 @@
+{
+  "predictor": "base",
+  "strategy": "direct",
+  "assessor": "base",
+  "candlesCount": 0,
+  "iterations": 100,
+  "params": []
+}

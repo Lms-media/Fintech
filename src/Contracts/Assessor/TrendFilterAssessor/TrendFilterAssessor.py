@@ -1,7 +1,7 @@
 from Interfaces import IAssessor, IPortfolio, IContextProvider, DirectionType
 from Entities import CandleSignal, ITurnBackAction, TurnBackAction
 
-class CandleTestAssesor(IAssessor[CandleSignal, ITurnBackAction]):
+class TrendFilterAssessor(IAssessor[CandleSignal, ITurnBackAction]):
     _portfolio: IPortfolio
     _contextProvider: IContextProvider
 
@@ -26,22 +26,32 @@ class CandleTestAssesor(IAssessor[CandleSignal, ITurnBackAction]):
             raise ValueError(f"Assessor's signal must match with portfolio with base asset, but portfolio base asset is {self._portfolio.getBaseAsset()} and signal base asset is {assetPair.getBaseAsset()}")
 
         price = context.getPrice(assetPair)
+        predictedPrice = predictionCandle.getOpenPrice()
 
         if not price:
             raise ValueError(f"Assessor's context is missing folowing asset pair price: {assetPair}")
 
-        print(price)
         print(self._portfolio.getCapitalization(context))
-        print("predicted:", predictionCandle.getOpenPrice())
-        if previousCandle.getOpenPrice() < predictionCandle.getOpenPrice():
+        print(price)
+        print("predicted:", predictedPrice)
+        
+        avgPrice = 0
+        for i in range(input.previousCandles.getCount()):
+            candle = input.previousCandles.getByIndex(i)
+            if candle:
+                avgPrice += candle.getOpenPrice()
+        avgPrice /= input.previousCandles.getCount()
+        
+        if price > avgPrice and  predictedPrice > price:
             lotToBuy = int((self._portfolio.getBaseAmount() * 0.4) / price)
             lotToBuy = lotToBuy if lotToBuy > 0 else 0
             print("buying:", lotToBuy)
-            return TurnBackAction(input, assetPair, lotToBuy, True, context, 0, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
-        if previousCandle.getOpenPrice() > predictionCandle.getOpenPrice():
+            return TurnBackAction(input, assetPair, lotToBuy, True, context, 1, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
+        if price < avgPrice and predictedPrice < price:
             lotToBuy = int((self._portfolio.getBaseAmount() * 0.4) / price)
             lotToBuy = lotToBuy if lotToBuy > 0 else 0
             print("selling:", lotToBuy)
-            return TurnBackAction(input, assetPair, lotToBuy, False, context, 0, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
+            return TurnBackAction(input, assetPair, lotToBuy, False, context, 1, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
 
-        return TurnBackAction(input, assetPair, 0, True, context, 0, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
+        print("skipping")
+        return TurnBackAction(input, assetPair, 0, True, context, 1, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())

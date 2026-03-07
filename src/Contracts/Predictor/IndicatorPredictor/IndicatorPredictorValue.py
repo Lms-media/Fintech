@@ -2,6 +2,6 @@ from dataclasses import dataclass
 from Interfaces import IPredictionMeta
 
 @dataclass
-class MAPredictorValue():
+class IndicatorPredictorValue():
     meta: IPredictionMeta
     priceDelta: float

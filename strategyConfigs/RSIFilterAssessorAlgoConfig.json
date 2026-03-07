@@ -1,0 +1,8 @@
+{
+  "predictor": "algo",
+  "strategy": "direct",
+  "assessor": "RSIFilterAssessor",
+  "candlesCount": 14,
+  "iterations": 100,
+  "params": [70, 30]
+}

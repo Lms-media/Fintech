@@ -7,6 +7,7 @@ class StrategyTestingUseCase(IUseCase):
     _dataSource: IDataSource
     _logger: ILogger
     _predictor: IPredictor[INextCandlePrediction]
+    _iter_count: int
 
     def __init__(
         self, 
@@ -15,7 +16,8 @@ class StrategyTestingUseCase(IUseCase):
         strategy: IStrategy,
         assessor: IAssessor,
         logger: ILogger,
-        executor: IExecutor
+        executor: IExecutor,
+        iterCount: int
     ):
         self._dataSource = dataSource
         self._logger = logger
@@ -23,6 +25,7 @@ class StrategyTestingUseCase(IUseCase):
         self._strategy = strategy
         self._assessor = assessor
         self._executor = executor
+        self._iter_count = iterCount
 
     def execute(self) -> None:
         candleSeries = self._dataSource.getSeries()
@@ -48,7 +51,7 @@ class StrategyTestingUseCase(IUseCase):
                 self._logger.log(f"Delta: {delta}")
                 self._logger.log(f"Error: {error}")
                 self._logger.log(f"action: {action.__str__()}")
-            if counter > 100:
+            if counter > self._iter_count:
                 break
             counter += 1
 

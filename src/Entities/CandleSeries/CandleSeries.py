@@ -26,10 +26,8 @@ class CandleSeries(ICandleSeries):
         return None
     
     def getIndexOf(self, candle: ICandle) -> int:
-        print("popal")
         for index in range(len(self._candles)):
             if self._isEqual(self._candles[index], candle):
-                print("found index:", index)
                 return index
         return -1
 
@@ -111,21 +109,31 @@ class CandleSeries(ICandleSeries):
         if not self._candles:
             return -1
 
+        first_candle = self._candles[0]
+        if timestamp < first_candle.getOpenTimestamp():
+            return -1
+
+        last_candle = self._candles[-1]
+        if timestamp >= last_candle.getOpenTimestamp():
+            return len(self._candles) - 1
+
         left = 0
         right = len(self._candles) - 1
 
         while left <= right:
             mid = (left + right) // 2
             candle = self._candles[mid]
-
             start_time = candle.getOpenTimestamp()
-            end_time = start_time + candle.getInterval().value
 
-            if start_time <= timestamp < end_time:
-                return mid
-            elif timestamp < start_time:
-                right = mid - 1
+            if start_time <= timestamp:
+                if mid == len(self._candles) - 1:
+                    return mid
+                next_candle = self._candles[mid + 1]
+                if next_candle.getOpenTimestamp() > timestamp:
+                    return mid
+                else:
+                    left = mid + 1
             else:
-                left = mid + 1
+                right = mid - 1
 
         return -1

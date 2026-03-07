@@ -24,16 +24,17 @@ class PredictorTestingUseCase(IUseCase):
             actual = candleSeries.getByIndex(i)
 
             if actual:
-                delta = predicted.getClosePrice() - actual.getClosePrice()
-                error = delta * delta
+                error = 0
+                error += (predicted.getOpenPrice() - actual.getOpenPrice()) ** 2
+                error += (predicted.getClosePrice() - actual.getClosePrice()) ** 2
+                error += (predicted.getHighPrice() - actual.getHighPrice()) ** 2
+                error += (predicted.getLowPrice() - actual.getLowPrice()) ** 2
+
                 totalError += error
-                self._logger.log(f"Actual: {actual}")
-                self._logger.log(f"Predicted: {predicted}")
-                self._logger.log(f"Delta: {delta}")
+
                 self._logger.log(f"Error: {error}")
 
         relativeError = totalError / (candleSeries.getCount() - offset)
 
         self._logger.log(f"Total Error: {str(totalError)}")
         self._logger.log(f"Relative Error: {str(relativeError)}")
-        self._logger.log(f"Average Delta: {str(relativeError ** 0.5)}")
