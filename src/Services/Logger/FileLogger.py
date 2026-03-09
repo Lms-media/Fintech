@@ -13,6 +13,6 @@ class FileLogger(ILogger):
         open(self._filename, 'w').close()
 
     def log(self, chunk: str):
-        with open(self._filename, 'a') as f:
+        with open(self._filename, 'a', encoding='utf-8') as f:
             for line in chunk.split('\n'):
                 f.write(line + '\n')
