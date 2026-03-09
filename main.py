@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 from config import assetPair
 
 from UseCases import PredictorVisualizeUseCase, PredictorTrainingUseCase, PredictorTestingUseCase
-from Contracts import MoexCurrencyDataSource, LoggedDataSource, PercentageMLPredictor, IndicatorPredictor, DummyPredictor, AbsolutePerceptronPredictor
+from Contracts import MoexCurrencyDataSource, LoggedDataSource, PercentageMLPredictor, IndicatorPredictor, DummyPredictor, AbsolutePerceptronPredictor, RandomForestPredictor
 from Services import FileLogger, GraphLogger2D
 from Interfaces import IntervalType
 
