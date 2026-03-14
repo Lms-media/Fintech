@@ -1,5 +1,6 @@
 from Interfaces import IAssessor, IPortfolio, IContextProvider, DirectionType
 from Entities import CandleSignal, ITurnBackAction, TurnBackAction
+import capitalizationData
 
 class RSIFilterAssessor(IAssessor[CandleSignal, ITurnBackAction]):
     _portfolio: IPortfolio
@@ -59,6 +60,7 @@ class RSIFilterAssessor(IAssessor[CandleSignal, ITurnBackAction]):
             raise ValueError(f"Assessor's context is missing folowing asset pair price: {assetPair}")
 
         print(self._portfolio.getCapitalization(context))
+        capitalizationData.cap.append(self._portfolio.getCapitalization(context))
         print(price)
         print("predicted:", predictedPrice)
         

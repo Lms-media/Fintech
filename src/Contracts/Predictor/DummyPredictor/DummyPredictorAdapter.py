@@ -2,6 +2,7 @@ from Interfaces import IPredictorAdapter
 from Entities import INextCandlePrediction, NextCandlePrediction
 from ValueObjects import Candle
 from .DummyPredictorValue import DummyPredictorValue
+import random
 
 class DummyPredictorAdapter(IPredictorAdapter[DummyPredictorValue, INextCandlePrediction]):
 
@@ -16,10 +17,10 @@ class DummyPredictorAdapter(IPredictorAdapter[DummyPredictorValue, INextCandlePr
             raise ValueError("Cannot extract last candle from meta")
 
         interval = lastCandle.getInterval()
-        openPrice = lastCandle.getOpenPrice()
-        closePrice = lastCandle.getClosePrice()
-        highPrice = lastCandle.getHighPrice()
-        lowPrice = lastCandle.getLowPrice()
+        openPrice = lastCandle.getOpenPrice() + 1
+        closePrice = lastCandle.getClosePrice() + 1
+        highPrice = max(openPrice, closePrice)
+        lowPrice = min(openPrice, closePrice)
         volume = lastCandle.getVolume()
 
         nextCandle = Candle(assetPair, timestamp, interval, openPrice, closePrice, highPrice, lowPrice, volume)

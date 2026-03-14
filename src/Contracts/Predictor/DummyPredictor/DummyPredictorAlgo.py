@@ -10,8 +10,8 @@ class DummyPredictorAlgo(IPredictorAlgo[DummyPredictorValue]):
         if not lastCandle:
             raise ValueError("Cannot extract last candle from input")
 
-        interval = lastCandle.getInterval()
-        timestamp = lastCandle.getOpenTimestamp() + interval.value
+        # interval = lastCandle.getInterval()
+        timestamp = lastCandle.getOpenTimestamp()
         meta = PredictionMeta(timestamp, input, 0.5)
 
         return DummyPredictorValue(meta)

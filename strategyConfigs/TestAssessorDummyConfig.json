@@ -1,0 +1,8 @@
+{
+  "predictor": "dummy",
+  "strategy": "direct",
+  "assessor": "CandleTestAssesor",
+  "candlesCount": 14,
+  "iterations": 100,
+  "params": [70, 30]
+}

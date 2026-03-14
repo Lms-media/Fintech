@@ -1,7 +1,7 @@
 from UseCases import IUseCase
 import time
 from Entities import TrimmedCandleSeries, INextCandlePrediction
-from Interfaces import IDataSource, IPredictor, ILogger, IStrategy, IAssessor, IExecutor, IAction, ActionStatus
+from Interfaces import IDataSource, IPredictor, ILogger, IStrategy, IAssessor, IExecutor, IAction, ActionStatus, IPortfolio
 
 class StrategyTestingUseCase(IUseCase):
     _dataSource: IDataSource

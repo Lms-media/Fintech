@@ -1,5 +1,6 @@
 from Interfaces import IAssessor, IPortfolio, IContextProvider, DirectionType
 from Entities import CandleSignal, ITurnBackAction, TurnBackAction
+import capitalizationData
 
 class CandleTestAssesor(IAssessor[CandleSignal, ITurnBackAction]):
     _portfolio: IPortfolio
@@ -32,6 +33,7 @@ class CandleTestAssesor(IAssessor[CandleSignal, ITurnBackAction]):
 
         print(price)
         print(self._portfolio.getCapitalization(context))
+        capitalizationData.cap.append(self._portfolio.getCapitalization(context))
         print("predicted:", predictionCandle.getOpenPrice())
         if previousCandle.getOpenPrice() < predictionCandle.getOpenPrice():
             lotToBuy = int((self._portfolio.getBaseAmount() * 0.4) / price)

@@ -1,5 +1,6 @@
 from Interfaces import IAssessor, IPortfolio, IContextProvider, DirectionType
 from Entities import CandleSignal, ITurnBackAction, TurnBackAction
+import capitalizationData
 
 class VolatilityThresholdAssessor(IAssessor[CandleSignal, ITurnBackAction]):
     _portfolio: IPortfolio
@@ -34,14 +35,19 @@ class VolatilityThresholdAssessor(IAssessor[CandleSignal, ITurnBackAction]):
             raise ValueError(f"Assessor's context is missing folowing asset pair price: {assetPair}")
 
         print(self._portfolio.getCapitalization(context))
+        capitalizationData.cap.append(self._portfolio.getCapitalization(context))
         print(price)
         print("predicted:", predictedPrice)
         
         sum_ranges = 0
         for i in range(input.previousCandles.getCount()):
             candle = input.previousCandles.getByIndex(i)
+            prevCandle = input.previousCandles.getByIndex(i - 1)
             if candle:
-                sum_ranges += (candle.getHighPrice() - candle.getLowPrice())
+                hight_low_delta = (candle.getHighPrice() - candle.getLowPrice())
+                hight_close_delta = abs(candle.getHighPrice() - prevCandle.getClosePrice()) if prevCandle else hight_low_delta - 1
+                low_close_delta = abs(candle.getLowPrice() - prevCandle.getClosePrice()) if prevCandle else hight_low_delta - 1
+                sum_ranges += max(hight_low_delta, hight_close_delta, low_close_delta)
         sum_ranges /= input.previousCandles.getCount()
         
         predictedDiff = predictedPrice - price

@@ -7,4 +7,4 @@ from ..APredictor import APredictor
 class DummyPredictor(APredictor[DummyPredictorValue, INextCandlePrediction]):
 
     def __init__(self):
-        super().__init__(DummyPredictorAlgo(), DummyPredictorAdapter(), 1)
+        super().__init__(DummyPredictorAlgo(), DummyPredictorAdapter(), 14)
