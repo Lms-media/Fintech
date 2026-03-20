@@ -21,10 +21,14 @@ class PercentageMLPredictorAdapter(IPredictorAdapter[PercentageMLPredictorValue,
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         volume = 1
 
-        pctOpenPrice = outputs[0] * (limits[0][1] - limits[0][0]) + limits[0][0]
-        pctClosePrice = outputs[1] * (limits[1][1] - limits[1][0]) + limits[1][0]
-        pctHighPrice = outputs[2] * (limits[2][1] - limits[2][0]) + limits[2][0]
-        pctLowPrice = outputs[3] * (limits[3][1] - limits[3][0]) + limits[3][0]
+        # pctOpenPrice = outputs[0] * (limits[0][1] - limits[0][0]) + limits[0][0]
+        # pctClosePrice = outputs[1] * (limits[1][1] - limits[1][0]) + limits[1][0]
+        # pctHighPrice = outputs[2] * (limits[2][1] - limits[2][0]) + limits[2][0]
+        # pctLowPrice = outputs[3] * (limits[3][1] - limits[3][0]) + limits[3][0]
+        pctOpenPrice = outputs[0] * limits[0][1]
+        pctClosePrice = outputs[1] * limits[1][1]
+        pctHighPrice = outputs[2] * limits[2][1]
+        pctLowPrice = outputs[3] * limits[3][1]
 
         openPrice = lastCandle.getOpenPrice() * (1 + pctOpenPrice)
         closePrice = lastCandle.getClosePrice() * (1 + pctClosePrice)

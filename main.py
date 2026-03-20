@@ -4,14 +4,34 @@ import shutil
 
 if os.path.exists('logs'):
     shutil.rmtree('logs')
+
+if os.path.exists('logs_RSI'):
+    shutil.rmtree('logs_RSI')
+if os.path.exists('logs_all'):
+    shutil.rmtree('logs_all')
+
 os.makedirs('logs')
+os.makedirs('logs_RSI')
+os.makedirs('logs_all')
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from config import assetPair
 
 from UseCases import PredictorVisualizeUseCase, PredictorTrainingUseCase, PredictorTestingUseCase
-from Contracts import MoexCurrencyDataSource, LoggedDataSource, PercentageMLPredictor, IndicatorPredictor, DummyPredictor, AbsolutePerceptronPredictor
+from Contracts import (
+    MoexCurrencyDataSource,
+    LoggedDataSource,
+    IndicatorPredictor,
+    CompositeMedianPredictor,
+    CompositeVotingPredictor,
+    CompositeAvgPredictor,
+    ExponentialMAPredictorAlgo,
+    BollingerBandsPredictorAlgo,
+    RSIPredictorAlgo,
+    MACDPredictorAlgo,
+    PercentageMLPredictor
+)
 from Services import FileLogger, GraphLogger2D
 from Interfaces import IntervalType
 
@@ -28,10 +48,11 @@ testingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UT
 for i in range(1, 101):
     print(i)
     logger = FileLogger(f"logs/{i}.log")
-    predictor = IndicatorPredictor(i)
 
-    # trainingUseCase = PredictorTrainingUseCase(trainingDataSource, predictor, mainLogger)
-    # trainingUseCase.execute()
+    predictor = CompositeAvgPredictor([
+        IndicatorPredictor(ExponentialMAPredictorAlgo(i), i),
+        IndicatorPredictor(RSIPredictorAlgo(i), i)
+    ])
 
     testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, logger)
     testingUseCase.execute()

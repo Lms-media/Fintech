@@ -64,9 +64,9 @@ class RSIPredictorAlgo(IPredictorAlgo[IndicatorPredictorValue]):
             return IndicatorPredictorValue(meta, avgDelta)
         elif rsi > self._neutralLevel:
             strength = (rsi - self._neutralLevel) / (self._overboughtLevel - self._neutralLevel)
-            return IndicatorPredictorValue(meta, avgDelta * (1 - strength))
+            return IndicatorPredictorValue(meta, -avgDelta * strength)
         elif rsi < self._neutralLevel:
             strength = (self._neutralLevel - rsi) / (self._neutralLevel - self._oversoldLevel)
-            return IndicatorPredictorValue(meta, -avgDelta * (1 - strength))
+            return IndicatorPredictorValue(meta, avgDelta * strength)
         else:
             return IndicatorPredictorValue(meta, 0)
