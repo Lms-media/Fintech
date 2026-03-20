@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from config import assetPair
 
-from UseCases import PredictorVisualizeUseCase, PredictorTrainingUseCase, PredictorTestingUseCase
+from UseCases import PredictorVisualizeUseCase, PredictorTrainingUseCase, PredictorTestingUseCase, PredictorRetrainUseCase
 from Contracts import (
     MoexCurrencyDataSource,
     LoggedDataSource,
@@ -45,17 +45,18 @@ trainingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000U
 testingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UTSTOM", 1651171835, 1701171835, IntervalType.OneDay), testingDataSourceLogger)
 # predictor = RelativeMLPredictor(45)
 
-for i in range(1, 101):
-    print(i)
-    logger = FileLogger(f"logs/{i}.log")
+i = 70
+logger = FileLogger(f"logs/{i}.log")
+predictor = PercentageMLPredictor(i)
 
-    predictor = CompositeAvgPredictor([
-        IndicatorPredictor(ExponentialMAPredictorAlgo(i), i),
-        IndicatorPredictor(RSIPredictorAlgo(i), i)
-    ])
+# trainingUseCase = PredictorTrainingUseCase(trainingDataSource, predictor, mainLogger)
+# trainingUseCase.execute()
 
-    testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, logger)
-    testingUseCase.execute()
+# testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, logger)
+# testingUseCase.execute()
+
+useCase = PredictorRetrainUseCase(trainingDataSource, testingDataSource, predictor, logger)
+useCase.execute()
 
 # trainingUseCase = PredictorTrainingUseCase(trainingDataSource, predictor, mainLogger)
 # trainingUseCase.execute()

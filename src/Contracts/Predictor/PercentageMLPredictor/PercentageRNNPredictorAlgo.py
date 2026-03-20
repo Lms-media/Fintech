@@ -1,3 +1,5 @@
+from typing import Literal
+
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, SimpleRNN
@@ -15,8 +17,11 @@ class PercentageRNNPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPredictorVa
         self._candlesCount = candlesCount
         self._maxAbsPct = [0.0, 0.0, 0.0, 0.0]
 
+        self.initModel()
+
+    def initModel(self):
         self._model = Sequential([
-            SimpleRNN(50, return_sequences=False, input_shape=(candlesCount, 4)),
+            SimpleRNN(50, return_sequences=False, input_shape=(self._candlesCount, 4)),
             Dense(25, activation='relu'),
             Dropout(0.2),
             Dense(4, activation='linear')
@@ -75,7 +80,8 @@ class PercentageRNNPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPredictorVa
         X_train = np.array(X_list)
         y_train = np.array(y_list)
 
-        self._model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, verbose='auto')
+        self.initModel()
+        self._model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2)
 
     def _getTargetPct(self, series: ICandleSeries) -> list[float]:
         count = series.getCount()
