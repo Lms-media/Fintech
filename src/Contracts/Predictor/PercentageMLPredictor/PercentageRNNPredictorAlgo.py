@@ -63,7 +63,7 @@ class PercentageRNNPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPredictorVa
 
         return PercentageMLPredictorValue(meta, result, limits)
 
-    def train(self, dataset: list[ICandleSeries]) -> None:
+    def train(self, dataset: list[ICandleSeries], epochs: int = 100) -> None:
         if len(dataset) == 0:
             raise ValueError("Dataset is empty")
 
@@ -80,8 +80,7 @@ class PercentageRNNPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPredictorVa
         X_train = np.array(X_list)
         y_train = np.array(y_list)
 
-        self.initModel()
-        self._model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2)
+        self._model.fit(X_train, y_train, epochs=epochs, batch_size=32, validation_split=0.2)
 
     def _getTargetPct(self, series: ICandleSeries) -> list[float]:
         count = series.getCount()

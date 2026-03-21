@@ -27,7 +27,7 @@ class PredictorRetrainUseCase(IUseCase):
             trimmed = TrimmedCandleSeries(trainingCandleSeries, i - offset, i + 1)
             self._predictor.addDatasetItem(trimmed)
 
-        self._predictor.train()
+        self._predictor.train(epochs=100)
 
         for i in range(offset, testingCandleSeries.getCount()):
             if not i == offset:
@@ -36,7 +36,7 @@ class PredictorRetrainUseCase(IUseCase):
                     trainingCandleSeries.appendRight(oldCandle)
                     datasetItem = TrimmedCandleSeries(trainingCandleSeries, trainingCandleSeries.getCount() - offset - 1, trainingCandleSeries.getCount())
                     self._predictor.addDatasetItem(datasetItem)
-                    self._predictor.train()
+                    self._predictor.train(epochs=10)
 
             trimmedTestingSeries = TrimmedCandleSeries(testingCandleSeries, i - offset, i)
             predicted = self._predictor.predict(trimmedTestingSeries).getNextCandle()
@@ -51,6 +51,14 @@ class PredictorRetrainUseCase(IUseCase):
 
                 totalError += error
 
+                last = testingCandleSeries.getByIndex(i - 1)
+
+                self._logger.log("Last:")
+                self._logger.log(str(last))
+                self._logger.log("Predicted:")
+                self._logger.log(str(predicted))
+                self._logger.log("Actual:")
+                self._logger.log(str(actual))
                 self._logger.log(f"Error: {error}")
 
         relativeError = totalError / (testingCandleSeries.getCount() - offset)

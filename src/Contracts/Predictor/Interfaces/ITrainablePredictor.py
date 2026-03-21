@@ -11,5 +11,5 @@ class ITrainablePredictor(IPredictor[P]):
         pass
 
     @abstractmethod
-    def train(self) -> None:
+    def train(self, epochs: int = 100) -> None:
         pass

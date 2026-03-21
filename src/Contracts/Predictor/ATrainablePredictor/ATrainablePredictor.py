@@ -21,5 +21,5 @@ class ATrainablePredictor(APredictor[V, P], ITrainablePredictor, Generic[V, P]):
             raise ValueError(f"Incorrect dataset item size")
         self._dataset.append(item)
 
-    def train(self):
-        self._algo.train(self._dataset)
+    def train(self, epochs: int = 100):
+        self._algo.train(self._dataset, epochs)

@@ -54,7 +54,7 @@ class PercentagePerceptronPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPred
 
         return PercentageMLPredictorValue(meta, result, self._pctLimits)
 
-    def train(self, dataset: list[ICandleSeries]) -> None:
+    def train(self, dataset: list[ICandleSeries], epochs: int = 100) -> None:
         if len(dataset) == 0:
             raise ValueError("Dataset is empty")
 
@@ -72,7 +72,7 @@ class PercentagePerceptronPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPred
         X_train = np.array(X_list)
         y_train = np.array(y_list)
 
-        self._model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, verbose='auto')
+        self._model.fit(X_train, y_train, epochs=epochs, batch_size=32, validation_split=0.2, verbose='auto')
 
     def _initNormalization(self, dataset: list[ICandleSeries]):
         for item in dataset:
