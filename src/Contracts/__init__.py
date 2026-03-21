@@ -17,6 +17,8 @@ from .Predictor import (
     CompositeAvgPredictor,
     CompositeVotingPredictor,
     CompositeMedianPredictor,
+    RandomForestPredictor,
+    PercentageDeltaMLPredictor,
 )
 from .Strategy import DummyStrategy, LoggedStrategy
 from .Assessor import HalfInAssessor, LoggedAssessor
@@ -53,4 +55,5 @@ __all__ = [
     'BackgroundPollingExecutor',
     'LoggedExecutor',
     'RandomForestPredictor',
+    'PercentageDeltaMLPredictor',
 ]

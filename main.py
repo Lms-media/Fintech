@@ -30,7 +30,8 @@ from Contracts import (
     BollingerBandsPredictorAlgo,
     RSIPredictorAlgo,
     MACDPredictorAlgo,
-    PercentageMLPredictor
+    PercentageMLPredictor,
+    PercentageDeltaMLPredictor,
 )
 from Services import FileLogger, GraphLogger2D
 from Interfaces import IntervalType
@@ -45,9 +46,9 @@ trainingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000U
 testingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UTSTOM", 1651171835, 1701171835, IntervalType.OneDay), testingDataSourceLogger)
 # predictor = RelativeMLPredictor(45)
 
-i = 70
+i = 55
 logger = FileLogger(f"logs/{i}.log")
-predictor = PercentageMLPredictor(i)
+predictor = PercentageDeltaMLPredictor(i)
 
 # trainingUseCase = PredictorTrainingUseCase(trainingDataSource, predictor, mainLogger)
 # trainingUseCase.execute()

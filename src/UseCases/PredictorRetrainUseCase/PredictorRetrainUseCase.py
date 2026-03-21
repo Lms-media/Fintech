@@ -36,7 +36,7 @@ class PredictorRetrainUseCase(IUseCase):
                     trainingCandleSeries.appendRight(oldCandle)
                     datasetItem = TrimmedCandleSeries(trainingCandleSeries, trainingCandleSeries.getCount() - offset - 1, trainingCandleSeries.getCount())
                     self._predictor.addDatasetItem(datasetItem)
-                    self._predictor.train(epochs=10)
+                    self._predictor.train(epochs=5, datasetItemLimit=150)
 
             trimmedTestingSeries = TrimmedCandleSeries(testingCandleSeries, i - offset, i)
             predicted = self._predictor.predict(trimmedTestingSeries).getNextCandle()
