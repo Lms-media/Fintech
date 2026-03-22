@@ -4,6 +4,7 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, SimpleRNN
 from keras.optimizers import Adam
+from keras.callbacks import EarlyStopping
 from Interfaces import ICandleSeries
 from .PercentageMLPredictorValue import PercentageMLPredictorValue
 from Entities import PredictionMeta
@@ -20,21 +21,26 @@ class PercentageRNNPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPredictorVa
         self.initModel()
 
     def initModel(self):
+        # Увеличенная архитектура: 2 слоя RNN
         self._model = Sequential([
-            SimpleRNN(50, return_sequences=False, input_shape=(self._candlesCount, 4)),
-            Dense(25, activation='relu'),
+            SimpleRNN(64, return_sequences=True, input_shape=(self._candlesCount, 4)),
+            Dropout(0.2),
+            SimpleRNN(32, return_sequences=False),
+            Dense(16, activation='relu'),
             Dropout(0.2),
             Dense(4, activation='linear')
-            # SimpleRNN(50, return_sequences=True, input_shape=(candlesCount, 4)),
-            # SimpleRNN(30, return_sequences=False),
-            # Dense(25, activation='relu'),
-            # Dropout(0.2),
-            # Dense(4, activation='linear')
         ])
         self._model.compile(
             optimizer=Adam(learning_rate=0.001),
             loss='mse',
             metrics=['mae']
+        )
+
+        # EarlyStopping для предотвращения переобучения
+        self._early_stopping = EarlyStopping(
+            monitor='val_loss',
+            patience=10,
+            restore_best_weights=True
         )
 
     def calc(self, input: ICandleSeries):
@@ -80,7 +86,13 @@ class PercentageRNNPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPredictorVa
         X_train = np.array(X_list)
         y_train = np.array(y_list)
 
-        self._model.fit(X_train, y_train, epochs=epochs, batch_size=32, validation_split=0.2)
+        self._model.fit(
+            X_train, y_train,
+            epochs=epochs,
+            batch_size=32,
+            validation_split=0.2,
+            callbacks=[self._early_stopping]
+        )
 
     def _getTargetPct(self, series: ICandleSeries) -> list[float]:
         count = series.getCount()

@@ -36,7 +36,7 @@ class PredictorRetrainUseCase(IUseCase):
                     trainingCandleSeries.appendRight(oldCandle)
                     datasetItem = TrimmedCandleSeries(trainingCandleSeries, trainingCandleSeries.getCount() - offset - 1, trainingCandleSeries.getCount())
                     self._predictor.addDatasetItem(datasetItem)
-                    self._predictor.train(epochs=5, datasetItemLimit=150)
+                    self._predictor.train(epochs=5, datasetItemLimit=500)
 
             trimmedTestingSeries = TrimmedCandleSeries(testingCandleSeries, i - offset, i)
             predicted = self._predictor.predict(trimmedTestingSeries).getNextCandle()
@@ -44,24 +44,27 @@ class PredictorRetrainUseCase(IUseCase):
 
             if actual:
                 error = 0
-                error += (predicted.getOpenPrice() - actual.getOpenPrice()) ** 2
-                error += (predicted.getClosePrice() - actual.getClosePrice()) ** 2
-                error += (predicted.getHighPrice() - actual.getHighPrice()) ** 2
-                error += (predicted.getLowPrice() - actual.getLowPrice()) ** 2
+
+                openPriceError = ((predicted.getOpenPrice() - actual.getOpenPrice()) / actual.getOpenPrice()) ** 2
+                error += openPriceError
+
+                closePriceError = ((predicted.getClosePrice() - actual.getClosePrice()) / actual.getClosePrice()) ** 2
+                error += closePriceError
+
+                highPriceError = ((predicted.getHighPrice() - actual.getHighPrice()) / actual.getHighPrice()) ** 2
+                error += highPriceError
+
+                lowPriceError = ((predicted.getLowPrice() - actual.getLowPrice()) / actual.getLowPrice()) ** 2
+                error += lowPriceError
 
                 totalError += error
 
                 last = testingCandleSeries.getByIndex(i - 1)
 
-                self._logger.log("Last:")
-                self._logger.log(str(last))
-                self._logger.log("Predicted:")
-                self._logger.log(str(predicted))
-                self._logger.log("Actual:")
-                self._logger.log(str(actual))
                 self._logger.log(f"Error: {error}")
 
         relativeError = totalError / (testingCandleSeries.getCount() - offset)
 
         self._logger.log(f"Total Error: {str(totalError)}")
         self._logger.log(f"Relative Error: {str(relativeError)}")
+        self._logger.log(f"Relative Scaled Error: {str(relativeError * 10000)}")
