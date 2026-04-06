@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, Optional
 from ..APredictor import APredictor
 from ..Interfaces import ITrainablePredictor, ITrainablePredictorAlgo
 from Interfaces import ICandleSeries, IPrediction, IPredictorAdapter
@@ -21,5 +21,12 @@ class ATrainablePredictor(APredictor[V, P], ITrainablePredictor, Generic[V, P]):
             raise ValueError(f"Incorrect dataset item size")
         self._dataset.append(item)
 
-    def train(self):
-        self._algo.train(self._dataset)
+    def clearDataset(self):
+        self._dataset = list()
+
+    def train(self, epochs: int = 100, datasetItemLimit: Optional[int] = None):
+        if datasetItemLimit is not None:
+            limitedDataset = self._dataset[-datasetItemLimit:]
+        else:
+            limitedDataset = self._dataset
+        self._algo.train(limitedDataset, epochs)

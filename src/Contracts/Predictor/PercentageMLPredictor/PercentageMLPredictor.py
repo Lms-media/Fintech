@@ -12,4 +12,4 @@ class PercentageMLPredictor(ATrainablePredictor[PercentageMLPredictorValue, INex
     _dataset: list[ICandleSeries]
 
     def __init__(self, candlesCount: int):
-        super().__init__(PercentageLSTMPredictorAlgo(candlesCount), PercentageMLPredictorAdapter(), candlesCount)
+        super().__init__(PercentageRNNPredictorAlgo(candlesCount), PercentageMLPredictorAdapter(), candlesCount)

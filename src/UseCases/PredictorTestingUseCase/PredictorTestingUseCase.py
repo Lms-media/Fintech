@@ -25,10 +25,19 @@ class PredictorTestingUseCase(IUseCase):
 
             if actual:
                 error = 0
-                error += (predicted.getOpenPrice() - actual.getOpenPrice()) ** 2
-                error += (predicted.getClosePrice() - actual.getClosePrice()) ** 2
-                error += (predicted.getHighPrice() - actual.getHighPrice()) ** 2
-                error += (predicted.getLowPrice() - actual.getLowPrice()) ** 2
+
+                # RMSPE - Root Mean Square Percentage Error
+                openPriceError = ((predicted.getOpenPrice() - actual.getOpenPrice()) / actual.getOpenPrice()) ** 2
+                error += openPriceError
+
+                closePriceError = ((predicted.getClosePrice() - actual.getClosePrice()) / actual.getClosePrice()) ** 2
+                error += closePriceError
+
+                highPriceError = ((predicted.getHighPrice() - actual.getHighPrice()) / actual.getHighPrice()) ** 2
+                error += highPriceError
+
+                lowPriceError = ((predicted.getLowPrice() - actual.getLowPrice()) / actual.getLowPrice()) ** 2
+                error += lowPriceError
 
                 totalError += error
 
@@ -38,3 +47,4 @@ class PredictorTestingUseCase(IUseCase):
 
         self._logger.log(f"Total Error: {str(totalError)}")
         self._logger.log(f"Relative Error: {str(relativeError)}")
+        self._logger.log(f"Relative Scaled Error: {str(relativeError * 10000)}")

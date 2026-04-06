@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import TypeVar
+from typing import TypeVar, Optional
 from Interfaces import IPredictor, IPrediction, IReadonlyCandleSeries
 
 P = TypeVar('P', bound=IPrediction)
@@ -11,5 +11,9 @@ class ITrainablePredictor(IPredictor[P]):
         pass
 
     @abstractmethod
-    def train(self) -> None:
+    def clearDataset(self) -> None:
+        pass
+
+    @abstractmethod
+    def train(self, epochs: int = 100, datasetItemLimit: Optional[int] = None) -> None:
         pass
