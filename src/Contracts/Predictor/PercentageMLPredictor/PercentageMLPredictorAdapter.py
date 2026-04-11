@@ -8,7 +8,7 @@ class PercentageMLPredictorAdapter(IPredictorAdapter[PercentageMLPredictorValue,
     def transform(self, value: PercentageMLPredictorValue) -> INextCandlePrediction:
         meta = value.meta
         outputs = value.outputs
-        limits = value.limits
+        maxAbsPct = value.maxAbsPct
 
         candleSeries = meta.getCandleSeries()
         assetPair = candleSeries.getAssetPair()
@@ -21,14 +21,10 @@ class PercentageMLPredictorAdapter(IPredictorAdapter[PercentageMLPredictorValue,
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         volume = 1
 
-        # pctOpenPrice = outputs[0] * (limits[0][1] - limits[0][0]) + limits[0][0]
-        # pctClosePrice = outputs[1] * (limits[1][1] - limits[1][0]) + limits[1][0]
-        # pctHighPrice = outputs[2] * (limits[2][1] - limits[2][0]) + limits[2][0]
-        # pctLowPrice = outputs[3] * (limits[3][1] - limits[3][0]) + limits[3][0]
-        pctOpenPrice = outputs[0] * limits[0][1]
-        pctClosePrice = outputs[1] * limits[1][1]
-        pctHighPrice = outputs[2] * limits[2][1]
-        pctLowPrice = outputs[3] * limits[3][1]
+        pctOpenPrice = outputs[0] * maxAbsPct[0]
+        pctClosePrice = outputs[1] * maxAbsPct[1]
+        pctHighPrice = outputs[2] * maxAbsPct[2]
+        pctLowPrice = outputs[3] * maxAbsPct[3]
 
         openPrice = lastCandle.getOpenPrice() * (1 + pctOpenPrice)
         closePrice = lastCandle.getClosePrice() * (1 + pctClosePrice)

@@ -24,7 +24,10 @@ from Contracts import (
     RSIPredictorAlgo,
     MACDPredictorAlgo,
     PercentageMLPredictor,
+    RelativeMLPredictor,
     PercentageDeltaMLPredictor,
+    DummyPredictor,
+    AbsolutePerceptronPredictor
 )
 from Services import FileLogger, GraphLogger2D
 from Interfaces import IntervalType
@@ -35,31 +38,22 @@ predictorLogger = FileLogger("logs/predictor.log")
 mainLogger = FileLogger("logs/main.log")
 dynamicLogger = GraphLogger2D("logs/dynamic.png")
 testingLogger = FileLogger("logs/testing.log")
-trainingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "EURUSD000TOM", 0, 1651171835, IntervalType.OneDay), trainingDataSourceLogger)
-testingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "EURUSD000TOM", 1651171835, 1701171835, IntervalType.OneDay), testingDataSourceLogger)
+trainingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UTSTOM", 0, 1651171835, IntervalType.OneDay), trainingDataSourceLogger)
+testingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UTSTOM", 1651171835, 1701171835, IntervalType.OneDay), testingDataSourceLogger)
 # predictor = RelativeMLPredictor(45)
 
-i = 55
-logger = FileLogger(f"logs/{i}.log")
-predictor = PercentageDeltaMLPredictor(i)
+for i in range(1, 101):
+    logger = FileLogger(f"logs/{i}.log")
+    mlPredictor = PercentageDeltaMLPredictor(i)
+    rsiPredictor = IndicatorPredictor(RSIPredictorAlgo(i), i)
 
-trainingDataSource.init()
-print(trainingDataSource.getSeries().getCount())
+    trainingUseCase = PredictorTrainingUseCase(trainingDataSource, mlPredictor, mainLogger)
+    trainingUseCase.execute()
 
-# trainingUseCase = PredictorTrainingUseCase(trainingDataSource, predictor, mainLogger)
-# trainingUseCase.execute()
+    predictor = CompositeAvgPredictor([mlPredictor, rsiPredictor])
 
-# testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, logger)
-# testingUseCase.execute()
+    testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, logger)
+    testingUseCase.execute()
 
-useCase = PredictorRetrainUseCase(trainingDataSource, testingDataSource, predictor, logger)
-useCase.execute()
-
-# trainingUseCase = PredictorTrainingUseCase(trainingDataSource, predictor, mainLogger)
-# trainingUseCase.execute()
-
-# visualizeUseCase = PredictorVisualizeUseCase(testingDataSource, predictor, dynamicLogger)
-# visualizeUseCase.execute()
-
-# testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, testingLogger)
-# testingUseCase.execute()
+    # useCase = PredictorRetrainUseCase(trainingDataSource, testingDataSource, predictor, logger)
+    # useCase.execute()

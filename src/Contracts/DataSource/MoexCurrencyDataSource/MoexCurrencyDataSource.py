@@ -52,7 +52,8 @@ class MoexCurrencyDataSource(IDataSource):
             closePrice = item['CLOSE']
             lowPrice = item['LOW']
             highPrice = item['HIGH']
-            volume = item['VOLRUR']
+            # volume = item['VOLRUR']
+            volume = 0
 
             if openPrice == 0 or closePrice == 0 or openPrice is None or closePrice is None:
                 continue

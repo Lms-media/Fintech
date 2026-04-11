@@ -1,13 +1,13 @@
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, SimpleRNN
+from keras.layers import Dense, Dropout, LSTM
 from keras.optimizers import Adam
 from Interfaces import ICandleSeries
 from .PercentageDeltaMLPredictorValue import PercentageDeltaMLPredictorValue
 from Entities import PredictionMeta
 from ..Interfaces import ITrainablePredictorAlgo
 
-class PercentageDeltaRNNPredictorAlgo(ITrainablePredictorAlgo[PercentageDeltaMLPredictorValue]):
+class PercentageDeltaLSTMPredictorAlgo(ITrainablePredictorAlgo[PercentageDeltaMLPredictorValue]):
     _candlesCount: int
     _maxOcDeltaAbs: float
     _maxOhDeltaAbs: float
@@ -22,12 +22,12 @@ class PercentageDeltaRNNPredictorAlgo(ITrainablePredictorAlgo[PercentageDeltaMLP
         self._maxOffsetAbs = 0
 
         self._model = Sequential([
-            SimpleRNN(50, return_sequences=False, input_shape=(candlesCount, 4)),
+            LSTM(50, return_sequences=False, input_shape=(candlesCount, 4)),
             Dense(25, activation='relu'),
             Dropout(0.2),
             Dense(4, activation='linear')
-            # SimpleRNN(50, return_sequences=True, input_shape=(candlesCount, 4)),
-            # SimpleRNN(30, return_sequences=False),
+            # LSTM(50, return_sequences=True, input_shape=(candlesCount, 4)),
+            # LSTM(30, return_sequences=False),
             # Dense(25, activation='relu'),
             # Dropout(0.2),
             # Dense(4, activation='linear')

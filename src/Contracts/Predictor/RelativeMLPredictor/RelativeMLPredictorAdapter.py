@@ -8,7 +8,7 @@ class RelativeMLPredictorAdapter(IPredictorAdapter[RelativeMLPredictorValue, INe
     def transform(self, value: RelativeMLPredictorValue) -> INextCandlePrediction:
         meta = value.meta
         outputs = value.outputs
-        limits = value.limits
+        maxAbsDelta = value.maxAbsDelta
 
         candleSeries = meta.getCandleSeries()
         assetPair = candleSeries.getAssetPair()
@@ -21,11 +21,10 @@ class RelativeMLPredictorAdapter(IPredictorAdapter[RelativeMLPredictorValue, INe
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         volume = 1
 
-        # Denormalize absolute delta
-        deltaOpenPrice = outputs[0] * (limits[0][1] - limits[0][0]) + limits[0][0]
-        deltaClosePrice = outputs[1] * (limits[1][1] - limits[1][0]) + limits[1][0]
-        deltaHighPrice = outputs[2] * (limits[2][1] - limits[2][0]) + limits[2][0]
-        deltaLowPrice = outputs[3] * (limits[3][1] - limits[3][0]) + limits[3][0]
+        deltaOpenPrice = outputs[0] * maxAbsDelta[0]
+        deltaClosePrice = outputs[1] * maxAbsDelta[1]
+        deltaHighPrice = outputs[2] * maxAbsDelta[2]
+        deltaLowPrice = outputs[3] * maxAbsDelta[3]
 
         openPrice = lastCandle.getOpenPrice() + deltaOpenPrice
         closePrice = lastCandle.getClosePrice() + deltaClosePrice

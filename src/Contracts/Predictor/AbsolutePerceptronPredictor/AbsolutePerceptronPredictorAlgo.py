@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Input, Flatten
@@ -55,7 +57,7 @@ class AbsolutePerceptronPredictorAlgo(ITrainablePredictorAlgo[AbsolutePerceptron
 
         return AbsolutePerceptronPredictorValue(meta, result, self._limits)
 
-    def train(self, dataset: list[ICandleSeries]) -> None:
+    def train(self, dataset: list[ICandleSeries], epochs: int = 100) -> None:
         if len(dataset) == 0:
             raise ValueError("Dataset is empty")
 
@@ -72,7 +74,7 @@ class AbsolutePerceptronPredictorAlgo(ITrainablePredictorAlgo[AbsolutePerceptron
         X_train = np.array(X_list)
         y_train = np.array(y_list)
 
-        self._model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, verbose='auto')
+        self._model.fit(X_train, y_train, epochs=epochs, batch_size=32, validation_split=0.2, verbose='auto')
 
     def _initNormalization(self, dataset: list[ICandleSeries]):
         for item in dataset:
