@@ -9,10 +9,11 @@ from ..Interfaces import ITrainablePredictorAlgo
 
 class PercentagePerceptronPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPredictorValue]):
     _candlesCount: int
-    _pctLimits: list[tuple[float, float]]
+    _maxAbsPct: list[float]
 
     def __init__(self, candlesCount: int):
         self._candlesCount = candlesCount
+        self._maxAbsPct = [0.0, 0.0, 0.0, 0.0]
 
         self._model = Sequential([
             Input(shape=(candlesCount, 4), name='input'),
@@ -27,13 +28,6 @@ class PercentagePerceptronPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPred
             loss='mse',
             metrics=['mae']
         )
-
-        self._pctLimits = [
-            (float('inf'), float('-inf')),
-            (float('inf'), float('-inf')),
-            (float('inf'), float('-inf')),
-            (float('inf'), float('-inf')),
-        ]
 
     def calc(self, input: ICandleSeries):
         allNormalized = self._normalize(input)
@@ -52,9 +46,9 @@ class PercentagePerceptronPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPred
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         meta = PredictionMeta(timestamp, input, 0.5)
 
-        return PercentageMLPredictorValue(meta, result, self._pctLimits)
+        return PercentageMLPredictorValue(meta, result, self._maxAbsPct)
 
-    def train(self, dataset: list[ICandleSeries]) -> None:
+    def train(self, dataset: list[ICandleSeries], epochs: int = 100) -> None:
         if len(dataset) == 0:
             raise ValueError("Dataset is empty")
 
@@ -65,80 +59,79 @@ class PercentagePerceptronPredictorAlgo(ITrainablePredictorAlgo[PercentageMLPred
 
         for series in dataset:
             normalized = self._normalize(series)
-            pctNormalized = self._normalizePercentage(series)
             X_list.append(normalized[:self._candlesCount])
-            y_list.append(pctNormalized)
+            y_list.append(self._getTargetPct(series))
 
         X_train = np.array(X_list)
         y_train = np.array(y_list)
 
-        self._model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, verbose='auto')
+        self._model.fit(X_train, y_train, epochs=epochs, batch_size=32, validation_split=0.2, verbose='auto')
+
+    def _getTargetPct(self, series: ICandleSeries) -> list[float]:
+        count = series.getCount()
+        lastCandle = series.getByIndex(count - 1)
+        prevCandle = series.getByIndex(count - 2)
+
+        if not lastCandle or not prevCandle:
+            return [0, 0, 0, 0]
+
+        pctOpen = (lastCandle.getOpenPrice() - prevCandle.getOpenPrice()) / prevCandle.getOpenPrice()
+        pctClose = (lastCandle.getClosePrice() - prevCandle.getClosePrice()) / prevCandle.getClosePrice()
+        pctHigh = (lastCandle.getHighPrice() - prevCandle.getHighPrice()) / prevCandle.getHighPrice()
+        pctLow = (lastCandle.getLowPrice() - prevCandle.getLowPrice()) / prevCandle.getLowPrice()
+
+        scaledOpen = pctOpen / self._maxAbsPct[0] if self._maxAbsPct[0] != 0 else 0
+        scaledClose = pctClose / self._maxAbsPct[1] if self._maxAbsPct[1] != 0 else 0
+        scaledHigh = pctHigh / self._maxAbsPct[2] if self._maxAbsPct[2] != 0 else 0
+        scaledLow = pctLow / self._maxAbsPct[3] if self._maxAbsPct[3] != 0 else 0
+
+        return [scaledOpen, scaledClose, scaledHigh, scaledLow]
 
     def _initNormalization(self, dataset: list[ICandleSeries]):
         for item in dataset:
             count = item.getCount()
-            lastCandle = item.getByIndex(count - 1)
-            preLastCandle = item.getByIndex(count - 2)
 
-            if not lastCandle or not preLastCandle:
-                raise ValueError("Dataset parsing error")
+            for i in range(1, count):
+                candle = item.getByIndex(i)
+                prevCandle = item.getByIndex(i - 1)
 
-            pctOpen = (lastCandle.getOpenPrice() - preLastCandle.getOpenPrice()) / preLastCandle.getOpenPrice()
-            pctClose = (lastCandle.getClosePrice() - preLastCandle.getClosePrice()) / preLastCandle.getClosePrice()
-            pctHigh = (lastCandle.getHighPrice() - preLastCandle.getHighPrice()) / preLastCandle.getHighPrice()
-            pctLow = (lastCandle.getLowPrice() - preLastCandle.getLowPrice()) / preLastCandle.getLowPrice()
+                if not candle or not prevCandle:
+                    continue
 
-            self._pctLimits[0] = (min(pctOpen, self._pctLimits[0][0]), max(pctOpen, self._pctLimits[0][1]))
-            self._pctLimits[1] = (min(pctClose, self._pctLimits[1][0]), max(pctClose, self._pctLimits[1][1]))
-            self._pctLimits[2] = (min(pctHigh, self._pctLimits[2][0]), max(pctHigh, self._pctLimits[2][1]))
-            self._pctLimits[3] = (min(pctLow, self._pctLimits[3][0]), max(pctLow, self._pctLimits[3][1]))
+                pctOpen = abs((candle.getOpenPrice() - prevCandle.getOpenPrice()) / prevCandle.getOpenPrice())
+                pctClose = abs((candle.getClosePrice() - prevCandle.getClosePrice()) / prevCandle.getClosePrice())
+                pctHigh = abs((candle.getHighPrice() - prevCandle.getHighPrice()) / prevCandle.getHighPrice())
+                pctLow = abs((candle.getLowPrice() - prevCandle.getLowPrice()) / prevCandle.getLowPrice())
+
+                self._maxAbsPct[0] = max(pctOpen, self._maxAbsPct[0])
+                self._maxAbsPct[1] = max(pctClose, self._maxAbsPct[1])
+                self._maxAbsPct[2] = max(pctHigh, self._maxAbsPct[2])
+                self._maxAbsPct[3] = max(pctLow, self._maxAbsPct[3])
 
     def _normalize(self, input: ICandleSeries) -> list[list[float]]:
         count = input.getCount()
         normalized = list[list[float]]()
 
-        firstCandle = input.getByIndex(0)
-        if not firstCandle:
-            raise ValueError("Cannot get first candle")
+        normalized.append([0, 0, 0, 0])
 
-        baseOpen = firstCandle.getOpenPrice()
-        baseClose = firstCandle.getClosePrice()
-        baseHigh = firstCandle.getHighPrice()
-        baseLow = firstCandle.getLowPrice()
-
-        for i in range(count):
+        for i in range(1, count):
             candle = input.getByIndex(i)
+            prevCandle = input.getByIndex(i - 1)
 
-            if not candle:
+            if not candle or not prevCandle:
                 normalized.append([0, 0, 0, 0])
                 continue
 
-            pctOpen = (candle.getOpenPrice() - baseOpen) / baseOpen
-            pctClose = (candle.getClosePrice() - baseClose) / baseClose
-            pctHigh = (candle.getHighPrice() - baseHigh) / baseHigh
-            pctLow = (candle.getLowPrice() - baseLow) / baseLow
+            pctOpen = (candle.getOpenPrice() - prevCandle.getOpenPrice()) / prevCandle.getOpenPrice()
+            pctClose = (candle.getClosePrice() - prevCandle.getClosePrice()) / prevCandle.getClosePrice()
+            pctHigh = (candle.getHighPrice() - prevCandle.getHighPrice()) / prevCandle.getHighPrice()
+            pctLow = (candle.getLowPrice() - prevCandle.getLowPrice()) / prevCandle.getLowPrice()
 
-            normalized.append([pctOpen, pctClose, pctHigh, pctLow])
+            scaledOpen = pctOpen / self._maxAbsPct[0] if self._maxAbsPct[0] != 0 else 0
+            scaledClose = pctClose / self._maxAbsPct[1] if self._maxAbsPct[1] != 0 else 0
+            scaledHigh = pctHigh / self._maxAbsPct[2] if self._maxAbsPct[2] != 0 else 0
+            scaledLow = pctLow / self._maxAbsPct[3] if self._maxAbsPct[3] != 0 else 0
+
+            normalized.append([scaledOpen, scaledClose, scaledHigh, scaledLow])
 
         return normalized
-
-    def _normalizePercentage(self, input: ICandleSeries) -> list[float]:
-        count = input.getCount()
-
-        lastCandle = input.getByIndex(count - 1)
-        preLastCandle = input.getByIndex(count - 2)
-
-        if not lastCandle or not preLastCandle:
-            raise ValueError("Percentage normalization failed")
-
-        pctOpen = (lastCandle.getOpenPrice() - preLastCandle.getOpenPrice()) / preLastCandle.getOpenPrice()
-        pctClose = (lastCandle.getClosePrice() - preLastCandle.getClosePrice()) / preLastCandle.getClosePrice()
-        pctHigh = (lastCandle.getHighPrice() - preLastCandle.getHighPrice()) / preLastCandle.getHighPrice()
-        pctLow = (lastCandle.getLowPrice() - preLastCandle.getLowPrice()) / preLastCandle.getLowPrice()
-
-        scaledPctOpen = (pctOpen - self._pctLimits[0][0]) / (self._pctLimits[0][1] - self._pctLimits[0][0])
-        scaledPctClose = (pctClose - self._pctLimits[1][0]) / (self._pctLimits[1][1] - self._pctLimits[1][0])
-        scaledPctHigh = (pctHigh - self._pctLimits[2][0]) / (self._pctLimits[2][1] - self._pctLimits[2][0])
-        scaledPctLow = (pctLow - self._pctLimits[3][0]) / (self._pctLimits[3][1] - self._pctLimits[3][0])
-
-        return [scaledPctOpen, scaledPctClose, scaledPctHigh, scaledPctLow]

@@ -13,4 +13,4 @@ class RelativeMLPredictor(ATrainablePredictor[RelativeMLPredictorValue, INextCan
     _dataset: list[ICandleSeries]
 
     def __init__(self, candlesCount: int):
-        super().__init__(RelativeLSTMPredictorAlgo(candlesCount), RelativeMLPredictorAdapter(), candlesCount)
+        super().__init__(RelativePerceptronPredictorAlgo(candlesCount), RelativeMLPredictorAdapter(), candlesCount)

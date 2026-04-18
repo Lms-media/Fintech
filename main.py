@@ -4,14 +4,31 @@ import shutil
 
 if os.path.exists('logs'):
     shutil.rmtree('logs')
+
 os.makedirs('logs')
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from config import assetPair
 
-from UseCases import PredictorVisualizeUseCase, PredictorTrainingUseCase, PredictorTestingUseCase
-from Contracts import MoexCurrencyDataSource, LoggedDataSource, PercentageMLPredictor, IndicatorPredictor, DummyPredictor, AbsolutePerceptronPredictor
+from UseCases import PredictorVisualizeUseCase, PredictorTrainingUseCase, PredictorTestingUseCase, PredictorRetrainUseCase
+from Contracts import (
+    MoexCurrencyDataSource,
+    LoggedDataSource,
+    IndicatorPredictor,
+    CompositeMedianPredictor,
+    CompositeVotingPredictor,
+    CompositeAvgPredictor,
+    ExponentialMAPredictorAlgo,
+    BollingerBandsPredictorAlgo,
+    RSIPredictorAlgo,
+    MACDPredictorAlgo,
+    PercentageMLPredictor,
+    RelativeMLPredictor,
+    PercentageDeltaMLPredictor,
+    DummyPredictor,
+    AbsolutePerceptronPredictor
+)
 from Services import FileLogger, GraphLogger2D
 from Interfaces import IntervalType
 
@@ -27,21 +44,17 @@ testingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UT
 # predictor = RelativeMLPredictor(45)
 
 for i in range(1, 101):
-    print(i)
     logger = FileLogger(f"logs/{i}.log")
-    predictor = IndicatorPredictor(i)
+    mlPredictor = PercentageDeltaMLPredictor(i)
+    rsiPredictor = IndicatorPredictor(RSIPredictorAlgo(i), i)
 
-    # trainingUseCase = PredictorTrainingUseCase(trainingDataSource, predictor, mainLogger)
-    # trainingUseCase.execute()
+    trainingUseCase = PredictorTrainingUseCase(trainingDataSource, mlPredictor, mainLogger)
+    trainingUseCase.execute()
+
+    predictor = CompositeAvgPredictor([mlPredictor, rsiPredictor])
 
     testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, logger)
     testingUseCase.execute()
 
-# trainingUseCase = PredictorTrainingUseCase(trainingDataSource, predictor, mainLogger)
-# trainingUseCase.execute()
-
-# visualizeUseCase = PredictorVisualizeUseCase(testingDataSource, predictor, dynamicLogger)
-# visualizeUseCase.execute()
-
-# testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, testingLogger)
-# testingUseCase.execute()
+    # useCase = PredictorRetrainUseCase(trainingDataSource, testingDataSource, predictor, logger)
+    # useCase.execute()

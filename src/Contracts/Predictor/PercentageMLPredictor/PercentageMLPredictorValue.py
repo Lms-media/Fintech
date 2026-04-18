@@ -5,4 +5,4 @@ from Interfaces import IPredictionMeta
 class PercentageMLPredictorValue():
     meta: IPredictionMeta
     outputs: list[float]
-    limits: list[tuple[float, float]]
+    maxAbsPct: list[float]

@@ -1,8 +1,28 @@
 from .Predictor.APredictor import APredictor
 from .DataSource import MockDataSource, LoggedDataSource, MoexCurrencyDataSource
-from .Predictor import DummyPredictor, LoggedPredictor, IndicatorPredictor, AbsolutePerceptronPredictor, RelativeMLPredictor, ITrainablePredictor, DirectPredictor, PercentageMLPredictor
+from .Predictor import (
+    DummyPredictor,
+    LoggedPredictor,
+    IndicatorPredictor,
+    SimpleMAPredictorAlgo,
+    WeightedMAPredictorAlgo,
+    ExponentialMAPredictorAlgo,
+    MACDPredictorAlgo,
+    RSIPredictorAlgo,
+    BollingerBandsPredictorAlgo,
+    AbsolutePerceptronPredictor,
+    RelativeMLPredictor,
+    ITrainablePredictor,
+    PercentageMLPredictor,
+    CompositeAvgPredictor,
+    CompositeVotingPredictor,
+    CompositeMedianPredictor,
+    RandomForestPredictor,
+    PercentageDeltaMLPredictor,
+    DirectPredictor,
+)
 from .Strategy import DummyStrategy, LoggedStrategy, DirectStrategy
-from .Assessor import HalfInAssessor, LoggedAssessor, CandleTestAssesor, TrendFilterAssessor, VolatilityThresholdAssessor, RSIFilterAssessor
+from .Assessor import HalfInAssessor, LoggedAssessor, CandleTestAssesor, VolatilityThresholdAssessor, TrendFilterAssessor, RSIFilterAssessor
 from .ContextProvider import MockContextProvider, LoggedContextProvider, DatasetContextProvider
 from .Executor import BackgroundPollingExecutor, LoggedExecutor
 
@@ -13,9 +33,18 @@ __all__ = [
     'DummyPredictor',
     'LoggedPredictor',
     'IndicatorPredictor',
+    'SimpleMAPredictorAlgo',
+    'WeightedMAPredictorAlgo',
+    'ExponentialMAPredictorAlgo',
+    'MACDPredictorAlgo',
+    'RSIPredictorAlgo',
+    'BollingerBandsPredictorAlgo',
     'AbsolutePerceptronPredictor',
     'RelativeMLPredictor',
     'PercentageMLPredictor',
+    'CompositeAvgPredictor',
+    'CompositeVotingPredictor',
+    'CompositeMedianPredictor',
     'APredictor',
     'ITrainablePredictor',
     'DirectPredictor',
@@ -33,4 +62,6 @@ __all__ = [
     'DatasetContextProvider',
     'BackgroundPollingExecutor',
     'LoggedExecutor',
+    'RandomForestPredictor',
+    'PercentageDeltaMLPredictor',
 ]

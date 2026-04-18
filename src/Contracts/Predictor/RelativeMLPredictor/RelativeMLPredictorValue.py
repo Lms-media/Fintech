@@ -5,4 +5,4 @@ from Interfaces import IPredictionMeta
 class RelativeMLPredictorValue():
     meta: IPredictionMeta
     outputs: list[float]
-    limits: list[tuple[float, float]]
+    maxAbsDelta: list[float]

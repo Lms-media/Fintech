@@ -4,6 +4,7 @@ from .InfiniteActionUseCase import InfiniteActionUseCase
 from .PredictorTestingUseCase import PredictorTestingUseCase
 from .PredictorVisualizeUseCase import PredictorVisualizeUseCase
 from .PredictorTrainingUseCase import PredictorTrainingUseCase
+from .PredictorRetrainUseCase import PredictorRetrainUseCase
 from .StrategyTestingUseCase import StrategyTestingUseCase
 
 __all__ = [
@@ -13,5 +14,6 @@ __all__ = [
     'PredictorTestingUseCase',
     'PredictorVisualizeUseCase',
     'PredictorTrainingUseCase',
+    'PredictorRetrainUseCase',
     'StrategyTestingUseCase',
 ]

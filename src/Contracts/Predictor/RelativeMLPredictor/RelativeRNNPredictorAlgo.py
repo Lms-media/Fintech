@@ -9,19 +9,14 @@ from ..Interfaces import ITrainablePredictorAlgo
 
 class RelativeRNNPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredictorValue]):
     _candlesCount: int
-    _limits: list[tuple[float, float]]
-    _deltaLimits: list[tuple[float, float]]
+    _maxAbsDelta: list[float]
 
     def __init__(self, candlesCount: int):
         self._candlesCount = candlesCount
+        self._maxAbsDelta = [0.0, 0.0, 0.0, 0.0]
 
         self._model = Sequential([
-            # SimpleRNN(50, return_sequences=False, input_shape=(candlesCount, 4)),
-            # Dense(25, activation='relu'),
-            # Dropout(0.2),
-            # Dense(4, activation='linear')
-            SimpleRNN(50, return_sequences=True, input_shape=(candlesCount, 4)),
-            SimpleRNN(30, return_sequences=False),
+            SimpleRNN(50, return_sequences=False, input_shape=(candlesCount, 4)),
             Dense(25, activation='relu'),
             Dropout(0.2),
             Dense(4, activation='linear')
@@ -31,19 +26,6 @@ class RelativeRNNPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredictorValue]
             loss='mse',
             metrics=['mae']
         )
-
-        self._limits = [
-            (float('inf'), float('-inf')),
-            (float('inf'), float('-inf')),
-            (float('inf'), float('-inf')),
-            (float('inf'), float('-inf')),
-        ]
-        self._deltaLimits = [
-            (float('inf'), float('-inf')),
-            (float('inf'), float('-inf')),
-            (float('inf'), float('-inf')),
-            (float('inf'), float('-inf')),
-        ]
 
     def calc(self, input: ICandleSeries):
         allNormalized = self._normalize(input)
@@ -62,9 +44,9 @@ class RelativeRNNPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredictorValue]
         timestamp = lastCandle.getOpenTimestamp() + interval.value
         meta = PredictionMeta(timestamp, input, 0.5)
 
-        return RelativeMLPredictorValue(meta, result, self._deltaLimits)
+        return RelativeMLPredictorValue(meta, result, self._maxAbsDelta)
 
-    def train(self, dataset: list[ICandleSeries]) -> None:
+    def train(self, dataset: list[ICandleSeries], epochs: int = 100) -> None:
         if len(dataset) == 0:
             raise ValueError("Dataset is empty")
 
@@ -75,82 +57,79 @@ class RelativeRNNPredictorAlgo(ITrainablePredictorAlgo[RelativeMLPredictorValue]
 
         for series in dataset:
             normalized = self._normalize(series)
-            deltaNormalized = self._normalizeDelta(series)
             X_list.append(normalized[:self._candlesCount])
-            y_list.append(deltaNormalized)
+            y_list.append(self._getTargetDelta(series))
 
         X_train = np.array(X_list)
         y_train = np.array(y_list)
 
-        self._model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, verbose='auto')
+        self._model.fit(X_train, y_train, epochs=epochs, batch_size=32, validation_split=0.2, verbose='auto')
+
+    def _getTargetDelta(self, series: ICandleSeries) -> list[float]:
+        count = series.getCount()
+        lastCandle = series.getByIndex(count - 1)
+        prevCandle = series.getByIndex(count - 2)
+
+        if not lastCandle or not prevCandle:
+            return [0, 0, 0, 0]
+
+        deltaOpen = lastCandle.getOpenPrice() - prevCandle.getOpenPrice()
+        deltaClose = lastCandle.getClosePrice() - prevCandle.getClosePrice()
+        deltaHigh = lastCandle.getHighPrice() - prevCandle.getHighPrice()
+        deltaLow = lastCandle.getLowPrice() - prevCandle.getLowPrice()
+
+        scaledOpen = deltaOpen / self._maxAbsDelta[0] if self._maxAbsDelta[0] != 0 else 0
+        scaledClose = deltaClose / self._maxAbsDelta[1] if self._maxAbsDelta[1] != 0 else 0
+        scaledHigh = deltaHigh / self._maxAbsDelta[2] if self._maxAbsDelta[2] != 0 else 0
+        scaledLow = deltaLow / self._maxAbsDelta[3] if self._maxAbsDelta[3] != 0 else 0
+
+        return [scaledOpen, scaledClose, scaledHigh, scaledLow]
 
     def _initNormalization(self, dataset: list[ICandleSeries]):
         for item in dataset:
             count = item.getCount()
-            lastCandle = item.getByIndex(count - 1)
-            preLastCandle = item.getByIndex(count - 2)
 
-            if not lastCandle or not preLastCandle:
-                raise ValueError("Dataset persing error")
-
-            deltaOpenPrice = lastCandle.getOpenPrice() - preLastCandle.getOpenPrice()
-            deltaClosePrice = lastCandle.getClosePrice() - preLastCandle.getClosePrice()
-            deltaHighPrice = lastCandle.getHighPrice() - preLastCandle.getHighPrice()
-            deltaLowPrice = lastCandle.getLowPrice() - preLastCandle.getLowPrice()
-
-            self._deltaLimits[0] = (min(deltaOpenPrice, self._deltaLimits[0][0]), max(deltaOpenPrice, self._deltaLimits[0][1]))
-            self._deltaLimits[1] = (min(deltaClosePrice, self._deltaLimits[1][0]), max(deltaClosePrice, self._deltaLimits[1][1]))
-            self._deltaLimits[2] = (min(deltaHighPrice, self._deltaLimits[2][0]), max(deltaHighPrice, self._deltaLimits[2][1]))
-            self._deltaLimits[3] = (min(deltaLowPrice, self._deltaLimits[3][0]), max(deltaLowPrice, self._deltaLimits[3][1]))
-
-            for i in range(item.getCount()):
+            for i in range(1, count):
                 candle = item.getByIndex(i)
+                prevCandle = item.getByIndex(i - 1)
 
-                if not candle:
-                    raise ValueError("Dataset parsing error")
+                if not candle or not prevCandle:
+                    continue
 
-                self._limits[0] = (min(candle.getOpenPrice(), self._limits[0][0]), max(candle.getOpenPrice(), self._limits[0][1]))
-                self._limits[1] = (min(candle.getClosePrice(), self._limits[1][0]), max(candle.getClosePrice(), self._limits[1][1]))
-                self._limits[2] = (min(candle.getHighPrice(), self._limits[2][0]), max(candle.getHighPrice(), self._limits[2][1]))
-                self._limits[3] = (min(candle.getLowPrice(), self._limits[3][0]), max(candle.getLowPrice(), self._limits[3][1]))
+                deltaOpen = abs(candle.getOpenPrice() - prevCandle.getOpenPrice())
+                deltaClose = abs(candle.getClosePrice() - prevCandle.getClosePrice())
+                deltaHigh = abs(candle.getHighPrice() - prevCandle.getHighPrice())
+                deltaLow = abs(candle.getLowPrice() - prevCandle.getLowPrice())
+
+                self._maxAbsDelta[0] = max(deltaOpen, self._maxAbsDelta[0])
+                self._maxAbsDelta[1] = max(deltaClose, self._maxAbsDelta[1])
+                self._maxAbsDelta[2] = max(deltaHigh, self._maxAbsDelta[2])
+                self._maxAbsDelta[3] = max(deltaLow, self._maxAbsDelta[3])
 
     def _normalize(self, input: ICandleSeries) -> list[list[float]]:
         count = input.getCount()
         normalized = list[list[float]]()
 
-        for i in range(count):
-            candle = input.getByIndex(i)
+        normalized.append([0, 0, 0, 0])
 
-            if not candle:
+        for i in range(1, count):
+            candle = input.getByIndex(i)
+            prevCandle = input.getByIndex(i - 1)
+
+            if not candle or not prevCandle:
                 normalized.append([0, 0, 0, 0])
                 continue
 
-            scaledOpen = (candle.getOpenPrice() - self._limits[0][0]) / (self._limits[0][1] - self._limits[0][0])
-            scaledClose = (candle.getClosePrice() - self._limits[1][0]) / (self._limits[1][1] - self._limits[1][0])
-            scaledHigh = (candle.getHighPrice() - self._limits[2][0]) / (self._limits[2][1] - self._limits[2][0])
-            scaledLow = (candle.getLowPrice() - self._limits[3][0]) / (self._limits[3][1] - self._limits[3][0])
+            deltaOpen = candle.getOpenPrice() - prevCandle.getOpenPrice()
+            deltaClose = candle.getClosePrice() - prevCandle.getClosePrice()
+            deltaHigh = candle.getHighPrice() - prevCandle.getHighPrice()
+            deltaLow = candle.getLowPrice() - prevCandle.getLowPrice()
+
+            scaledOpen = deltaOpen / self._maxAbsDelta[0] if self._maxAbsDelta[0] != 0 else 0
+            scaledClose = deltaClose / self._maxAbsDelta[1] if self._maxAbsDelta[1] != 0 else 0
+            scaledHigh = deltaHigh / self._maxAbsDelta[2] if self._maxAbsDelta[2] != 0 else 0
+            scaledLow = deltaLow / self._maxAbsDelta[3] if self._maxAbsDelta[3] != 0 else 0
 
             normalized.append([scaledOpen, scaledClose, scaledHigh, scaledLow])
 
         return normalized
-
-    def _normalizeDelta(self, input: ICandleSeries) -> list[float]:
-        count = input.getCount()
-
-        lastCandle = input.getByIndex(count - 1)
-        preLastCandle = input.getByIndex(count - 2)
-
-        if not lastCandle or not preLastCandle:
-            raise ValueError("Delta normalization failed")
-
-        deltaOpenPrice = lastCandle.getOpenPrice() - preLastCandle.getOpenPrice()
-        deltaClosePrice = lastCandle.getClosePrice() - preLastCandle.getClosePrice()
-        deltaHighPrice = lastCandle.getHighPrice() - preLastCandle.getHighPrice()
-        deltaLowPrice = lastCandle.getLowPrice() - preLastCandle.getLowPrice()
-
-        scaledDeltaOpen = (deltaOpenPrice - self._deltaLimits[0][0]) / (self._deltaLimits[0][1] - self._deltaLimits[0][0])
-        scaledDeltaClose = (deltaClosePrice - self._deltaLimits[1][0]) / (self._deltaLimits[1][1] - self._deltaLimits[1][0])
-        scaledDeltaHigh = (deltaHighPrice - self._deltaLimits[2][0]) / (self._deltaLimits[2][1] - self._deltaLimits[2][0])
-        scaledDeltaLow = (deltaLowPrice - self._deltaLimits[3][0]) / (self._deltaLimits[3][1] - self._deltaLimits[3][0])
-
-        return [scaledDeltaOpen, scaledDeltaClose, scaledDeltaHigh, scaledDeltaLow]
