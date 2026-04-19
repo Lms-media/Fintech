@@ -63,7 +63,7 @@ class RSIFilterAssessor(IAssessor[CandleSignal, ITurnBackAction]):
         capitalizationData.cap.append(self._portfolio.getCapitalization(context))
         print(price)
         print("predicted:", predictedPrice)
-        
+
         prices = []
         for i in range(input.previousCandles.getCount()):
             candle = input.previousCandles.getByIndex(i)
@@ -72,16 +72,25 @@ class RSIFilterAssessor(IAssessor[CandleSignal, ITurnBackAction]):
         rsi_value = self._calculate_rsi(prices)
         lotToBuy = int((self._portfolio.getBaseAmount() * 0.4) / price)
         print("rsi:", rsi_value)
-        
+
+        multiplayer = 1.0
         if predictedPrice > price and rsi_value < self._upper_rsi:
-            if rsi_value < self._lower_rsi:
-                lotToBuy *= 1.5
+            local_upper_rsi = self._upper_rsi - 10
+            while local_upper_rsi > 0:
+                if rsi_value < local_upper_rsi:
+                    multiplayer += 0.125
+                local_upper_rsi -= 10
+            lotToBuy *= multiplayer
             lotToBuy = lotToBuy if lotToBuy > 0 else 0
             print("buying:", lotToBuy)
             return TurnBackAction(input, assetPair, int(lotToBuy), True, context, 1, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())
         if predictedPrice < price and rsi_value > self._lower_rsi:
-            if rsi_value > self._upper_rsi:
-                lotToBuy *= 1.5
+            local_lower_rsi = self._lower_rsi + 10
+            while local_lower_rsi < 100:
+                if rsi_value > local_lower_rsi:
+                    multiplayer += 0.125
+                local_lower_rsi += 10
+            lotToBuy *= multiplayer
             lotToBuy = lotToBuy if lotToBuy > 0 else 0
             print("selling:", lotToBuy)
             return TurnBackAction(input, assetPair, int(lotToBuy), False, context, 1, previousCandle.getOpenTimestamp(), nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp())

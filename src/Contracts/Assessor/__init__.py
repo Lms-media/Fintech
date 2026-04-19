@@ -4,6 +4,8 @@ from .CandleTestAssesor import CandleTestAssesor
 from .TrendFilterAssessor import TrendFilterAssessor
 from .VolatilityThresholdAssessor import VolatilityThresholdAssessor
 from .RSIFilterAssessor import RSIFilterAssessor
+from .VolatilityCorridorAssessor import VolatilityCorridorAssessor
+from .RSICorridorAssessor import RSICorridorAssessor
 
 __all__ = [
     'HalfInAssessor',
@@ -12,4 +14,6 @@ __all__ = [
     'TrendFilterAssessor',
     'VolatilityThresholdAssessor',
     'RSIFilterAssessor',
+    'VolatilityCorridorAssessor',
+    'RSICorridorAssessor',
 ]

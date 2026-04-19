@@ -2,6 +2,7 @@ import time
 from Interfaces import IExecutionContext, IContextProvider, IAssetPair
 from ValueObjects import ExecutionContext
 
+
 class MockContextProvider(IContextProvider):
     _startTimestamp: int
     _assetPair: IAssetPair
@@ -14,4 +15,6 @@ class MockContextProvider(IContextProvider):
         prices = dict[IAssetPair, float]()
         prices[self._assetPair] = 10
 
-        return ExecutionContext(int(time.time()) - self._startTimestamp, prices)
+        return ExecutionContext(
+            int(time.time()) - self._startTimestamp, prices, prices, prices, prices
+        )

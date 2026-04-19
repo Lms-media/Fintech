@@ -1,6 +1,7 @@
 import uuid
 from Interfaces import ITask, ITaskTrigger, IAssetPair, TaskStatus, TaskType
 
+
 class Task(ITask):
     _id: str
     _status: TaskStatus
@@ -9,10 +10,23 @@ class Task(ITask):
     _assetPair: IAssetPair
     _lotCount: int
     _timestamp: int
+    _hightLimit: float
+    _lowLimit: float
 
-    def __init__(self, type: TaskType, assetPair:IAssetPair, lotCount: int, trigger: ITaskTrigger, timestamp: int):
+    def __init__(
+        self,
+        type: TaskType,
+        assetPair: IAssetPair,
+        lotCount: int,
+        trigger: ITaskTrigger,
+        timestamp: int,
+        hightLimit: float = 0.0,
+        lowLimit: float = 0.0
+    ):
         if lotCount < 0:
-            raise ValueError(f"'lotCount' must be greater than or equal zero, but 'lotCount' is {lotCount}")
+            raise ValueError(
+                f"'lotCount' must be greater than or equal zero, but 'lotCount' is {lotCount}"
+            )
 
         self._status = TaskStatus.Locked
         self._type = type
@@ -21,6 +35,8 @@ class Task(ITask):
         self._trigger = trigger
         self._id = uuid.uuid4()
         self._timestamp = timestamp
+        self._hightLimit = hightLimit
+        self._lowLimit = lowLimit
 
     def getId(self) -> str:
         return self._id
@@ -39,6 +55,12 @@ class Task(ITask):
 
     def getLotCount(self) -> int:
         return self._lotCount
+    
+    def getHightLimit(self):
+        return self._hightLimit
+    
+    def getLowLimit(self):
+        return self._lowLimit
 
     def unlock(self) -> None:
         if not self._status == TaskStatus.Locked:
@@ -54,7 +76,7 @@ class Task(ITask):
             raise ValueError(f"Task is already finished")
 
         self._status = TaskStatus.Finished
-    
+
     def getTimestamp(self) -> int:
         return self._timestamp
 

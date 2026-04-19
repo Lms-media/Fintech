@@ -9,6 +9,18 @@ class IExecutionContext(IValueObject['IExecutionContext']):
     @abstractmethod
     def getPrice(self, assetPair: IAssetPair) -> Optional[float]:
         pass
+    
+    @abstractmethod
+    def getClosePrice(self, assetPair: IAssetPair) -> Optional[float]:
+        pass
+    
+    @abstractmethod
+    def getHightPrice(self, assetPair: IAssetPair) -> Optional[float]:
+        pass
+    
+    @abstractmethod
+    def getLowPrice(self, assetPair: IAssetPair) -> Optional[float]:
+        pass
 
     @abstractmethod
     def getTimestamp(self) -> int:

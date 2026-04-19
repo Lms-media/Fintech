@@ -12,6 +12,14 @@ class ITask(IEntity, ABC):
     @abstractmethod
     def getType(self) -> TaskType:
         pass
+    
+    @abstractmethod
+    def getHightLimit(self) -> float:
+        pass
+
+    @abstractmethod
+    def getLowLimit(self) -> float:
+        pass
 
     @abstractmethod
     def getTrigger(self) -> ITaskTrigger:
