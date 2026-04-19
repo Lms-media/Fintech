@@ -42,18 +42,15 @@ trainingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000U
 testingDataSource = LoggedDataSource(MoexCurrencyDataSource(assetPair, "USD000UTSTOM", 1651171835, 1701171835, IntervalType.OneDay), testingDataSourceLogger)
 # predictor = RelativeMLPredictor(45)
 
-for i in range(1, 101):
+for i in range(77, 101):
     logger = FileLogger(f"logs/{i}.log")
-    mlPredictor = PercentageDeltaMLPredictor(i)
-    rsiPredictor = IndicatorPredictor(RSIPredictorAlgo(i), i)
+    predictor = PercentageDeltaMLPredictor(i)
 
-    trainingUseCase = PredictorTrainingUseCase(trainingDataSource, mlPredictor, mainLogger)
-    trainingUseCase.execute()
+    # trainingUseCase = PredictorTrainingUseCase(trainingDataSource, mlPredictor, mainLogger)
+    # trainingUseCase.execute()
 
-    predictor = CompositeAvgPredictor([mlPredictor, rsiPredictor])
+    # testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, logger)
+    # testingUseCase.execute()
 
-    testingUseCase = PredictorTestingUseCase(testingDataSource, predictor, logger)
-    testingUseCase.execute()
-
-    # useCase = PredictorRetrainUseCase(trainingDataSource, testingDataSource, predictor, logger)
-    # useCase.execute()
+    useCase = PredictorRetrainUseCase(trainingDataSource, testingDataSource, predictor, logger)
+    useCase.execute()

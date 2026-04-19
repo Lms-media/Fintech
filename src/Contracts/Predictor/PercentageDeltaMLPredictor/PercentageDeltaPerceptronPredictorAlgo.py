@@ -13,6 +13,7 @@ class PercentageDeltaPerceptronPredictorAlgo(ITrainablePredictorAlgo[PercentageD
     _maxOhDeltaAbs: float
     _maxOlDeltaAbs: float
     _maxOffsetAbs: float
+    _normalizationInitialized: bool
 
     def __init__(self, candlesCount: int):
         self._candlesCount = candlesCount
@@ -20,6 +21,7 @@ class PercentageDeltaPerceptronPredictorAlgo(ITrainablePredictorAlgo[PercentageD
         self._maxOcDeltaAbs = 0
         self._maxOlDeltaAbs = 0
         self._maxOffsetAbs = 0
+        self._normalizationInitialized = False
 
         self._model = Sequential([
             Input(shape=(candlesCount, 4), name='input'),
@@ -68,7 +70,9 @@ class PercentageDeltaPerceptronPredictorAlgo(ITrainablePredictorAlgo[PercentageD
         if len(dataset) == 0:
             raise ValueError("Dataset is empty")
 
-        self._initNormalization(dataset)
+        if not self._normalizationInitialized:
+            self._initNormalization(dataset)
+            self._normalizationInitialized = True
 
         X_list = []
         y_list = []

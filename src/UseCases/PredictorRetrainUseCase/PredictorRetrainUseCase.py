@@ -29,6 +29,9 @@ class PredictorRetrainUseCase(IUseCase):
 
         self._predictor.train(epochs=100)
 
+        retrainInterval = 50
+        stepsSinceRetrain = 0
+
         for i in range(offset, testingCandleSeries.getCount()):
             if not i == offset:
                 oldCandle = testingCandleSeries.getByIndex(i - offset + 1)
@@ -36,7 +39,11 @@ class PredictorRetrainUseCase(IUseCase):
                     trainingCandleSeries.appendRight(oldCandle)
                     datasetItem = TrimmedCandleSeries(trainingCandleSeries, trainingCandleSeries.getCount() - offset - 1, trainingCandleSeries.getCount())
                     self._predictor.addDatasetItem(datasetItem)
-                    self._predictor.train(epochs=5, datasetItemLimit=500)
+                    stepsSinceRetrain += 1
+
+                    if stepsSinceRetrain >= retrainInterval:
+                        self._predictor.train(epochs=10, datasetItemLimit=500)
+                        stepsSinceRetrain = 0
 
             trimmedTestingSeries = TrimmedCandleSeries(testingCandleSeries, i - offset, i)
             predicted = self._predictor.predict(trimmedTestingSeries).getNextCandle()

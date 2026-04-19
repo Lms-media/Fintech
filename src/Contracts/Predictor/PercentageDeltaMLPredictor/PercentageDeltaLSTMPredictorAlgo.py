@@ -13,6 +13,9 @@ class PercentageDeltaLSTMPredictorAlgo(ITrainablePredictorAlgo[PercentageDeltaML
     _maxOhDeltaAbs: float
     _maxOlDeltaAbs: float
     _maxOffsetAbs: float
+    _normalizationInitialized: bool
+    _initialLearningRate: float
+    _retrainLearningRate: float
 
     def __init__(self, candlesCount: int):
         self._candlesCount = candlesCount
@@ -20,6 +23,9 @@ class PercentageDeltaLSTMPredictorAlgo(ITrainablePredictorAlgo[PercentageDeltaML
         self._maxOcDeltaAbs = 0
         self._maxOlDeltaAbs = 0
         self._maxOffsetAbs = 0
+        self._normalizationInitialized = False
+        self._initialLearningRate = 0.001
+        self._retrainLearningRate = 0.0001
 
         self._model = Sequential([
             LSTM(50, return_sequences=False, input_shape=(candlesCount, 4)),
@@ -33,7 +39,7 @@ class PercentageDeltaLSTMPredictorAlgo(ITrainablePredictorAlgo[PercentageDeltaML
             # Dense(4, activation='linear')
         ])
         self._model.compile(
-            optimizer=Adam(learning_rate=0.001),
+            optimizer=Adam(learning_rate=self._initialLearningRate),
             loss='mse',
             metrics=['mae']
         )
@@ -71,7 +77,12 @@ class PercentageDeltaLSTMPredictorAlgo(ITrainablePredictorAlgo[PercentageDeltaML
         if len(dataset) == 0:
             raise ValueError("Dataset is empty")
 
-        self._initNormalization(dataset)
+        if not self._normalizationInitialized:
+            self._initNormalization(dataset)
+            self._normalizationInitialized = True
+            self._model.optimizer.learning_rate.assign(self._initialLearningRate)
+        else:
+            self._model.optimizer.learning_rate.assign(self._retrainLearningRate)
 
         X_list = []
         y_list = []
