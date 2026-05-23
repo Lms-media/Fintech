@@ -2,7 +2,7 @@
   "predictor": "dummy",
   "strategy": "direct",
   "assessor": "base",
-  "candlesCount": 0,
+  "candlesCount": 60,
   "iterations": 100,
   "params": []
 }

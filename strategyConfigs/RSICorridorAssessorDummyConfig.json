@@ -2,7 +2,7 @@
   "predictor": "dummy",
   "strategy": "direct",
   "assessor": "RSICorridorAssessor",
-  "candlesCount": 14,
+  "candlesCount": 60,
   "iterations": 100,
-  "params": [70, 30, 0.8, 1.2]
+  "params": [70, 30, 0.5, 1.95]
 }

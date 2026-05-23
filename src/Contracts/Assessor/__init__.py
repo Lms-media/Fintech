@@ -6,6 +6,7 @@ from .VolatilityThresholdAssessor import VolatilityThresholdAssessor
 from .RSIFilterAssessor import RSIFilterAssessor
 from .VolatilityCorridorAssessor import VolatilityCorridorAssessor
 from .RSICorridorAssessor import RSICorridorAssessor
+from .TripleGuardAssessor import TripleGuardAssessor
 
 __all__ = [
     'HalfInAssessor',
@@ -16,4 +17,5 @@ __all__ = [
     'RSIFilterAssessor',
     'VolatilityCorridorAssessor',
     'RSICorridorAssessor',
+    'TripleGuardAssessor',
 ]

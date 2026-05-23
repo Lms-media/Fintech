@@ -12,3 +12,7 @@ class IContextProvider(ABC):
     @abstractmethod
     def getNextCandle(self, candle: ICandle) -> Optional[ICandle]:
         pass
+    
+    @abstractmethod
+    def getPreviousCandle(self, timestamp: int) -> Optional[ICandle]:
+        pass

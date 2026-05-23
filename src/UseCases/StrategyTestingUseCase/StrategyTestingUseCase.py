@@ -40,7 +40,7 @@ class StrategyTestingUseCase(IUseCase):
             self._executor.start(action)
             actual = candleSeries.getByIndex(i)
             while action.getStatus() != ActionStatus.Finished:
-                time.sleep(0.5)
+                time.sleep(0.01)
 
             if actual:
                 delta = predicted.getNextCandle().getClosePrice() - actual.getClosePrice()

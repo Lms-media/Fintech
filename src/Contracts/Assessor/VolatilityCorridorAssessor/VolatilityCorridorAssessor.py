@@ -54,6 +54,8 @@ class VolatilityCorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
 
         print(self._portfolio.getCapitalization(context))
         capitalizationData.cap.append(self._portfolio.getCapitalization(context))
+        capitalizationData.actual.append(nextCandle.getOpenPrice())
+        capitalizationData.predictions.append(predictionCandle.getOpenPrice())
         print(price)
         print("predicted:", predictedPrice)
 
@@ -68,8 +70,8 @@ class VolatilityCorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
             )
             lotToBuy = lotToBuy if lotToBuy > 0 else 0
             if predictedDiff > 0:
-                highLimit = price + (sum_ranges * self._profitCoef)
-                lowLimit = price - (sum_ranges * self._stopCoef)
+                highLimit = max(predictedPrice, price + sum_ranges * self._profitCoef) # 2.0
+                lowLimit = price - (sum_ranges * self._stopCoef) # 1.2
                 print("buying:", lotToBuy)
                 return LimitBackAction(
                     input,
@@ -85,7 +87,7 @@ class VolatilityCorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
                 )
             else:
                 highLimit = price + (sum_ranges * self._stopCoef)
-                lowLimit = price - (sum_ranges * self._profitCoef)
+                lowLimit = min(predictedPrice, price - sum_ranges * self._profitCoef)
                 print("selling:", lotToBuy)
                 return LimitBackAction(
                     input,
@@ -112,9 +114,10 @@ class VolatilityCorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
             nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp(),
         )
 
-    def getATR(self, input):
+    def getATR(self, input, period: int = 14):
         sum_ranges = 0
-        for i in range(input.previousCandles.getCount()):
+        count = input.previousCandles.getCount()
+        for i in range(count - period, count):
             candle = input.previousCandles.getByIndex(i)
             prevCandle = input.previousCandles.getByIndex(i - 1)
             if candle:
@@ -130,5 +133,5 @@ class VolatilityCorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
                     else hight_low_delta - 1
                 )
                 sum_ranges += max(hight_low_delta, hight_close_delta, low_close_delta)
-        sum_ranges /= input.previousCandles.getCount()
+        sum_ranges /= period
         return sum_ranges

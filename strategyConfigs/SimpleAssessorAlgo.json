@@ -2,7 +2,7 @@
   "predictor": "algo",
   "strategy": "direct",
   "assessor": "base",
-  "candlesCount": 14,
+  "candlesCount": 60,
   "iterations": 100,
   "params": []
 }

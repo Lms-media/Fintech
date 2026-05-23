@@ -5,4 +5,6 @@ class TaskType(Enum):
     Sell = 2
     Idle = 3
     BuyWithLimit = 4
-    SellWithLimit = 4
+    SellWithLimit = 5
+    BuyClose = 6
+    SellClose = 7

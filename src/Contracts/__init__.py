@@ -31,6 +31,7 @@ from .Assessor import (
     RSIFilterAssessor,
     VolatilityCorridorAssessor,
     RSICorridorAssessor,
+    TripleGuardAssessor,
 )
 from .ContextProvider import (
     MockContextProvider,
@@ -72,6 +73,7 @@ __all__ = [
     "RSIFilterAssessor",
     "VolatilityCorridorAssessor",
     "RSICorridorAssessor",
+    "TripleGuardAssessor",
     "MockContextProvider",
     "LoggedContextProvider",
     "DatasetContextProvider",

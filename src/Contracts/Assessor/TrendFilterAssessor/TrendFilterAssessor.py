@@ -34,6 +34,8 @@ class TrendFilterAssessor(IAssessor[CandleSignal, ITurnBackAction]):
 
         print(self._portfolio.getCapitalization(context))
         capitalizationData.cap.append(self._portfolio.getCapitalization(context))
+        capitalizationData.actual.append(nextCandle.getOpenPrice())
+        capitalizationData.predictions.append(predictionCandle.getOpenPrice())
         print(price)
         print("predicted:", predictedPrice)
         

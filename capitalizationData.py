@@ -1,1 +1,3 @@
 cap = []
+predictions = []
+actual = []

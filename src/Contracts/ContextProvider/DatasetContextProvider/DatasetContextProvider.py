@@ -43,3 +43,11 @@ class DatasetContextProvider(IContextProvider):
         candles = self._dataset.getSeries()
         nextCandle = candles.getByIndex(candles.getIndexOf(candle) + 1)
         return nextCandle
+    
+    def getPreviousCandle(self, timestamp: int):
+        candles = self._dataset.getSeries()
+        currentCandle = candles.getByTimestamp(timestamp)
+        if currentCandle:
+            previousCandle = candles.getByIndex(candles.getIndexOf(currentCandle) - 1)
+            return previousCandle
+        raise Exception("invalid candle exeption")

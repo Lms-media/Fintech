@@ -28,27 +28,30 @@ class RSICorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
         self._profitCoef = profitCoef
         self._stopCoef = stopCoef
 
-    def _calculate_rsi(self, prices: list[float]) -> float:
+    def _calculate_rsi(self, prices: list[float], period: int = 14) -> float:
+        if len(prices) <= period:
+            return 50.0
+
         gains = []
         losses = []
 
         for i in range(1, len(prices)):
             diff = prices[i] - prices[i - 1]
-            if diff > 0:
-                gains.append(diff)
-                losses.append(0)
-            else:
-                gains.append(0)
-                losses.append(abs(diff))
+            gains.append(max(0, diff))
+            losses.append(max(0, -diff))
 
-        avg_gain = sum(gains) / len(prices)
-        avg_loss = sum(losses) / len(prices)
+        avg_gain = sum(gains[:period]) / period
+        avg_loss = sum(losses[:period]) / period
+
+        for i in range(period, len(gains)):
+            avg_gain = (avg_gain * (period - 1) + gains[i]) / period
+            avg_loss = (avg_loss * (period - 1) + losses[i]) / period
 
         if avg_loss == 0:
-            return 100
+            return 100.0
 
         rs = avg_gain / avg_loss
-        return 100 - (100 / (1 + rs))
+        return 100.0 - (100.0 / (1.0 + rs))
 
     def getAction(self, input: CandleSignal) -> ITurnBackAction:
         predictionCandle = input.getPrediction()
@@ -80,6 +83,8 @@ class RSICorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
 
         print(self._portfolio.getCapitalization(context))
         capitalizationData.cap.append(self._portfolio.getCapitalization(context))
+        capitalizationData.actual.append(nextCandle.getOpenPrice())
+        capitalizationData.predictions.append(predictionCandle.getOpenPrice())
         print(price)
         print("predicted:", predictedPrice)
 
@@ -94,6 +99,7 @@ class RSICorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
 
         multiplayer = 1.0
         atr = self.getATR(input)
+        print("atr:", atr)
         if predictedPrice > price and rsi_value < self._upper_rsi:
             local_upper_rsi = self._upper_rsi - 10
             while local_upper_rsi > 0:
@@ -103,8 +109,10 @@ class RSICorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
             lotToBuy *= multiplayer
             lotToBuy = lotToBuy if lotToBuy > 0 else 0
             print("buying:", lotToBuy)
-            highLimit = price + (atr * self._profitCoef)
-            lowLimit = price - (atr * self._stopCoef)
+            highLimit = max(predictedPrice, price + atr * self._profitCoef) # 2.0
+            lowLimit = price - (atr * self._stopCoef) # 1.2
+            # highLimit = price + (atr * self._profitCoef)
+            # lowLimit = price - (atr * self._stopCoef)
             return LimitBackAction(
                 input,
                 assetPair,
@@ -127,7 +135,9 @@ class RSICorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
             lotToBuy = lotToBuy if lotToBuy > 0 else 0
             print("selling:", lotToBuy)
             highLimit = price + (atr * self._stopCoef)
-            lowLimit = price - (atr * self._profitCoef)
+            lowLimit = min(predictedPrice, price - atr * self._profitCoef)
+            # highLimit = price + (atr * self._stopCoef)
+            # lowLimit = price - (atr * self._profitCoef)
             return LimitBackAction(
                 input,
                 assetPair,
@@ -153,9 +163,10 @@ class RSICorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
             nextCandle.getOpenTimestamp() - previousCandle.getOpenTimestamp(),
         )
 
-    def getATR(self, input):
+    def getATR(self, input, period: int = 14):
         sum_ranges = 0
-        for i in range(input.previousCandles.getCount()):
+        count = input.previousCandles.getCount()
+        for i in range(count - period, count):
             candle = input.previousCandles.getByIndex(i)
             prevCandle = input.previousCandles.getByIndex(i - 1)
             if candle:
@@ -171,5 +182,5 @@ class RSICorridorAssessor(IAssessor[CandleSignal, ITurnBackAction]):
                     else hight_low_delta - 1
                 )
                 sum_ranges += max(hight_low_delta, hight_close_delta, low_close_delta)
-        sum_ranges /= input.previousCandles.getCount()
+        sum_ranges /= period
         return sum_ranges
