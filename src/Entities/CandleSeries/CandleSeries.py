@@ -11,7 +11,7 @@ class CandleSeries(ICandleSeries):
     def __init__(self, assetPair: IAssetPair):
         self._candles = deque()
         self._assetPair = assetPair
-        self._id = uuid.uuid4()
+        self._id = str(uuid.uuid4())
 
     def getId(self) -> str:
         return self._id

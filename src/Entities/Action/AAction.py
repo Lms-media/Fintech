@@ -12,7 +12,7 @@ class AAction(IAction, ABC):
         self._status = ActionStatus.Waiting
         self._signal = signal
         self._tasks = list(tasks)
-        self._id = uuid.uuid4()
+        self._id = str(uuid.uuid4())
 
     def getId(self) -> str:
         return self._id

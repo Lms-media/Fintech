@@ -1,4 +1,4 @@
-from Interfaces import IPortfolio, ILogger, IAsset
+from Interfaces import IPortfolio, ILogger, IAsset, IExecutionContext
 
 class LoggedPortfolio(IPortfolio):
     _portfolio: IPortfolio
@@ -18,8 +18,8 @@ class LoggedPortfolio(IPortfolio):
     def getBaseAmount(self) -> float:
         return self._portfolio.getBaseAmount()
 
-    def getCapitalization(self) -> float:
-        return self._portfolio.getCapitalization()
+    def getCapitalization(self, context: IExecutionContext) -> float:
+        return self._portfolio.getCapitalization(context)
 
     def buyAsset(self, asset: IAsset, lotCount: int, price: float) -> None:
         self._portfolio.buyAsset(asset, lotCount, price)

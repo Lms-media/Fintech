@@ -7,7 +7,7 @@ class APrediction(IPrediction, ABC):
     _meta: IPredictionMeta
 
     def __init__(self, meta: IPredictionMeta):
-        self._id = uuid.uuid4()
+        self._id = str(uuid.uuid4())
         self._meta = meta
 
     def getId(self) -> str:

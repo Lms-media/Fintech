@@ -22,6 +22,6 @@ class HalfInAssessor(IAssessor[IDirectionSignal, ITurnBackAction]):
         if not price:
             raise ValueError(f"Assessor's context is missing folowing asset pair price: {assetPair}")
 
-        lotCount = volume / price / assetPair.getQuoteAsset().getLotSize()
+        lotCount = int(volume / price / assetPair.getQuoteAsset().getLotSize())
 
         return TurnBackAction(input, assetPair, lotCount, input.getDirection() == DirectionType.Up, self._contextProvider.getContext(), 15)

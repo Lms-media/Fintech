@@ -15,7 +15,7 @@ from .RelativeMLPredictor import RelativeMLPredictor
 from .PercentageMLPredictor import PercentageMLPredictor
 from .CompositePredictor import CompositeAvgPredictor, CompositeVotingPredictor, CompositeMedianPredictor
 from .Interfaces import ITrainablePredictor, ITrainablePredictorAlgo
-from .RandomForestPredictor.RandomForestPredictor import RandomForestPredictor
+from .RandomForestPredictor import RandomForestPredictor
 from .PercentageDeltaMLPredictor import PercentageDeltaMLPredictor
 
 __all__ = [

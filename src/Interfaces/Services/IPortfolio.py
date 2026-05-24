@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+
+from Interfaces import IExecutionContext
 from ..ValueObjects import IAsset
 
 class IPortfolio(ABC):
@@ -16,7 +18,7 @@ class IPortfolio(ABC):
         pass
 
     @abstractmethod
-    def getCapitalization(self) -> float:
+    def getCapitalization(self, context: IExecutionContext) -> float:
         pass
 
     @abstractmethod

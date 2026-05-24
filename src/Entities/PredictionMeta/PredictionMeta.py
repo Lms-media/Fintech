@@ -14,7 +14,7 @@ class PredictionMeta(IPredictionMeta):
         if confidence < 0 or confidence > 1:
             raise ValueError(f"'confidence' must be between 0 and 1, but 'confidence' is {confidence}")
 
-        self._id = uuid.uuid4()
+        self._id = str(uuid.uuid4())
         self._timestamp = timestamp
         self._candleSeries = candleSeries
         self._confidence = confidence

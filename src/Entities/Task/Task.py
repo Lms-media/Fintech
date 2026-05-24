@@ -18,7 +18,7 @@ class Task(ITask):
         self._assetPair = assetPair
         self._lotCount = lotCount
         self._trigger = trigger
-        self._id = uuid.uuid4()
+        self._id = str(uuid.uuid4())
 
     def getId(self) -> str:
         return self._id
