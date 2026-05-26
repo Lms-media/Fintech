@@ -2,7 +2,7 @@ from abc import ABC
 import uuid
 from Interfaces import IPrediction, IPredictionMeta
 
-class APrediction(IPrediction, ABC):
+class APrediction(IPrediction, ABC):  # pragma: no cover
     _id: str
     _meta: IPredictionMeta
 

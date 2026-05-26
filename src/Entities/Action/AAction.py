@@ -2,7 +2,7 @@ from abc import ABC
 import uuid
 from Interfaces import IAction, ISignal, ITask, IExecutionContext, ActionStatus, TaskStatus
 
-class AAction(IAction, ABC):
+class AAction(IAction, ABC):  # pragma: no cover
     _id: str
     _signal: ISignal
     _status: ActionStatus

@@ -2,7 +2,7 @@ from abc import ABC
 import uuid
 from Interfaces import ISignal, IPrediction
 
-class ASignal(ISignal, ABC):
+class ASignal(ISignal, ABC):  # pragma: no cover
     _id: str
     _timestamp: int
     _prediction: IPrediction
