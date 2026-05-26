@@ -2,6 +2,7 @@
 .idea/
 __pycache__/
 src/configLocal.py
+.coverage
 
 logs
 stats

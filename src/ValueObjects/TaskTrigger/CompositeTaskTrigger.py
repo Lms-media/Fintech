@@ -10,13 +10,13 @@ class CompositeTaskTrigger(ITaskTrigger):
     def getDependencies(self) -> list[ITaskTrigger]:
         return self._dependencies
 
-    def withDependency(self, dependency: ITaskTrigger) -> ITaskTrigger:
+    def withDependency(self, dependency: ITaskTrigger) -> CompositeTaskTrigger:
         newDependencies = list(self.getDependencies())
         newDependencies.append(dependency)
 
         return CompositeTaskTrigger(newDependencies)
 
-    def withoutDependency(self, dependency: ITaskTrigger) -> ITaskTrigger:
+    def withoutDependency(self, dependency: ITaskTrigger) -> CompositeTaskTrigger:
         newDependencies = list(self.getDependencies())
         newDependencies.remove(dependency)
 
@@ -36,10 +36,10 @@ class CompositeTaskTrigger(ITaskTrigger):
         if not isinstance(other, CompositeTaskTrigger):
             return False
 
-        return self._dependencies == other.getDependencies()
+        return set(self._dependencies) == set(other.getDependencies())
 
     def __hash__(self) -> int:
-        return hash(self._dependencies)
+        return hash(frozenset(self._dependencies))
 
     def __copy__(self) -> ITaskTrigger:
         return CompositeTaskTrigger(self._dependencies)

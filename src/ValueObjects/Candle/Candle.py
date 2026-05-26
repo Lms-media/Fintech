@@ -18,15 +18,6 @@ class Candle(ICandle):
         if openTimestamp < 0:
             raise ValueError(f"'openTimestamp' must be greater than or equal to zero, but 'openTimestamp' is {openTimestamp}")
 
-        if openPrice < 0:
-            raise ValueError(f"'openPrice' must be greater than or equal to zero, but 'openPrice' is {openPrice}")
-
-        if closePrice < 0:
-            raise ValueError(f"'closePrice' must be greater than or equal to zero, but 'closePrice' is {closePrice}")
-
-        if highPrice < 0:
-            raise ValueError(f"'highPrice' must be greater than or equal to zero, but 'highPrice' is {highPrice}")
-
         if lowPrice < 0:
             raise ValueError(f"'lowPrice' must be greater than or equal to zero, but 'lowPrice' is {lowPrice}")
 
@@ -115,9 +106,6 @@ class Candle(ICandle):
         return Candle(self._assetPair, self._openTimestamp, self._interval, self._openPrice, closePrice, self._highPrice, self._lowPrice, self._volume)
 
     def withHighPrice(self, highPrice):
-        if self._lowPrice > highPrice:
-            raise ValueError(f"'lowPrice' must be less than or equal to 'highPrice', but 'lowPrice' is {self._lowPrice} and 'highPrice' is {highPrice}")
-
         if highPrice < 0:
             raise ValueError(f"'highPrice' must be greater than or equal to zero, but 'highPrice' is {highPrice}")
 
@@ -130,9 +118,6 @@ class Candle(ICandle):
         return Candle(self._assetPair, self._openTimestamp, self._interval, self._openPrice, self._closePrice, highPrice, self._lowPrice, self._volume)
 
     def withLowPrice(self, lowPrice):
-        if lowPrice > self._highPrice:
-            raise ValueError(f"'lowPrice' must be less than or equal to 'highPrice', but 'lowPrice' is {lowPrice} and 'highPrice' is {self._highPrice}")
-
         if lowPrice < 0:
             raise ValueError(f"'lowPrice' must be greater than or equal to zero, but 'lowPrice' is {lowPrice}")
 
