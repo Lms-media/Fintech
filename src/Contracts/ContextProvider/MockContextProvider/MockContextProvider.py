@@ -7,11 +7,11 @@ class MockContextProvider(IContextProvider):
     _assetPair: IAssetPair
 
     def __init__(self, assetPair: IAssetPair):
-        self._startTimestamp = time.time()
+        self._startTimestamp = int(time.time())
         self._assetPair = assetPair
 
     def getContext(self) -> IExecutionContext:
         prices = dict[IAssetPair, float]()
         prices[self._assetPair] = 10
 
-        return ExecutionContext(time.time() - self._startTimestamp, prices)
+        return ExecutionContext(int(time.time()) - self._startTimestamp, prices)
