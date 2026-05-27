@@ -1,0 +1,2663 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>FinTechPy · Architectural Audit Report</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+      :root {
+        --bg: #0e1116;
+        --panel: #161b22;
+        --panel2: #1c232c;
+        --border: #2a323d;
+        --text: #e6edf3;
+        --muted: #8b949e;
+        --accent: #58a6ff;
+        --crit: #f85149;
+        --high: #ff8c42;
+        --med: #e3b341;
+        --low: #3fb950;
+        --q: #79c0ff;
+        --open: #f85149;
+        --inprog: #e3b341;
+        --answered: #79c0ff;
+        --resolved: #3fb950;
+        --wontfix: #8b949e;
+        --superseded: #bc8cff;
+        --obsolete: #6e7681;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          14px/1.55 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      code,
+      kbd {
+        font-family: "SF Mono", Menlo, Consolas, monospace;
+        background: #0b0f14;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 0.88em;
+        border: 1px solid var(--border);
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      header {
+        padding: 24px 0 8px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+        letter-spacing: -0.02em;
+      }
+      h2 {
+        margin: 32px 0 12px;
+        font-size: 20px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 6px;
+      }
+      h3 {
+        margin: 24px 0 8px;
+        font-size: 16px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+      .lead {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 4px 0 0;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 4px;
+      }
+
+      /* summary */
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+        margin: 18px 0 8px;
+      }
+      .kpi {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px;
+      }
+      .kpi .n {
+        font-size: 26px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .kpi .l {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-top: 4px;
+      }
+      .kpi.crit .n {
+        color: var(--crit);
+      }
+      .kpi.high .n {
+        color: var(--high);
+      }
+      .kpi.med .n {
+        color: var(--med);
+      }
+      .kpi.low .n {
+        color: var(--low);
+      }
+      .kpi.q .n {
+        color: var(--q);
+      }
+      .kpi.total .n {
+        color: var(--text);
+      }
+
+      /* category grid */
+      .cats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .cat {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .cat .k {
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .cat .v {
+        font-weight: 600;
+      }
+
+      /* filter bar */
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin: 16px 0;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 12px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(8px);
+      }
+      .toolbar label {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-right: 6px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--panel2);
+        border: 1px solid var(--border);
+        font-size: 12px;
+        cursor: pointer;
+        user-select: none;
+        color: var(--muted);
+      }
+      .chip:hover {
+        border-color: var(--accent);
+        color: var(--text);
+      }
+      .chip.active {
+        background: var(--accent);
+        color: #0b0f14;
+        border-color: var(--accent);
+      }
+      .chip[data-sev="crit"].active {
+        background: var(--crit);
+        border-color: var(--crit);
+        color: #fff;
+      }
+      .chip[data-sev="high"].active {
+        background: var(--high);
+        border-color: var(--high);
+        color: #0b0f14;
+      }
+      .chip[data-sev="med"].active {
+        background: var(--med);
+        border-color: var(--med);
+        color: #0b0f14;
+      }
+      .chip[data-sev="low"].active {
+        background: var(--low);
+        border-color: var(--low);
+        color: #0b0f14;
+      }
+      .chip[data-sev="q"].active {
+        background: var(--q);
+        border-color: var(--q);
+        color: #0b0f14;
+      }
+      input[type="search"] {
+        background: var(--panel2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--text);
+        padding: 6px 10px;
+        min-width: 200px;
+        font: inherit;
+      }
+      input[type="search"]:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      /* findings */
+      .finding {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-left-width: 4px;
+        border-radius: 8px;
+        padding: 14px 16px;
+        margin: 10px 0;
+        transition: opacity 0.15s;
+      }
+      .finding.hidden {
+        display: none;
+      }
+      .finding.sev-crit {
+        border-left-color: var(--crit);
+      }
+      .finding.sev-high {
+        border-left-color: var(--high);
+      }
+      .finding.sev-med {
+        border-left-color: var(--med);
+      }
+      .finding.sev-low {
+        border-left-color: var(--low);
+      }
+      .finding.sev-q {
+        border-left-color: var(--q);
+      }
+      .finding.status-resolved {
+        opacity: 0.55;
+      }
+      .finding.status-wontfix,
+      .finding.status-obsolete {
+        opacity: 0.5;
+      }
+      .finding header {
+        padding: 0;
+        border: 0;
+        margin: 0 0 6px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+      .fid {
+        font-family: "SF Mono", Menlo, Consolas, monospace;
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.06em;
+      }
+      .ftitle {
+        font-weight: 600;
+        font-size: 15px;
+        flex: 1;
+        min-width: 200px;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--panel2);
+        color: var(--muted);
+      }
+      .badge.sev-crit {
+        background: rgba(248, 81, 73, 0.15);
+        color: var(--crit);
+        border-color: rgba(248, 81, 73, 0.35);
+      }
+      .badge.sev-high {
+        background: rgba(255, 140, 66, 0.15);
+        color: var(--high);
+        border-color: rgba(255, 140, 66, 0.35);
+      }
+      .badge.sev-med {
+        background: rgba(227, 179, 65, 0.15);
+        color: var(--med);
+        border-color: rgba(227, 179, 65, 0.35);
+      }
+      .badge.sev-low {
+        background: rgba(63, 185, 80, 0.15);
+        color: var(--low);
+        border-color: rgba(63, 185, 80, 0.35);
+      }
+      .badge.sev-q {
+        background: rgba(121, 192, 255, 0.15);
+        color: var(--q);
+        border-color: rgba(121, 192, 255, 0.35);
+      }
+      .badge.cat {
+        color: var(--text);
+      }
+      .badge.status-open {
+        background: rgba(248, 81, 73, 0.12);
+        color: var(--open);
+        border-color: rgba(248, 81, 73, 0.3);
+      }
+      .badge.status-in-progress {
+        background: rgba(227, 179, 65, 0.15);
+        color: var(--inprog);
+        border-color: rgba(227, 179, 65, 0.35);
+      }
+      .badge.status-answered {
+        background: rgba(121, 192, 255, 0.15);
+        color: var(--answered);
+        border-color: rgba(121, 192, 255, 0.35);
+      }
+      .badge.status-resolved {
+        background: rgba(63, 185, 80, 0.15);
+        color: var(--resolved);
+        border-color: rgba(63, 185, 80, 0.35);
+        text-decoration: line-through;
+      }
+      .badge.status-wontfix {
+        background: transparent;
+        color: var(--wontfix);
+      }
+      .badge.status-superseded {
+        background: rgba(188, 140, 255, 0.12);
+        color: var(--superseded);
+        border-color: rgba(188, 140, 255, 0.35);
+      }
+      .badge.status-obsolete {
+        background: transparent;
+        color: var(--obsolete);
+      }
+      .fbody {
+        font-size: 13.5px;
+        color: #cdd9e5;
+        margin-top: 4px;
+      }
+      .fbody p {
+        margin: 6px 0;
+      }
+      .fbody .impact {
+        color: var(--muted);
+        font-size: 12.5px;
+        font-style: italic;
+        margin-top: 6px;
+        padding-top: 6px;
+        border-top: 1px dashed var(--border);
+      }
+      .empty {
+        padding: 30px;
+        text-align: center;
+        color: var(--muted);
+      }
+      footer {
+        margin: 40px 0 10px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+        border-top: 1px solid var(--border);
+        padding-top: 14px;
+      }
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 8px 0 0;
+      }
+      .toc a {
+        font-size: 12px;
+        color: var(--muted);
+        background: var(--panel2);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 3px 10px;
+      }
+      .toc a:hover {
+        color: var(--text);
+        border-color: var(--accent);
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>FinTechPy · Architectural Audit</h1>
+        <p class="lead">
+          Iterative audit report for the trading-robot project. Items are
+          tracked here permanently; statuses change but items are never deleted.
+        </p>
+        <p class="meta">
+          Iteration <strong>2</strong> · 2026-05-24 · Source of truth:
+          <a href="findings.md"><code>findings.md</code></a> · Log:
+          <a href="iterations/iteration-02.md"><code>iteration-02.md</code></a>
+        </p>
+        <p class="meta" style="margin-top: 8px">
+          <strong>Iter-2 delta:</strong>
+          🟩 6 resolved · 🟦 22 answered · 🟪 1 superseded · ✨ 4 new findings ·
+          all 11 questions answered.
+        </p>
+      </header>
+
+      <section>
+        <h2>Summary</h2>
+        <div class="summary">
+          <div class="kpi total">
+            <div class="n">55</div>
+            <div class="l">Total (+4 iter-2)</div>
+          </div>
+          <div class="kpi crit">
+            <div class="n">0</div>
+            <div class="l">🔴 Critical (all closed or demoted)</div>
+          </div>
+          <div class="kpi high">
+            <div class="n">16</div>
+            <div class="l">🟠 High (+3 ⬇ +ARCH-08 +DOM-09)</div>
+          </div>
+          <div class="kpi med">
+            <div class="n">16</div>
+            <div class="l">🟡 Medium (+ML-07, IO-05)</div>
+          </div>
+          <div class="kpi low">
+            <div class="n">7</div>
+            <div class="l">🟢 Low</div>
+          </div>
+          <div class="kpi q">
+            <div class="n">11</div>
+            <div class="l">🔵 All answered ✓</div>
+          </div>
+        </div>
+
+        <h3>By category</h3>
+        <div class="cats">
+          <div class="cat">
+            <span class="k">ARCH</span><span class="v">7</span>
+          </div>
+          <div class="cat">
+            <span class="k">RUN</span><span class="v">5</span>
+          </div>
+          <div class="cat">
+            <span class="k">DOM</span><span class="v">8</span>
+          </div>
+          <div class="cat">
+            <span class="k">ML</span><span class="v">6</span>
+          </div>
+          <div class="cat">
+            <span class="k">TRADE</span><span class="v">6</span>
+          </div>
+          <div class="cat">
+            <span class="k">CONC</span><span class="v">3</span>
+          </div>
+          <div class="cat">
+            <span class="k">IO</span><span class="v">4</span>
+          </div>
+          <div class="cat">
+            <span class="k">TEST</span><span class="v">2</span>
+          </div>
+          <div class="cat">
+            <span class="k">SEC</span><span class="v">2</span>
+          </div>
+          <div class="cat">
+            <span class="k">DX</span><span class="v">5</span>
+          </div>
+          <div class="cat">
+            <span class="k">Q</span><span class="v">3</span>
+          </div>
+        </div>
+
+        <h3>Jump to</h3>
+        <nav class="toc">
+          <a href="#sec-iter2">✨ Iter-2 additions</a>
+          <a href="#sec-resolved">📦 Resolved archive</a>
+          <a href="#sec-high">🟠 High</a>
+          <a href="#sec-med">🟡 Medium</a>
+          <a href="#sec-low">🟢 Low</a>
+          <a href="#sec-q">🔵 Questions</a>
+        </nav>
+      </section>
+
+      <div class="toolbar" role="toolbar" aria-label="Filters">
+        <label>Severity:</label>
+        <span class="chip filter-sev" data-group="sev" data-val="crit"
+          >🔴 Critical</span
+        >
+        <span class="chip filter-sev" data-group="sev" data-val="high"
+          >🟠 High</span
+        >
+        <span class="chip filter-sev" data-group="sev" data-val="med"
+          >🟡 Medium</span
+        >
+        <span class="chip filter-sev" data-group="sev" data-val="low"
+          >🟢 Low</span
+        >
+        <span class="chip filter-sev" data-group="sev" data-val="q"
+          >🔵 Question</span
+        >
+        <label style="margin-left: 14px">Category:</label>
+        <span class="chip filter-cat" data-group="cat" data-val="ARCH"
+          >ARCH</span
+        >
+        <span class="chip filter-cat" data-group="cat" data-val="RUN">RUN</span>
+        <span class="chip filter-cat" data-group="cat" data-val="DOM">DOM</span>
+        <span class="chip filter-cat" data-group="cat" data-val="ML">ML</span>
+        <span class="chip filter-cat" data-group="cat" data-val="TRADE"
+          >TRADE</span
+        >
+        <span class="chip filter-cat" data-group="cat" data-val="CONC"
+          >CONC</span
+        >
+        <span class="chip filter-cat" data-group="cat" data-val="IO">IO</span>
+        <span class="chip filter-cat" data-group="cat" data-val="TEST"
+          >TEST</span
+        >
+        <span class="chip filter-cat" data-group="cat" data-val="SEC">SEC</span>
+        <span class="chip filter-cat" data-group="cat" data-val="DX">DX</span>
+        <span class="chip filter-cat" data-group="cat" data-val="Q">Q</span>
+        <label style="margin-left: 14px">Status:</label>
+        <span class="chip filter-st" data-group="status" data-val="open"
+          >🟥 Open</span
+        >
+        <span class="chip filter-st" data-group="status" data-val="answered"
+          >🟦 Answered</span
+        >
+        <span class="chip filter-st" data-group="status" data-val="resolved"
+          >🟩 Resolved</span
+        >
+        <span class="chip filter-st" data-group="status" data-val="superseded"
+          >🟪 Superseded</span
+        >
+        <span class="chip filter-st" data-group="status" data-val="wontfix"
+          >⬛ Won't fix</span
+        >
+        <input
+          type="search"
+          id="search"
+          placeholder="Search id / text…"
+          style="margin-left: 14px"
+        />
+        <button id="reset" style="margin-left: 8px">Reset</button>
+      </div>
+
+      <!-- =========================== ITER-2 ADDITIONS =========================== -->
+      <section id="sec-iter2">
+        <h2>✨ Iteration 2 — new findings & deltas</h2>
+        <p class="meta">
+          Items discovered during the Q&amp;A round on 2026-05-24. Original 51
+          items retain their IDs and statuses; these are appended per the
+          never-delete rule.
+        </p>
+
+        <article
+          class="finding sev-high"
+          data-id="ARCH-08"
+          data-cat="ARCH"
+          data-sev="high"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ARCH-08</span>
+            <span class="ftitle"
+              >No backtest/realtime separation — introduce <code>IClock</code> +
+              <code>IBacktestScenario</code></span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">ARCH</span>
+            <span class="badge status-open">🟥 open</span>
+            <span class="badge">✨ new</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <strong>Why now (Q-01 + Q-08):</strong> both backtest and realtime
+              must work end-to-end on the same code; current
+              <a
+                href="../src/Contracts/ContextProvider/MockContextProvider/MockContextProvider.py"
+                >MockContextProvider</a
+              >
+              conflates real and elapsed time (see RUN-05).
+            </p>
+            <p><strong>Recommended shape:</strong></p>
+            <ul>
+              <li>
+                <code>IClock { now() -&gt; int }</code> ·
+                <code>RealtimeClock</code> uses <code>time.time()</code> ·
+                <code>BacktestClock</code> advances per candle.
+              </li>
+              <li>
+                <code
+                  >IBacktestScenario { setup(); tick() -&gt; bool; teardown()
+                  }</code
+                >
+                owns clock + virtual <code>IMarket</code> with configurable
+                slippage/fees.
+              </li>
+              <li>
+                Split factories: <code>BacktestFactory</code> vs
+                <code>LiveFactory</code>; same Strategy/Assessor/Predictor.
+              </li>
+            </ul>
+            <p>
+              <strong>Supersedes:</strong> ARCH-04 (the old vague "simulation vs
+              production" finding).
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="DOM-09"
+          data-cat="DOM"
+          data-sev="high"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DOM-09</span>
+            <span class="ftitle"
+              >Assessor lacks explicit <code>IRiskPolicy</code></span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">DOM</span>
+            <span class="badge status-open">🟥 open</span>
+            <span class="badge">✨ new</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <strong>Why now (Q-03):</strong> user confirmed "risk-management
+              однозначно должен быть в Assessor — он для этого и создавался".
+              Current
+              <a
+                href="../src/Contracts/Assessor/HalfInAssessor/HalfInAssessor.py"
+                >HalfInAssessor</a
+              >
+              only does sizing (50% of cash); no max-position, max-drawdown,
+              kill-switch.
+            </p>
+            <p>
+              <strong>Recommended shape:</strong> extract
+              <code
+                >IRiskPolicy { maxPositionFraction, maxDrawdown,
+                killSwitch(portfolio, ctx) -&gt; bool }</code
+              >; pass into <code>IAssessor.__init__</code>. Even with
+              <code>RiskPolicy.unlimited()</code> default, the port is needed
+              for the diploma's architecture chapter.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="IO-05"
+          data-cat="IO"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">IO-05</span>
+            <span class="ftitle"
+              >Preserve <code>stats/</code> across runs (diploma artefact)</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">IO</span>
+            <span class="badge status-open">🟥 open</span>
+            <span class="badge">✨ new</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <strong>Why now (Q-11):</strong> research results in
+              <code>stats/</code> are diploma evidence;
+              <a href="../main.py">main.py</a> currently
+              <code>shutil.rmtree</code>s them.
+            </p>
+            <p>
+              <strong>Recommended:</strong> on startup, rename
+              <code>logs/</code> → <code>logs.YYYY-MM-DD-hh-mm/</code> and
+              <code>stats/</code> → <code>stats.YYYY-MM-DD-hh-mm/</code> before
+              recreating. Keep last N (e.g. 20), gzip older. Conceptually
+              subsumes IO-03.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="ML-07"
+          data-cat="ML"
+          data-sev="med"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">ML-07</span>
+            <span class="ftitle">Model persistence — explicit deferral</span>
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">ML</span>
+            <span class="badge status-answered">🟦 answered (deferred)</span>
+            <span class="badge">✨ new</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <strong>Why now (Q-07):</strong> persistence is wanted but
+              low-priority. Recording explicitly so it doesn't slip:
+            </p>
+            <ul>
+              <li>
+                <code>ITrainablePredictor.save(path)</code> /
+                <code>.load(path)</code>
+              </li>
+              <li>
+                joblib for sklearn/xgboost ·
+                <code>keras.models.save_model</code> for Keras
+              </li>
+              <li>
+                <strong>Critical:</strong> save
+                <code>RandomForestAlgo._initNormalization</code> constants
+                alongside the model — otherwise loaded model produces garbage.
+              </li>
+            </ul>
+            <p>Reopens automatically when ML-01 is scheduled.</p>
+          </div>
+        </article>
+
+        <h3 style="margin-top: 32px">
+          Iter-2 resolution notes (for reference)
+        </h3>
+        <ul style="line-height: 1.8">
+          <li>
+            <strong>RUN-01</strong> 🟩 — <code>__init__.py</code> created in
+            <a href="../src/Contracts/Predictor/RandomForestPredictor/"
+              >RandomForestPredictor/</a
+            >.
+          </li>
+          <li>
+            <strong>RUN-02</strong> 🟩 — all 6 entities now do
+            <code>self._id = str(uuid.uuid4())</code>: Task, AAction,
+            APrediction, ASignal, CandleSeries, TrimmedCandleSeries,
+            PredictionMeta.
+          </li>
+          <li>
+            <strong>RUN-03</strong> 🟩 —
+            <a href="../requirements.txt">requirements.txt</a> rewritten by
+            agent (per user's "исправь сам, главное чтобы работало"):
+            numpy/pandas/scipy/matplotlib/seaborn/scikit-learn/xgboost/joblib/keras/tensorflow/requests/pytz/pyzmq
+            with version floors and ceilings.
+          </li>
+          <li>
+            <strong>RUN-04</strong> 🟩 — Interface
+            <a href="../src/Interfaces/Services/IPortfolio.py"
+              ><code>IPortfolio.getCapitalization(context)</code></a
+            >
+            updated;
+            <a
+              href="../src/Services/Portfolio/LoggedPortfolio/LoggedPortfolio.py"
+              >LoggedPortfolio</a
+            >
+            forwards. Decision aligned with Q-06.
+          </li>
+          <li>
+            <strong>RUN-05</strong> 🟦 — kept open with extended justification
+            (see Critical section). Will close via ARCH-08.
+          </li>
+          <li>
+            <strong>TRADE-01</strong> 🟦 — scope decision: test env now, broker
+            swap-in must be painless. Architectural contract for swap-in
+            recorded in <a href="findings.md"><code>findings.md</code></a
+            >.
+          </li>
+          <li>
+            <strong>TRADE-02</strong> 🟩 —
+            <a href="../src/Contracts/Assessor/HalfInAssessor/HalfInAssessor.py"
+              ><code>lotCount = int(volume / price / lotSize)</code></a
+            >.
+          </li>
+          <li>
+            <strong>TRADE-03</strong> 🟦 — kept open, will materialise inside
+            ARCH-08.
+          </li>
+          <li>
+            <strong>ARCH-04</strong> 🟪 — superseded by ARCH-08 (concrete shape
+            replaces the vague version).
+          </li>
+          <li><strong>ML-06</strong> 🟩 — duplicate of RUN-01, closed.</li>
+          <li>
+            <strong>DX-02</strong> 🟦 — <code>camelCase</code> is deliberate
+            (3-person team, C# background per Q-05).
+          </li>
+          <li>
+            <strong>All 11 questions</strong> 🟦 — answers recorded in
+            <a href="iterations/iteration-02.md"><code>iteration-02.md</code></a
+            >.
+          </li>
+        </ul>
+
+        <h3 style="margin-top: 24px">Suggested focus for iteration 3</h3>
+        <ol style="line-height: 1.8">
+          <li>
+            <strong>ARCH-08 skeleton</strong> (1–2 days) — closes RUN-05 +
+            DOM-08 implicitly.
+          </li>
+          <li>
+            <strong>DOM-09 skeleton</strong> (½ day) —
+            <code>IRiskPolicy.unlimited()</code> + retrofit
+            <code>HalfInAssessor</code>.
+          </li>
+          <li>
+            <strong>ML-03 decision</strong> (1h discussion, no code) —
+            rolling-window CV <em>or</em> "online-drift" framing. Gates
+            research-chapter writing.
+          </li>
+          <li>
+            <strong>DX-06 entry points</strong> (½ day) —
+            <code>bin/train.py</code>, <code>bin/backtest.py</code>,
+            <code>bin/live.py</code>.
+          </li>
+          <li>
+            <strong>TEST-01 starter</strong> (½ day) — pytest + tests for
+            Asset/AssetPair/Range/Candle.
+          </li>
+        </ol>
+        <p class="meta">
+          ≈ 4 working days for an architecturally defensible codebase for the
+          diploma.
+        </p>
+      </section>
+
+      <!-- ===== CRITICAL — emptied in iter-2 ===== -->
+      <section id="sec-crit" style="display: none">
+        <h2>🔴 Critical</h2>
+        <p class="meta">
+          No active items. Resolved items archived below; open items
+          reclassified to 🟠 High (see ⬇ markers).
+        </p>
+      </section>
+
+      <!-- =========================== HIGH =========================== -->
+      <section id="sec-high">
+        <h2>🟠 High</h2>
+        <p
+          class="meta"
+          style="
+            color: #ffb37a;
+            border-left: 3px solid #ffb37a;
+            padding-left: 10px;
+            margin: 12px 0;
+          "
+        >
+          ⬇ <strong>Items demoted from 🔴 Critical in iteration 2</strong> per
+          user decision: not blockers for the diploma scope or system can ship
+          without them. IDs preserved.
+        </p>
+        <article
+          class="finding sev-high"
+          data-id="RUN-05"
+          data-cat="RUN"
+          data-sev="high"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">RUN-05</span>
+            <span class="ftitle"
+              ><code>MockContextProvider</code> returns elapsed-time, not Unix
+              timestamp — breaks scheduled triggers</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span
+              class="badge"
+              title="Demoted iter-2: not required for diploma scope"
+              style="background: #3a2a1a; color: #ffb37a"
+              >⬇ was 🔴</span
+            >
+            <span class="badge cat">RUN</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a
+                href="../src/Contracts/ContextProvider/MockContextProvider/MockContextProvider.py"
+                >MockContextProvider.getContext()</a
+              >
+              emits <code>time.time() - self._startTimestamp</code> (seconds
+              since process start).
+              <a
+                href="../src/Contracts/Assessor/HalfInAssessor/HalfInAssessor.py"
+                >HalfInAssessor</a
+              >
+              schedules a sell at
+              <code>context.getTimestamp() + duration</code>, then
+              <code>ScheduleTaskTrigger</code> compares it against subsequent
+              contexts — also elapsed time. Self-consistent but
+              apples-to-oranges vs. anything using real Unix time (candles, MOEX
+              data).
+            </p>
+            <p class="impact">
+              Impact: trading-correctness bug as soon as real timestamps enter
+              the pipeline.
+            </p>
+          </div>
+        </article>
+        <article
+          class="finding sev-high"
+          data-id="TRADE-01"
+          data-cat="TRADE"
+          data-sev="high"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">TRADE-01</span>
+            <span class="ftitle"
+              >No real broker integration — robot cannot actually trade</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span
+              class="badge"
+              title="Demoted iter-2: not required for diploma scope"
+              style="background: #3a2a1a; color: #ffb37a"
+              >⬇ was 🔴</span
+            >
+            <span class="badge cat">TRADE</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a
+                href="../src/Services/Market/PortfolioSyncMarket/PortfolioSyncMarket.py"
+                >PortfolioSyncMarket</a
+              >
+              only mutates the in-memory portfolio.
+              <code>QUIK/QuikPy.py</code> and <code>Examples/</code> exist but
+              nothing in <code>src/</code> wires them in. No
+              <code>QuikMarket</code> / <code>MoexMarket</code> /
+              <code>TinkoffMarket</code> implementation of <code>IMarket</code>.
+            </p>
+            <p class="impact">
+              Impact: product-level — project cannot fulfil its stated purpose
+              of autonomous trading.
+            </p>
+          </div>
+        </article>
+        <article
+          class="finding sev-high"
+          data-id="TRADE-03"
+          data-cat="TRADE"
+          data-sev="high"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">TRADE-03</span>
+            <span class="ftitle"
+              >No order-state-machine — only "execute then mark finished"</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span
+              class="badge"
+              title="Demoted iter-2: not required for diploma scope"
+              style="background: #3a2a1a; color: #ffb37a"
+              >⬇ was 🔴</span
+            >
+            <span class="badge cat">TRADE</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              The <code>BackgroundPollingExecutor</code> calls
+              <code>market.execute(task); task.finish()</code> with no notion of
+              <em>accepted, partially-filled, rejected, cancelled</em>. The
+              model has no concept of an order living between submission and
+              fill.
+            </p>
+            <p class="impact">
+              Impact: robot cannot recover from broker errors or partial fills —
+              a foundational gap for autonomous trading.
+            </p>
+          </div>
+        </article>
+
+        <p class="meta" style="color: #ffb37a">
+          ⬇ <strong>Items demoted from 🔴 Critical in iteration 2</strong> —
+          these are not blockers for the diploma scope or can be deferred. Kept
+          tracked at 🟠 High.
+        </p>
+
+        <article
+          class="finding sev-high"
+          data-id="ARCH-01"
+          data-cat="ARCH"
+          data-sev="high"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">ARCH-01</span>
+            <span class="ftitle"
+              >No composition root for live trading — <code>main.py</code> only
+              runs ML grid-search</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">ARCH</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              The <code>MainFactory</code>/<code>DummyFactory</code> hierarchy
+              is fully wired but never instantiated.
+              <code>InfiniteActionUseCase</code> /
+              <code>SingleActionUseCase</code> are defined but never executed.
+              <a href="../main.py">main.py</a> instead runs
+              <code>PredictorRetrainUseCase</code> in a
+              <code>range(77, 101)</code> loop. Two disjoint programs share the
+              codebase: (a) ML R&amp;D harness; (b) unfinished trading core. No
+              actual robot entry point.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="ARCH-02"
+          data-cat="ARCH"
+          data-sev="high"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ARCH-02</span>
+            <span class="ftitle"
+              >Imports rely on a <code>sys.path</code> hack in
+              <code>main.py</code> — no package metadata</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">ARCH</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../main.py">main.py:10</a> does
+              <code>sys.path.insert(0, .../src)</code> and every module then
+              imports <code>from Interfaces import …</code>. There is no
+              <code>pyproject.toml</code> / <code>setup.cfg</code>. Tests,
+              sub-scripts, IDE debug sessions will break unless they replicate
+              the hack.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="ARCH-03"
+          data-cat="ARCH"
+          data-sev="high"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ARCH-03</span>
+            <span class="ftitle"
+              ><code>__eq__</code> implementations break
+              <code>IValueObject</code>'s polymorphic promise</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">ARCH</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>IValueObject[T]</code> suggests structural equality across
+              implementations, but every concrete <code>__eq__</code> uses
+              <code>isinstance(other, ConcreteClass)</code>. So a hypothetical
+              second implementation of <code>IAsset</code> can never equal an
+              <code>Asset</code>. Either the abstraction is wrong or the
+              implementations are.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="ARCH-04"
+          data-cat="ARCH"
+          data-sev="high"
+          data-status="superseded"
+        >
+          <header>
+            <span class="fid">ARCH-04</span>
+            <span class="ftitle"
+              >No clear simulation/production separation — backtest disguised as
+              production</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">ARCH</span>
+            <span class="badge status-superseded">🟪 superseded</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../src/Factories/MainFactory/MainFactory.py"
+                >MainFactory</a
+              >
+              hardcodes <code>MoexCurrencyDataSource</code> (historic, bounded)
+              + <code>PortfolioSyncMarket</code> (simulated) +
+              <code>MockContextProvider</code> (returns constant price = 10).
+              There is no path to swap one set for live components without
+              writing a new factory.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="ARCH-05"
+          data-cat="ARCH"
+          data-sev="high"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ARCH-05</span>
+            <span class="ftitle"
+              ><code>Factories</code> is a poor-man's DI — no config-driven
+              composition</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">ARCH</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>MainFactory.__init__</code> is ~50 lines of hand-wired
+              constructor calls; log filenames hardcoded; no env, no config
+              file. Every variation (different predictor, asset, log dir) needs
+              a new factory class. Two already exist (<code>MainFactory</code>,
+              <code>DummyFactory</code>).
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="DOM-01"
+          data-cat="DOM"
+          data-sev="high"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">DOM-01</span>
+            <span class="ftitle"
+              ><code>IContextProvider</code> is too thin for real trading (no
+              bid-ask / volume / orderbook)</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">DOM</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>IExecutionContext</code> exposes only
+              <code>getPrice(assetPair)</code> and <code>getTimestamp()</code>.
+              No bid/ask, no spread, no depth, no broker-side balance. A robot
+              can't size or time orders properly with this.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="DOM-02"
+          data-cat="DOM"
+          data-sev="high"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">DOM-02</span>
+            <span class="ftitle"
+              ><code>IStrategy</code> has no access to portfolio or risk
+              state</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">DOM</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../src/Interfaces/Contracts/Strategy/IStrategy.py"
+                >IStrategy.getSignal(prediction) -&gt; ISignal</a
+              >
+              sees only the prediction. Real strategies must consider current
+              exposure, available cash, risk budget — none reachable here.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="DOM-03"
+          data-cat="DOM"
+          data-sev="high"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">DOM-03</span>
+            <span class="ftitle"
+              ><code>IAssessor</code> overlaps responsibility with
+              <code>IStrategy</code></span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">DOM</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Strategy = prediction→signal. Assessor = signal→action. In
+              <a
+                href="../src/Contracts/Assessor/HalfInAssessor/HalfInAssessor.py"
+                >HalfInAssessor</a
+              >
+              the assessor does both sizing (<em>how much</em>) and direction
+              (<em>buy vs sell</em>). The boundary is unclear.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="DOM-04"
+          data-cat="DOM"
+          data-sev="high"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DOM-04</span>
+            <span class="ftitle"
+              ><code>IPredictor.getCandlesCount()</code> conflates "input
+              window" and "dataset item size"</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">DOM</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Used as input-window in <code>PredictorTestingUseCase</code>, but
+              in
+              <a
+                href="../src/Contracts/Predictor/ATrainablePredictor/ATrainablePredictor.py"
+                >ATrainablePredictor.addDatasetItem</a
+              >
+              it must equal <code>item.getCount() - 1</code>. The
+              <code>+1</code> convention is implicit and undocumented.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="ML-01"
+          data-cat="ML"
+          data-sev="high"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">ML-01</span>
+            <span class="ftitle">Trained models are not persisted</span>
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">ML</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>Keras Sequential</code> models live only in RAM and are
+              rebuilt in <code>__init__</code> on every run. No save/load
+              anywhere. A long retrain run that crashes loses everything.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="ML-02"
+          data-cat="ML"
+          data-sev="high"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ML-02</span>
+            <span class="ftitle"
+              >Normalization constants are frozen after first training set +
+              ZeroDivisionError risk</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">ML</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a
+                href="../src/Contracts/Predictor/PercentageDeltaMLPredictor/PercentageDeltaRNNPredictorAlgo.py"
+                >PercentageDeltaRNNPredictorAlgo._initNormalization</a
+              >
+              runs once and freezes <code>_maxOffsetAbs</code> etc.
+              <a
+                href="../src/Contracts/Predictor/PercentageDeltaMLPredictor/PercentageDeltaRNNPredictorAlgo.py"
+                >_normalize</a
+              >
+              divides by these — if any was 0 on a flat stretch, every later
+              call crashes.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-high"
+          data-id="ML-03"
+          data-cat="ML"
+          data-sev="high"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ML-03</span>
+            <span class="ftitle"
+              ><code>PredictorRetrainUseCase</code> retrains on the test set —
+              look-ahead bias</span
+            >
+            <span class="badge sev-high">🟠 High</span>
+            <span class="badge cat">ML</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a
+                href="../src/UseCases/PredictorRetrainUseCase/PredictorRetrainUseCase.py"
+                >PredictorRetrainUseCase.execute</a
+              >
+              appends test candles to <code>trainingCandleSeries</code> mid-loop
+              and retrains every 50 steps. The model is being trained on data
+              whose labels it is then scored against. RMSPE numbers are not
+              generalisation error.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <!-- =========================== MEDIUM =========================== -->
+      <section id="sec-med">
+        <h2>🟡 Medium</h2>
+
+        <article
+          class="finding sev-med"
+          data-id="ARCH-06"
+          data-cat="ARCH"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ARCH-06</span>
+            <span class="ftitle"
+              ><code>Contracts/</code> vs <code>Services/</code> boundary not
+              documented</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">ARCH</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>Market</code>/<code>Portfolio</code>/<code>Logger</code>
+              live in <code>Services/</code>;
+              <code>DataSource</code
+              >/<code>Predictor</code>/<code>Executor</code>/<code>Strategy</code>/<code>Assessor</code>/<code
+                >ContextProvider</code
+              >
+              in <code>Contracts/</code>. No documented criterion. Both depend
+              on Interfaces, both contain decorators and stateful adapters.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="ARCH-07"
+          data-cat="ARCH"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ARCH-07</span>
+            <span class="ftitle"
+              >Heavy circular-import potential across sub-packages</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">ARCH</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Sub-packages import via top-level
+              <code>from Interfaces import …</code> while
+              <code>Interfaces/__init__.py</code> itself re-exports many things.
+              Mitigated by <code>from __future__ import annotations</code> in
+              ValueObjects, not consistently elsewhere.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="DOM-05"
+          data-cat="DOM"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DOM-05</span>
+            <span class="ftitle"
+              ><code>Candle</code> invariants duplicated across constructor and
+              every <code>with*</code> method</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">DOM</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../src/ValueObjects/Candle/Candle.py">Candle</a>
+              duplicates ~10 checks across <code>__init__</code> and seven
+              <code>with*</code> methods. Should be a single
+              <code>_validate()</code> helper.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="DOM-06"
+          data-cat="DOM"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DOM-06</span>
+            <span class="ftitle"
+              >Typo: <code>Candle._vloume</code> class annotation</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">DOM</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../src/ValueObjects/Candle/Candle.py"
+                >Candle._vloume: float</a
+              >
+              — annotation typo, real attribute is <code>_volume</code>.
+              Harmless but readers will pause.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="DOM-07"
+          data-cat="DOM"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DOM-07</span>
+            <span class="ftitle"
+              ><code>Asset.__hash__</code> includes <code>lotSize</code> — same
+              ticker, different lot ⇒ unequal</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">DOM</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>hash((tickerCode, lotSize))</code> means two USD assets with
+              lotSize 1 and 10 are different. Probably an accident; lot-size is
+              broker metadata, not identity.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="DOM-08"
+          data-cat="DOM"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DOM-08</span>
+            <span class="ftitle"
+              ><code>TurnBackAction._triggerTimestamp</code> int/float lie</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">DOM</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Annotated <code>int</code>, populated with
+              <code>context.getTimestamp() + duration</code> which (because of
+              RUN-05) is a float. Same pattern repeated in many places.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="ML-04"
+          data-cat="ML"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ML-04</span>
+            <span class="ftitle"
+              ><code>keras</code> used directly, not
+              <code>tensorflow.keras</code> — fragile</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">ML</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>from keras.models import Sequential</code>. Keras 3
+              standalone vs. <code>tf.keras</code> behave differently. Without
+              version pin (RUN-03) the same code runs differently on different
+              machines.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="ML-05"
+          data-cat="ML"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">ML-05</span>
+            <span class="ftitle"
+              ><code>RandomForestPredictor</code> is misnamed — actually uses
+              XGBoost on CUDA</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">ML</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a
+                href="../src/Contracts/Predictor/RandomForestPredictor/RandomForestAlgo.py"
+                >RandomForestAlgo</a
+              >
+              uses <code>XGBRegressor(device="cuda")</code>. Misleads readers;
+              crashes on machines without CUDA.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="TRADE-04"
+          data-cat="TRADE"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">TRADE-04</span>
+            <span class="ftitle"
+              ><code>PortfolioSyncMarket</code> models no fees / slippage /
+              spread</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">TRADE</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Every execution at exact <code>context.getPrice(...)</code>. PnL
+              numbers will overstate reality.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="TRADE-05"
+          data-cat="TRADE"
+          data-sev="med"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">TRADE-05</span>
+            <span class="ftitle"
+              >Short positions allowed silently in
+              <code>RuntimePortfolio.sellAsset</code></span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">TRADE</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Selling an asset never bought creates a negative position. For a
+              safe robot, this should be an explicit, configurable feature, not
+              an accident.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="CONC-01"
+          data-cat="CONC"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">CONC-01</span>
+            <span class="ftitle"
+              ><code>BackgroundPollingExecutor</code> has no shutdown / error
+              handling</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">CONC</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a
+                href="../src/Contracts/Executor/BackgroundPollingExecutor/BackgroundPollingExecutor.py"
+                >_polling</a
+              >
+              is a <code>while not done: ... time.sleep(0.5)</code> loop with no
+              stop signal, no try/except. If <code>market.execute</code> raises,
+              the thread dies silently.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="CONC-02"
+          data-cat="CONC"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">CONC-02</span>
+            <span class="ftitle"
+              >Cross-thread mutation of <code>Portfolio</code> without
+              locks</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">CONC</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Executor runs in a worker thread;
+              <code>RuntimePortfolio._contents</code> /
+              <code>_baseAmount</code> are mutated with no <code>Lock</code>.
+              Race-condition risk with multiple actions.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="IO-01"
+          data-cat="IO"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">IO-01</span>
+            <span class="ftitle"
+              ><code>FileLogger.log</code> opens the file on every call</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">IO</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../src/Services/Logger/FileLogger.py">FileLogger.log</a>
+              performs <code>open(...,'a')</code> + <code>write</code> + close
+              on every chunk. With <code>InfiniteActionUseCase</code> at high
+              frequency this becomes a hotspot. Keep the handle open or buffer.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="IO-04"
+          data-cat="IO"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">IO-04</span>
+            <span class="ftitle"
+              >No caching / retry / backoff for MOEX HTTP calls</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">IO</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a
+                href="../src/Contracts/DataSource/MoexCurrencyDataSource/MoexCurrencyDataSource.py"
+                >MoexCurrencyDataSource._fetchMoex</a
+              >
+              hits iss.moex.com synchronously, no retry, no caching, no
+              rate-limit handling. Every grid-search iteration repays the full
+              network cost.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="TEST-01"
+          data-cat="TEST"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">TEST-01</span>
+            <span class="ftitle">Zero automated tests in the repository</span>
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">TEST</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              No <code>tests/</code> directory, no pytest config, no test files.
+              For a system handling money this is the single biggest risk
+              multiplier. Start with pure VOs (Asset, AssetPair, Range,
+              ExecutionContext, Candle), then Entities, then Strategy/Assessor.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="TEST-02"
+          data-cat="TEST"
+          data-sev="med"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">TEST-02</span>
+            <span class="ftitle">No CI / linting / type-checking pipeline</span>
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">TEST</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../pyrightconfig.json">pyrightconfig.json</a> exists but
+              there is no GitHub Actions / GitLab CI / pre-commit. Pyright
+              reports are not blocking. Add ruff + pyright + pytest in CI.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-med"
+          data-id="SEC-01"
+          data-cat="SEC"
+          data-sev="med"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">SEC-01</span>
+            <span class="ftitle"
+              >QUIK credentials / connection details handling unclear</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">SEC</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>src/configLocal.py</code> is gitignored, but there is no
+              example template, no env-var fallback, no documented secret
+              strategy. New devs cannot bootstrap; secrets risk leaking via
+              logs.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section id="sec-low">
+        <h2>🟢 Low</h2>
+
+        <article
+          class="finding sev-low"
+          data-id="IO-02"
+          data-cat="IO"
+          data-sev="low"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">IO-02</span>
+            <span class="ftitle"
+              ><code>GraphLogger2D</code> rewrites PNG on every log call</span
+            >
+            <span class="badge sev-low">🟢 Low</span>
+            <span class="badge cat">IO</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../src/Services/Logger/GraphLogger2D.py"
+                >GraphLogger2D.log</a
+              >
+              redraws and saves the entire matplotlib figure each call. Fine for
+              batch experiments, costly for live mode.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-low"
+          data-id="DX-01"
+          data-cat="DX"
+          data-sev="low"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DX-01</span>
+            <span class="ftitle">README.md is stale / minimal</span>
+            <span class="badge sev-low">🟢 Low</span>
+            <span class="badge cat">DX</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../README.md">README</a> does not describe the
+              Clean-Architecture layout, the difference between
+              <code>main.py</code> (grid-search) and the unused trading
+              pipeline, nor how to configure <code>configLocal.py</code>.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-low"
+          data-id="DX-02"
+          data-cat="DX"
+          data-sev="low"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">DX-02</span>
+            <span class="ftitle"
+              >Inconsistent naming: <code>camelCase</code> methods in
+              Python</span
+            >
+            <span class="badge sev-low">🟢 Low</span>
+            <span class="badge cat">DX</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Codebase uses Java/C#-style <code>getCount</code>,
+              <code>appendRight</code>, <code>withOpenPrice</code> instead of
+              PEP 8 <code>snake_case</code>. Consistent, but non-idiomatic;
+              impacts hire-ability and library interop.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-low"
+          data-id="DX-03"
+          data-cat="DX"
+          data-sev="low"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DX-03</span>
+            <span class="ftitle"
+              >No <code>.gitignore</code> visible / venv tracking</span
+            >
+            <span class="badge sev-low">🟢 Low</span>
+            <span class="badge cat">DX</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>.venv/</code>, <code>logs/</code>, <code>stats/</code>,
+              <code>__pycache__/</code> are blocked via codeassistantignore, but
+              a project-level <code>.gitignore</code> committed to the repo is
+              the canonical way.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-low"
+          data-id="DX-04"
+          data-cat="DX"
+          data-sev="low"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DX-04</span>
+            <span class="ftitle">Emoji and Russian text in logs</span>
+            <span class="badge sev-low">🟢 Low</span>
+            <span class="badge cat">DX</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Loggers emit emoji and bilingual messages. Pretty in console,
+              painful in <code>grep</code>/structured-log pipelines. Consider a
+              structured key=value or JSON format.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-low"
+          data-id="DX-05"
+          data-cat="DX"
+          data-sev="low"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">DX-05</span>
+            <span class="ftitle"><code>old/</code> directory kept in repo</span>
+            <span class="badge sev-low">🟢 Low</span>
+            <span class="badge cat">DX</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Legacy <code>old/Robot.py</code>,
+              <code>old/MLModule.py</code> live alongside the new architecture.
+              Either archive in a tag/branch and delete, or document the
+              migration mapping.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-low"
+          data-id="SEC-02"
+          data-cat="SEC"
+          data-sev="low"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">SEC-02</span>
+            <span class="ftitle"
+              >Dynamic <code>hasattr</code>/<code>getattr</code> probing in
+              <code>RandomForestAlgo</code></span
+            >
+            <span class="badge sev-low">🟢 Low</span>
+            <span class="badge cat">SEC</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a
+                href="../src/Contracts/Predictor/RandomForestPredictor/RandomForestAlgo.py"
+                >RandomForestAlgo._transform_candles_to_dataframe</a
+              >
+              and <code>_initNormalization</code> branch on
+              <code>hasattr(...)</code> for
+              <code>getCount</code>/<code>getByIndex</code>. The interface
+              guarantees these; defensive duck-typing hides bugs and complicates
+              the code.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-low"
+          data-id="IO-03"
+          data-cat="IO"
+          data-sev="low"
+          data-status="open"
+        >
+          <header>
+            <span class="fid">IO-03</span>
+            <span class="ftitle"
+              ><code>main.py</code> wipes <code>logs/</code> and
+              <code>stats/</code> on every run</span
+            >
+            <span class="badge sev-low">🟢 Low</span>
+            <span class="badge cat">IO</span>
+            <span class="badge status-open">🟥 open</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../main.py">main.py</a> deletes prior logs/stats with no
+              archive. Long grid-search results are unrecoverable after a crash.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section id="sec-q">
+        <h2>🔵 Questions</h2>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-01"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-01</span>
+            <span class="ftitle"
+              >What is the intended production runtime: grid-search or live
+              trading?</span
+            >
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>main.py</code> only runs
+              <code>PredictorRetrainUseCase</code>/<code
+                >PredictorTestingUseCase</code
+              >
+              across a grid. The Factory→Executor→Market→Portfolio chain is
+              wired but never instantiated. Is the trading pipeline
+              aspirational, or planned for a separate entry point?
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-02"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-02</span>
+            <span class="ftitle"
+              >Target broker for production: QUIK only, or pluggable?</span
+            >
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              QUIK/QuikPy.py is vendored but no
+              <code>QuikMarket : IMarket</code> exists. Should the interface
+              allow Tinkoff/Alor/IB later, or is QUIK fixed?
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-03"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-03</span>
+            <span class="ftitle"
+              >Definition of "trading capital" and risk limits?</span
+            >
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              No risk-management abstraction (max position, max drawdown,
+              kill-switch). Where is risk supposed to live: Strategy, Assessor,
+              or a new layer?
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-04"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-04</span>
+            <span class="ftitle"
+              >Asset universe: only currency, or stocks/futures too?</span
+            >
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Only <code>MoexCurrencyDataSource</code> exists. Stocks have lot
+              sizes, dividends, halts; futures have margin/expiry. Will those be
+              added?
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-05"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-05</span>
+            <span class="ftitle"
+              >Why <code>camelCase</code> instead of PEP 8?</span
+            >
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Is it a stylistic choice tied to the diploma defense, an artifact
+              from a Java/C# background, or up for renegotiation?
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-06"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-06</span>
+            <span class="ftitle"
+              >Should <code>IPortfolio</code> be context-aware?</span
+            >
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>RuntimePortfolio.getCapitalization</code> requires
+              <code>IExecutionContext</code>, the interface does not. Decide:
+              capitalization is a service (price-aware) or a snapshot
+              (pre-priced).
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-07"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-07</span>
+            <span class="ftitle"
+              >Persistence of trained models and runtime state?</span
+            >
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              No model save/load, no portfolio persistence. On restart,
+              everything is lost. What is the target persistence story (joblib /
+              SQLite / Postgres / files)?
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-08"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-08</span>
+            <span class="ftitle">Backtest vs live: same code path?</span>
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <code>MockContextProvider</code>/<code>MockDataSource</code>
+              exist, but there is no concept of a backtester driving the clock.
+              How do you intend to validate a strategy historically before live
+              trade?
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-09"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-09</span>
+            <span class="ftitle">Composite predictors: rationale?</span>
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Avg/Median/Voting composites exist. What is the empirical
+              motivation — diversification of weak learners, ensemble of
+              different feature sets, fallback?
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-10"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-10</span>
+            <span class="ftitle">Single asset pair vs portfolio of pairs?</span>
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Factories take <em>one</em> <code>IAssetPair</code>. Is
+              multi-asset trading planned? It would change
+              Strategy/Assessor/Portfolio significantly.
+            </p>
+          </div>
+        </article>
+
+        <article
+          class="finding sev-q"
+          data-id="Q-11"
+          data-cat="Q"
+          data-sev="q"
+          data-status="answered"
+        >
+          <header>
+            <span class="fid">Q-11</span>
+            <span class="ftitle"
+              >Diploma scope: what must be delivered vs nice-to-have?</span
+            >
+            <span class="badge sev-q">🔵 Question</span>
+            <span class="badge cat">Q</span>
+            <span class="badge status-answered">🟦 answered</span>
+          </header>
+          <div class="fbody">
+            <p>
+              To prioritize the 51 findings, I need to know the hard
+              deliverables for the defense (working demo? backtest report?
+              live-trade screenshot?) and the deadline.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <!-- =========================== RESOLVED =========================== -->
+      <section id="sec-resolved">
+        <h2>📦 Resolved (archive, kept per never-delete rule)</h2>
+        <p class="meta">
+          0 items completed across iterations. IDs are stable; they remain
+          searchable.
+        </p>
+      </section>
+
+      <!-- =========================== RESOLVED ARCHIVE =========================== -->
+      <section id="sec-resolved">
+        <h2>📦 Resolved archive</h2>
+        <p class="meta">
+          6 items closed in iteration 2. IDs are stable and remain searchable.
+          Kept per the never-delete rule.
+        </p>
+        <article
+          class="finding sev-crit"
+          data-id="RUN-01"
+          data-cat="RUN"
+          data-sev="crit"
+          data-status="resolved"
+        >
+          <header>
+            <span class="fid">RUN-01</span>
+            <span class="ftitle"
+              ><code>Contracts</code> package fails to import —
+              <code>RandomForestPredictor/</code> has no
+              <code>__init__.py</code></span
+            >
+            <span class="badge sev-crit">🔴 Critical</span>
+            <span class="badge cat">RUN</span>
+            <span class="badge status-resolved">🟩 resolved</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../src/Contracts/Predictor/__init__.py"
+                >src/Contracts/Predictor/__init__.py:18</a
+              >
+              contains
+              <code
+                >from .RandomForestPredictor.RandomForestPredictor import
+                RandomForestPredictor</code
+              >, but
+              <code>src/Contracts/Predictor/RandomForestPredictor/</code> has no
+              <code>__init__.py</code>. Importing the
+              <code>Contracts</code> package — which <code>main.py</code> does
+              at line 15 — will hit <code>ModuleNotFoundError</code>.
+            </p>
+            <p class="impact">
+              Impact: project may not start at all on a clean checkout (depends
+              on Python's implicit-namespace-package fallback rules).
+            </p>
+          </div>
+        </article>
+        <article
+          class="finding sev-crit"
+          data-id="RUN-02"
+          data-cat="RUN"
+          data-sev="crit"
+          data-status="resolved"
+        >
+          <header>
+            <span class="fid">RUN-02</span>
+            <span class="ftitle"
+              ><code>_id</code> fields are typed <code>str</code> but store
+              <code>uuid.UUID</code> (pervasive)</span
+            >
+            <span class="badge sev-crit">🔴 Critical</span>
+            <span class="badge cat">RUN</span>
+            <span class="badge status-resolved">🟩 resolved</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../src/Entities/Task/Task.py">Task</a>,
+              <a href="../src/Entities/Action/AAction.py">AAction</a>,
+              <a href="../src/Entities/Prediction/APrediction.py">APrediction</a
+              >, <a href="../src/Entities/Signal/ASignal.py">ASignal</a>,
+              <a href="../src/Entities/CandleSeries/CandleSeries.py"
+                >CandleSeries</a
+              >,
+              <a href="../src/Entities/PredictionMeta/PredictionMeta.py"
+                >PredictionMeta</a
+              >
+              all declare <code>_id: str</code> but assign
+              <code>uuid.uuid4()</code> (a <code>UUID</code> object).
+              <code>getId() -&gt; str</code> lies.
+            </p>
+            <p class="impact">
+              Impact: type-system lie; serialization, equality and pyright
+              checks behave unexpectedly.
+            </p>
+          </div>
+        </article>
+        <article
+          class="finding sev-crit"
+          data-id="RUN-03"
+          data-cat="RUN"
+          data-sev="crit"
+          data-status="resolved"
+        >
+          <header>
+            <span class="fid">RUN-03</span>
+            <span class="ftitle"
+              ><code>requirements.txt</code> is dramatically incomplete &amp;
+              unpinned</span
+            >
+            <span class="badge sev-crit">🔴 Critical</span>
+            <span class="badge cat">RUN</span>
+            <span class="badge status-resolved">🟩 resolved</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../requirements.txt">requirements.txt</a> lists only
+              <code>pytz, pandas, requests, matplotlib, keras</code>. Code also
+              imports
+              <code
+                >numpy, tensorflow, xgboost, scikit-learn, joblib, seaborn</code
+              >
+              plus QuikPy / pyzmq stack. No versions pinned.
+            </p>
+            <p class="impact">
+              Impact: reproducibility broken; fresh clone cannot install.
+            </p>
+          </div>
+        </article>
+        <article
+          class="finding sev-crit"
+          data-id="RUN-04"
+          data-cat="RUN"
+          data-sev="crit"
+          data-status="resolved"
+        >
+          <header>
+            <span class="fid">RUN-04</span>
+            <span class="ftitle"
+              ><code>RuntimePortfolio.getCapitalization</code> breaks
+              <code>IPortfolio</code> contract → <code>TypeError</code></span
+            >
+            <span class="badge sev-crit">🔴 Critical</span>
+            <span class="badge cat">RUN</span>
+            <span class="badge status-resolved">🟩 resolved</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a href="../src/Interfaces/Services/IPortfolio.py"
+                >IPortfolio.getCapitalization</a
+              >
+              takes no args.
+              <a
+                href="../src/Services/Portfolio/RuntimePortfolio/RuntimePortfolio.py"
+                >RuntimePortfolio.getCapitalization</a
+              >
+              requires <code>context: IExecutionContext</code>.
+              <a
+                href="../src/Services/Portfolio/LoggedPortfolio/LoggedPortfolio.py"
+                >LoggedPortfolio.getCapitalization</a
+              >
+              calls <code>self._portfolio.getCapitalization()</code> with no arg
+              → <code>TypeError</code> at call time.
+            </p>
+            <p class="impact">
+              Impact: Liskov violation; latent crash. Currently nobody calls the
+              method — itself a smell (dead code).
+            </p>
+          </div>
+        </article>
+        <article
+          class="finding sev-crit"
+          data-id="TRADE-02"
+          data-cat="TRADE"
+          data-sev="crit"
+          data-status="resolved"
+        >
+          <header>
+            <span class="fid">TRADE-02</span>
+            <span class="ftitle"
+              >Fractional lots flow through <code>Task</code> &amp;
+              <code>Portfolio</code> — silently accepted</span
+            >
+            <span class="badge sev-crit">🔴 Critical</span>
+            <span class="badge cat">TRADE</span>
+            <span class="badge status-resolved">🟩 resolved</span>
+          </header>
+          <div class="fbody">
+            <p>
+              <a
+                href="../src/Contracts/Assessor/HalfInAssessor/HalfInAssessor.py"
+                >HalfInAssessor</a
+              >
+              computes <code>lotCount = volume / price / lotSize</code> as a
+              <code>float</code>.
+              <a href="../src/Entities/Task/Task.py">Task</a> declares
+              <code>_lotCount: int</code> but only checks <code>&lt; 0</code>,
+              so a fractional <code>0.83</code> survives.
+              <a
+                href="../src/Services/Portfolio/RuntimePortfolio/RuntimePortfolio.py"
+                >RuntimePortfolio.buyAsset</a
+              >
+              multiplies it by <code>lotSize</code> and stores the result. On a
+              real exchange that order would be rejected — the simulation
+              already diverges from reality.
+            </p>
+            <p class="impact">
+              Impact: trading-correctness bug + type-system lie.
+            </p>
+          </div>
+        </article>
+        <article
+          class="finding sev-med"
+          data-id="ML-06"
+          data-cat="ML"
+          data-sev="med"
+          data-status="resolved"
+        >
+          <header>
+            <span class="fid">ML-06</span>
+            <span class="ftitle"
+              ><code>RandomForestPredictor/</code> has no
+              <code>__init__.py</code> (related to RUN-01)</span
+            >
+            <span class="badge sev-med">🟡 Medium</span>
+            <span class="badge cat">ML</span>
+            <span class="badge status-resolved">🟩 resolved</span>
+          </header>
+          <div class="fbody">
+            <p>
+              Folder works as an implicit namespace package by accident;
+              brittle.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <p>
+          Audit iteration 1 · 51 findings · source of truth:
+          <a href="findings.md">context/findings.md</a>
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        const state = {
+          sev: new Set(),
+          cat: new Set(),
+          status: new Set(),
+          q: "",
+        };
+        const findings = document.querySelectorAll(".finding");
+
+        function apply() {
+          findings.forEach((f) => {
+            const sev = f.dataset.sev,
+              cat = f.dataset.cat,
+              st = f.dataset.status;
+            const id = (f.dataset.id || "").toLowerCase();
+            const title = (
+              f.querySelector(".ftitle")?.textContent || ""
+            ).toLowerCase();
+            const body = (
+              f.querySelector(".fbody")?.textContent || ""
+            ).toLowerCase();
+            const matchesQ =
+              !state.q ||
+              id.includes(state.q) ||
+              title.includes(state.q) ||
+              body.includes(state.q);
+            const matchesSev = state.sev.size === 0 || state.sev.has(sev);
+            const matchesCat = state.cat.size === 0 || state.cat.has(cat);
+            const matchesSt = state.status.size === 0 || state.status.has(st);
+            f.style.display =
+              matchesQ && matchesSev && matchesCat && matchesSt ? "" : "none";
+          });
+          // Hide empty sections
+          document.querySelectorAll("section").forEach((s) => {
+            const visible = [...s.querySelectorAll(".finding")].some(
+              (f) => f.style.display !== "none",
+            );
+            s.style.opacity = visible ? "1" : "0.35";
+          });
+        }
+
+        document.querySelectorAll(".chip").forEach((chip) => {
+          chip.addEventListener("click", () => {
+            const group = chip.dataset.group,
+              val = chip.dataset.val;
+            if (!group || !val) return;
+            const set = state[group];
+            if (set.has(val)) {
+              set.delete(val);
+              chip.classList.remove("active");
+            } else {
+              set.add(val);
+              chip.classList.add("active");
+            }
+            apply();
+          });
+        });
+
+        const search = document.getElementById("search");
+        if (search) {
+          search.addEventListener("input", (e) => {
+            state.q = e.target.value.trim().toLowerCase();
+            apply();
+          });
+        }
+
+        const reset = document.getElementById("reset");
+        if (reset) {
+          reset.addEventListener("click", () => {
+            state.sev.clear();
+            state.cat.clear();
+            state.status.clear();
+            state.q = "";
+            document
+              .querySelectorAll(".chip.active")
+              .forEach((c) => c.classList.remove("active"));
+            if (search) search.value = "";
+            apply();
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

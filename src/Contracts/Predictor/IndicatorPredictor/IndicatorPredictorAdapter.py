@@ -1,0 +1,27 @@
+from Interfaces import IPredictorAdapter
+from Entities import INextCandlePrediction, NextCandlePrediction
+from ValueObjects import Candle
+from .IndicatorPredictorValue import IndicatorPredictorValue
+
+class IndicatorPredictorAdapter(IPredictorAdapter[IndicatorPredictorValue, INextCandlePrediction]):
+    def transform(self, value: IndicatorPredictorValue) -> INextCandlePrediction:
+        meta = value.meta
+        priceDelta = value.priceDelta
+        candleSeries = meta.getCandleSeries()
+        lastCandle = candleSeries.getByIndex(candleSeries.getCount() - 1)
+
+        if not lastCandle:
+            raise ValueError("Cannot extract last candle from meta")
+
+        timestamp = meta.getTimestamp()
+        interval = lastCandle.getInterval()
+        openPrice = lastCandle.getClosePrice()
+        assetPair = lastCandle.getAssetPair()
+        closePrice = lastCandle.getClosePrice() - priceDelta
+        lowPrice = min(openPrice, closePrice)
+        highPrice = max(openPrice, closePrice)
+        volume = lastCandle.getVolume()
+
+        nextCandle = Candle(assetPair, timestamp, interval, openPrice, closePrice, highPrice, lowPrice, volume)
+
+        return NextCandlePrediction(meta, nextCandle)

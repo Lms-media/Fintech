@@ -1,0 +1,18 @@
+[run]
+branch = True
+source = src
+omit =
+    src/config/*
+    src/configLocal.py
+    */__init__.py
+    */Interfaces/*
+
+[report]
+show_missing = True
+skip_covered = False
+precision = 1
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    \.\.\.
