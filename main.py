@@ -10,7 +10,8 @@ os.makedirs('logs')
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from config import assetPair
-
+from UseCases import PredictorVisualizeUseCase, PredictorTrainingUseCase, PredictorTestingUseCase
+from Contracts import MoexCurrencyDataSource, LoggedDataSource, PercentageMLPredictor, IndicatorPredictor, DummyPredictor, AbsolutePerceptronPredictor, RandomForestPredictor
 from UseCases import PredictorVisualizeUseCase, PredictorTrainingUseCase, PredictorTestingUseCase, PredictorRetrainUseCase
 from Contracts import (
     MoexCurrencyDataSource,
