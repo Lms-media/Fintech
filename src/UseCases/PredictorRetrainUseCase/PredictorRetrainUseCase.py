@@ -16,6 +16,8 @@ class PredictorRetrainUseCase(IUseCase):
         self._predictor = predictor
 
     def execute(self) -> None:
+        if self._predictor.usesCurrentOpen():
+            raise ValueError("Legacy retraining loop does not support current-open predictors. Use PredictorTrainingUseCase followed by chronological testing; online updating is a separate implementation step.")
         self._trainingDataSource.init()
         self._testingDataSource.init()
         trainingCandleSeries = self._trainingDataSource.getSeries()

@@ -9,6 +9,8 @@ class TrimmedCandleSeries(IReadonlyCandleSeries):
     _toIndex: int
 
     def __init__(self, base: IReadonlyCandleSeries, fromIndex: int, toIndex: int):
+        if not 0 <= fromIndex <= toIndex <= base.getCount():
+            raise ValueError("Invalid candle slice bounds")
         self._id = str(uuid.uuid4())
         self._base = base
         self._fromIndex = fromIndex
@@ -28,14 +30,16 @@ class TrimmedCandleSeries(IReadonlyCandleSeries):
     
     def getIndexOf(self, candle: ICandle) -> int:
         baseIndex = self._base.getIndexOf(candle)
-        return baseIndex - self._fromIndex if baseIndex >= self._fromIndex else -1
+        return baseIndex - self._fromIndex if self._fromIndex <= baseIndex < self._toIndex else -1
 
     def getAssetPair(self) -> IAssetPair:
         return self._base.getAssetPair()
 
     def getByTimestamp(self, timestamp: int) -> Optional[ICandle]:
         fromCandle = self._base.getByIndex(self._fromIndex)
-        toCandle = self._base.getByIndex(self._toIndex)
+        if self.getCount() == 0:
+            return None
+        toCandle = self._base.getByIndex(self._toIndex - 1)
 
         if not fromCandle or not toCandle:
             return None

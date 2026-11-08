@@ -1,4 +1,5 @@
 pytz
+numpy
 pandas
 requests
 matplotlib

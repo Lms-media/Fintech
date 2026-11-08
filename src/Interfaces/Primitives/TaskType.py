@@ -8,3 +8,5 @@ class TaskType(Enum):
     SellWithLimit = 5
     BuyClose = 6
     SellClose = 7
+    BuyCandleCorridor = 8
+    SellCandleCorridor = 9

@@ -20,3 +20,6 @@ class LoggedPredictor(IPredictor, Generic[P]):
 
     def getCandlesCount(self):
         return self._predictor.getCandlesCount()
+
+    def usesCurrentOpen(self):
+        return self._predictor.usesCurrentOpen()

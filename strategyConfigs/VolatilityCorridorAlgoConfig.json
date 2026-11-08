@@ -1,8 +1,0 @@
-{
-  "predictor": "algo",
-  "strategy": "direct",
-  "assessor": "VolatilityCorridorAssessor",
-  "candlesCount": 60,
-  "iterations": 100,
-  "params": [0.3, 0.4, 1.0]
-}

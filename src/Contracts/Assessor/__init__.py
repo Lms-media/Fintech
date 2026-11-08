@@ -8,7 +8,11 @@ from .VolatilityCorridorAssessor import VolatilityCorridorAssessor
 from .RSICorridorAssessor import RSICorridorAssessor
 from .TripleGuardAssessor import TripleGuardAssessor
 
+from .CorridorAssessor import CorridorAssessor
+
 __all__ = [
+    'CorridorAssessor',
+
     'HalfInAssessor',
     'LoggedAssessor',
     'CandleTestAssesor',

@@ -1,6 +1,7 @@
 from UseCases import IUseCase
 from Interfaces import IDataSource, IPredictor, ILogger
 from Entities import TrimmedCandleSeries, INextCandlePrediction
+from UseCases.predictionInput import prediction_input
 
 class PredictorVisualizeUseCase(IUseCase):
     _dataSource: IDataSource
@@ -31,7 +32,7 @@ class PredictorVisualizeUseCase(IUseCase):
             if i < offset:
                 continue
 
-            trimmed = TrimmedCandleSeries(candleSeries, i - offset, i)
+            trimmed = prediction_input(self._predictor, candleSeries, i)
             prediction = self._predictor.predict(trimmed)
             predicted = prediction.getNextCandle()
             self._logger.log(f"x:{i};predicted:{predicted.getClosePrice()}")
